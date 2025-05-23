@@ -1,0 +1,229 @@
+A {
+	 color: #3366CC;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px;
+     text-decoration: none;
+}
+A:hover {
+	 color: #FF0000;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px;
+     text-decoration: underline;
+}
+span.back {
+	 color: #3366CC;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px;
+     cursor: pointer;
+}
+span.backhover {
+	 color: #FF0000;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px;
+     cursor: pointer;
+}
+blockquote {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #000000;
+     font-size: 10pt
+}
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+.comments {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #A62A2A;
+     font-size: 10px;
+}
+.copyright {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 10px;
+     line-height: 20px;
+     color: #CCCCCC;
+}
+h1 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #800000;
+}
+h2 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #800000;
+}
+h3 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #006699;
+}
+h4 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #0005CE;
+     font-size: 14px;
+}
+hr {
+     size: 1;
+     color: #000064;
+}
+input {
+     font-size: 11px;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+select {
+     font-size: 11px;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+textarea {
+     font-size: 11px;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+	.buttons{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+p {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #0;
+     font-size: 11px;
+}
+     .subHeading{
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #000000;
+     font-size: 11px;
+     font-weight: 700;
+}
+th {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #FFFFFF;
+     font-size: 11px;
+     line-height: 11px;
+     background-color: #3366CC;
+}
+td {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #0;
+     font-size: 11px;
+}
+     .cartRow{
+     background-color: #F5F5F5;
+     vertical-align: top;
+}
+ol{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+li{
+    padding-left: 5px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.menuFrame{
+    border-width: 0px 1px 0px 0px; border-style: double; border-color: #666666;
+}
+.boldHeader{
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #0005CE;
+     font-size: 12px;
+     font-weight: 600;
+     padding-left: 10px;
+}
+
+    /* frame background colors */
+
+.menuBackground{
+    Margin-left: 0px;
+    Margin-top: 0px;
+    background-color:#FFFFFF; color:#000000;
+    background-image:url('../images/quikstore-admin-menuback.jpg');
+    background-position:left bottom;
+    background-repeat:repeat-y;
+    background-attachment: fixed;}
+}
+
+.searchForm{
+    background-color: #F5F5F5;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 0px 0px 1px 0px;
+}
+.mainBody{
+    background-color: #FFFFFF;
+}
+
+.itemHead{
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #800000;
+	font-weight: Bold;
+
+}
+.itemDetail{
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #3232CD;
+}
+
+    /* row colors for search result */
+
+.rowColor1{
+    background-color: #FFFFFF;
+}
+.rowColor2{
+    background-color: #E5E5E5;
+}
+
+
+/******** Special Style Classes used in the invoice template *********/
+
+.invoiceHeader{
+	border-style: solid;
+	border-color: #ffffff;
+	border-width: 0px 0px 1px 0px;
+	background-color: #A5A5A5;
+	color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+
+.cartHeader{
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 0px 1px 1px;
+}
+.cartHeaderEnd{
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 1px 0px 1px;
+}
+.cartRow{
+	background-color: #F5F5F5;
+	vertical-align: top;
+	font-size: 10px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 0px 0px 1px 1px;
+}
+.cartRowEnd{
+	background-color: #F5F5F5;
+	vertical-align: top;
+	font-size: 10px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 0px 1px 1px 1px;
+}
+.cartFooter{
+	background-color: #FFFFFF;
+	color: #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.cartFooter{
+	background-color: #e3e3e3;
+	color: #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+
+.rightAlign{
+    text-align:right;
+}

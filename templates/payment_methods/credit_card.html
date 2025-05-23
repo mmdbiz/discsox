@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Please enter your payment information</title>
+		<link rel="stylesheet" href="../../styles/cart.styles.css" type="text/css">
+	</head>
+	<body>
+	<!--webbot bot="PurpleText" PREVIEW="
+	This page contains PHP script variables in the HTML that may be hidden in your editor.
+	So, please be careful editing this page and be sure to keep a backup copy before overwriting it.
+	View the HTML source code for more details.
+	"-->
+ 		<input type="hidden" name="payment_method" value="credit_card.html">
+		<input name="type_of_order" type="hidden" id="type_of_order" value="Credit Card Order!">
+        <!-- required fields for this payment type below -->
+        <input type="hidden" name="required[]" value="name_on_card">
+        <input type="hidden" name="required[]" value="card_number">
+        <input type="hidden" name="required[]" value="cvv2">
+        <div class="p-x-2 alert alert-mmd col-xs-12 m-t-2">
+        
+          <h2 class="p-x-2 m-x-0 m-t-0">Credit Card Info</h2>
+          <div class="col-xs-6 col-xxs-12">
+            <div class="form-group has-feedback">
+              <label for="cardType">Card Type:</label>
+              <select class="form-control" name="credit_card_type" id="cardType" data-error="Card # is required" required >
+                <?php foreach($cardTypes as $i=>$type):?>
+                <option value="<?=$type;?>"><?=$type;?></option>
+                <?php endforeach;?>
+              </select>
+              <span class="glyphicon form-control-feedback m-r-2" aria-hidden="true"></span>
+              <div class="help-block with-errors"></div>
+              </div>
+            <div class="form-inline ">
+              <div class="form-group has-feedback">
+                <label for="cardNumber">Card Number:</label>
+                <input class="form-control displayBlock" placeholder="1234 5678 8901 2345" type="text" pattern="^[0-9]{13,16}$" maxlength="16" name="card_number" id="cardNumber" data-minlength="13" data-minlength-error="Not enough digits!" data-error="Card # is required and can only contain numbers" required>
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                <div class="help-block with-errors"></div>
+              </div>
+              <div class="form-group has-feedback">
+                <label for="ccv2Number">Verification Number:</label>
+                <input class="form-control displayBlock" placeholder="3 or 4 digit number on back of card" type="text" pattern="^[0-9]{3,4}$" data-minlength="3" maxlength="4" data-minlength-error="Not enough digits!" size="16" name="cvv2" id="ccv2Number" data-error="Verification # is required and can only contain numbers" required>
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                <div class="help-block with-errors"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-6 col-xxs-12">
+            <div class="form-group has-feedback">
+                <label for="nameOnCard">Name on Card:</label>
+                <input class="form-control" placeholder="Your Name on card" type="text" size="16" name="name_on_card" id="nameOnCard" data-error="Name is required" required>
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-inline ">
+              <div class="form-group has-feedback">
+                <label for="expDate">Exp. Month:</label>
+                <select class="form-control displayBlock" name="expire_month" id="expDate" data-error="Exp. month is required" required >
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+                <span class="glyphicon form-control-feedback m-r-2" aria-hidden="true"></span>
+                <div class="help-block with-errors"></div>
+              </div>
+              <div class="form-group has-feedback">
+                <label for="expDate">Exp. Year</label>
+                <select class="form-control displayBlock" name="expire_year" data-error="Exp. year is required" required >
+                    <?php
+                      for ($i = 0; $i < 10; $i++) {
+                          $expYear = date("Y")+$i;
+                          echo '<option value="'. $expYear . '">'. $expYear . '</option>';
+                      }
+                    ?>
+                 </select>
+                <span class="glyphicon form-control-feedback m-r-2" aria-hidden="true"></span>
+                <div class="help-block with-errors"></div>
+                </div>
+            </div>
+          </div>
+		  <div class="alert-danger text-center btn-lightRed clearBoth " style="border: 1px solid;padding: 5px;border-radius: 5px;"> 
+			  <strong>Your Credit Card statement will show a charge from G3 Business Solutions!</strong>
+		  </div>
+        </div>
+		<!--<table border="0" cellpadding="3" cellspacing="0" width="100%">
+			<tr><th height="21" align="left">&nbsp;&nbsp;Credit Card Information</th>
+		  </tr>
+		</table>
+        <div class="leftContainer">
+          <table border="0" cellpadding="3" cellspacing="0" width="100%">
+            <tr><td width="40%" style="line-height:5px;">&nbsp;</td>
+              <td style="line-height:5px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td class="shipPayCell" align="right" nowrap>Card Type:</td>
+              <td align="left" class="shipPayCell">
+                <select name="credit_card_type">
+                  <?php foreach($cardTypes as $i=>$type):?>
+                  <option value="<?=$type;?>"><?=$type;?></option>
+                  <?php endforeach;?>
+                  </select>				</td>
+              </tr>
+            <tr>
+              <td class="shipPayCell" align="right">Card Number:</td>
+              <td align="left" class="shipPayCell">
+                <input type="text" size="16" name="card_number">				</td>
+              </tr>
+            <tr>
+              <td class="shipPayCell" align="right">Verification Number:</td>
+              <td align="left" class="shipPayCellEnd">
+                <input type="text" size="4" maxlength="4" name="cvv2">
+                (3 or 4 digit number on back of card)				</td>
+              </tr>
+            <tr>
+              <td align="right" class="tiny">&nbsp;</td>
+              <td align="right" class="tiny">&nbsp;</td>
+            </tr>
+          </table>
+        </div>
+        <div class="rightContainer">
+          <table border="0" cellpadding="3" cellspacing="0" width="100%">
+            <tr>
+              <td width="40%" style="line-height:5px;">&nbsp;</td>
+              <td style="line-height:5px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td class="shipPayCell divLineLeft" align="right" nowrap>Name on Card:</td>
+              <td align="left" class="shipPayCellEnd">
+                <input type="text" size="25" name="name_on_card">				</td>
+              </tr>
+            <tr>
+              <td class="shipPayCell divLineLeft" align="right">Expiration Date:</td>
+              <td align="left" class="shipPayCellEnd">
+                <select name="expire_month">
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  </select>
+                <select name="expire_year">
+                  <option value="2015">2015</option>
+                  <option value="2016">2016</option>
+                  <option value="2017">2017</option>
+                  <option value="2018">2018</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  </select>				</td>
+              </tr>
+            <tr>
+              <td align="left" class="shipPayCellEnd">&nbsp;</td>
+              <td align="left" class="shipPayCellEnd">&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="right" class="tiny">&nbsp;</td>
+              <td align="right" class="tiny">&nbsp;</td>
+            </tr>
+          </table>
+        </div>-->
+	<script language="JavaScript">
+
+			//---------------------------------------------------------------
+			function selectExpireDate(form){
+				var date = new Date();
+				var month = date.getMonth();
+				var yy = date.getYear();
+				var year = (yy < 1000) ? yy + 1900 : yy;
+				if(form.elements['expire_month']){
+					form.elements['expire_month'].options[month].selected = true;
+				}
+				if(form.elements['expire_year']){
+					for(j=0;j<=form.elements['expire_year'].length -1;j++){
+						if(form.elements['expire_year'].options[j].value == year){
+							form.elements['expire_year'].options[j].selected = true;
+							break;
+						}
+					}
+				}
+			}
+		    if(eval(document.forms['process'])){
+				selectExpireDate(document.forms['process']);
+				var requiredFields = new Array();
+				requiredFields[0] = "name_on_card";
+				requiredFields[1] = "card_number";
+				requiredFields[2] = "cvv2";
+			}
+			else{
+				selectExpireDate(document.forms['order']);
+				requiredFields[len + 1] = "name_on_card";
+				requiredFields[len + 2] = "card_number";
+				requiredFields[len + 3] = "cvv2";
+			}
+        </script>
+	</body>
+</html>

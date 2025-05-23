@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+        <title>Customer Account Information</title>
+        <script type="text/javascript">
+function MM_popupMsg(msg) { //v1.0
+  alert(msg);
+}
+        </script>
+</head>
+<body>
+	<script LANGUAGE="JavaScript">
+	function OpenWindow(URL) {
+		var myWin = window.open(URL,"_blank",
+				"height=500,width=780,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes");
+	}
+	</script>
+	<!--<style>
+		#summary h4{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #800000;
+			font-size: 15px;
+			padding-bottom:10px;
+		}
+		#summary p{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #5C4033;
+			font-size: 11px;
+		}
+		#summary table th{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #FFFFFF;
+			font-size: 11px;
+			background-color: #798777;
+			text-align:center;
+		}
+		#summary table td{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #000000;
+			font-size: 11px;
+			vertical-align: top;
+			padding:3px;
+		}
+	</style>-->
+
+	<?php if(count($records) > 0):?>
+
+		<div id="summary" class="p-xy-1">
+
+			<?php
+				global $count,$links,$start,$end,$customerName,$totals;
+				$color = array();
+				$color[0] = "#CCCCCC";
+				$color[~0] = "#FFFFFF";
+				$ck = 0;
+				$primaryKey = "orid";
+			?>
+
+			<h4 class="red"><strong>Order History for <?=$customerName;?></strong></h4>
+			<p>Click on the order number to view details.</p>
+            <form method="post" action = "http://wwwapps.ups.com/WebTracking/OnlineTool" id="trackByOrderNumber" target="_blank">
+			<table class="table table-striped table-condensed table-responsive max-width-1000" ID="Table1" >
+              <thead>
+                <tr>
+                  <td colspan="3" align="left">
+                      <?="$start - $end of $count Orders";?>
+                  </td>
+                  <td colspan="4" align="right">
+                      <?=$links;?>&nbsp;				</td>
+                </tr>
+                <tr>
+                    <th nowrap>Order #</th>
+                    <th nowrap>Order Date</th>
+                    <th nowrap>Paid</th>
+                  <th nowrap>Date Shipped</th>
+                    <th nowrap>Tracking</th>
+                  <th nowrap>Subtotal</th>
+                  <th nowrap>Reorder</th>
+                </tr>
+              </thead>
+              
+              <tbody>			
+                <?php foreach($records as $index=>$data):?>
+                    
+                    <?php
+                        if($data['date_shipped'] == '0-00-0000'){
+                            $data['date_shipped'] = "&nbsp;";
+                        }
+                        $sid = session_id();
+                    ?>
+                    
+                    <tr>
+                        <td align="center">
+                      <div style="cursor:pointer;" onClick="OpenWindow('myaccount.php?cart_id=<?=$sid;?>&amp;order_history=1&amp;detail=1&amp;orid=<?=$data['orid'];?>');">
+                      <a><?=$data['order_number'];?></a>					</div>					</td>
+                        <td align=center><?=$data['order_date'];?></td>
+                        <td align=center><?=$data['paid'];?></td>
+                <td align=center><!--<?=$data['date_shipped'];?>-->				      <?=$data['order_date'];?> 
+              <br>
+                        + 1-2 Business Days Max.</td>
+                <td align=center> <input type="submit" value="Track it">
+                          <input type="hidden" name="InquiryNumber" value="MM-<?=$data['order_number'];?>">
+                         
+            <input type="hidden" name="UPS_HTML_License" value="EC150F5CCBC94EB0" /> 
+            <input type="hidden" name="IATA" value="US" /> <input type="hidden" name="Lang2" value="eng" /> 
+            <input type="hidden" name="UPS_HTML_Version" value="3.0" /> 
+            <input type="hidden" name="TypeOfInquiryNumber" value="R" />
+						</td>
+                      <td align="right" nowrap><?=$_Common->format_price($data['subtotal'],true);?></td>
+                      <td align="center" nowrap>
+                        
+                        <a href="myaccount.php?reorder=1&amp;orid=<?=$data['orid'];?>"><strong onClick="MM_popupMsg('If a previously ordered item was on sale and is now sold at regular price \nor if included shipping charges changed, \nthen that item will not be shipped until you authorize MMDesign \nto charge the difference in price to your credit card in a separate transaction. ')">Reorder</strong></a>					</td>
+                  </tr>
+    
+                <?php endforeach;?>
+			
+                <!-- page totals -->
+                <?php if(count($totals) > 0):?>
+                    <tr>
+                        <td colspan="5" align="right">&nbsp;</td>
+                        <td align=right>======</td>
+                        <td align=center>&nbsp;</td>
+                  </tr>
+                    <?php foreach($totals[0] as $key=>$sum):?>
+                        <?php $label = ucwords(str_replace("_"," ",$key));?>
+                        
+                        <?php if($key == 'Report Total'):?>
+                            <tr>
+                                <td colspan="5" align="right">&nbsp;</td>
+                                <td align=right>======</td>
+                                <td align=center>&nbsp;</td>
+                  </tr>
+                            <tr>
+                                <td colspan="5" align="right"><?=$label;?>:</td>
+                                <td align=right><?=$_Common->format_price($sum,true);?></td>
+                                <td align=center>&nbsp;</td>
+                  </tr>
+                        <?php else:?>
+                            <tr>
+                                <td colspan="5" align="right"><?=$label;?>:</td>
+                                <td align="right" nowrap><?=$_Common->format_price($sum,true);?></td>
+                                <td align=center>&nbsp;</td>
+                  </tr>
+                        <?php endif;?>
+    
+                    <?php endforeach;?>
+                    
+                <?php endif;?>
+    
+                <tr><td colspan="7">&nbsp;</td></tr>
+    
+                <tr>
+                  <td colspan="3">
+                      <?="$start - $end of $count Orders";?>
+                  </td>
+                  <td colspan="4" align="right">
+                      <?=$links;?>	
+                  </td>
+              </tr>
+            </tbody>
+		</table>
+		</form>
+<?php else:?>
+			<p>-- You have no orders to display. --</p>
+		<?php endif;?>
+		
+	</div>
+
+</body>
+</html>

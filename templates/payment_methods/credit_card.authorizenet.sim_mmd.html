@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Please enter your payment information</title>
+		<link rel="stylesheet" href="../../styles/cart.styles.css" type="text/css">
+	</head>
+	<body>
+	<!--webbot bot="PurpleText" PREVIEW="
+	This page contains PHP script variables in the HTML that may be hidden in your editor.
+	So, please be careful editing this page and be sure to keep a backup copy before overwriting it.
+	View the HTML source code for more details.
+	"-->
+
+		<input type="hidden" name="payment_method" value="credit_card.authorizenet.sim.html" ID="Hidden1">		
+<!-- 		<input type="hidden" name="payment_method" value="credit_card.html">-->
+        <!-- required fields for this payment type below -->
+        <input type="hidden" name="required[]" value="name_on_card">
+        <input type="hidden" name="required[]" value="card_number">
+        <input type="hidden" name="required[]" value="cvv2">
+
+		<table border="0" cellpadding="3" cellspacing="0" width="100%">
+			<tr><th colspan="4" align="left">Credit Card Information</th></tr>
+			<tr><td colspan="4" style="line-height:5px;">&nbsp;</td></tr>
+			<tr>
+				<td class="shipPayCell" align="right" nowrap>Card Type:</td>
+				<td align="left" class="shipPayCell">
+					<select name="credit_card_type">
+						<?php foreach($cardTypes as $i=>$type):?>
+						<option value="<?=$type;?>"><?=$type;?></option>;
+						<?php endforeach;?>
+					</select>
+				</td>
+				<td class="shipPayCell" align="right" nowrap>Name on Card:</td>
+				<td align="left" class="shipPayCellEnd">
+					<input type="text" size="25" name="name_on_card">
+				</td>
+			</tr>
+			<tr>
+				<td class="shipPayCell" align="right">Card Number:</td>
+				<td align="left" class="shipPayCell">
+					<input type="text" size="16" name="card_number">
+				</td>
+				<td class="shipPayCell" align="right">Expiration Date:</td>
+				<td align="left" class="shipPayCellEnd">
+					<select name="expire_month">
+						<option value="01">01</option>
+						<option value="02">02</option>
+						<option value="03">03</option>
+						<option value="04">04</option>
+						<option value="05">05</option>
+						<option value="06">06</option>
+						<option value="07">07</option>
+						<option value="08">08</option>
+						<option value="09">09</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>
+					<select name="expire_year">
+						<option value="2007">2007</option>
+						<option value="2008">2008</option>
+						<option value="2009">2009</option>
+						<option value="2010">2010</option>
+						<option value="2011">2011</option>
+						<option value="2012">2012</option>
+						<option value="2013">2013</option>
+						<option value="2014">2014</option>
+						<option value="2015">2015</option>
+						<option value="2016">2016</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="shipPayCell" align="right">Verification Number:</td>
+				<td align="left" class="shipPayCellEnd" colspan="3">
+					<input type="text" size="4" maxlength="4" name="cvv2">
+					(3 or 4 digit number on back of card)
+				</td>
+			</tr>
+		</table>
+		<script type="text/javascript">
+
+			//---------------------------------------------------------------
+			function selectExpireDate(form){
+				var date = new Date();
+				var month = date.getMonth();
+				var yy = date.getYear();
+				var year = (yy < 1000) ? yy + 1900 : yy;
+				if(form.elements['expire_month']){
+					form.elements['expire_month'].options[month].selected = true;
+				}
+				if(form.elements['expire_year']){
+					for(j=0;j<=form.elements['expire_year'].length -1;j++){
+						if(form.elements['expire_year'].options[j].value == year){
+							form.elements['expire_year'].options[j].selected = true;
+							break;
+						}
+					}
+				}
+			}
+		    if(eval(document.forms['process'])){
+				selectExpireDate(document.forms['process']);
+				var requiredFields = new Array();
+				requiredFields[0] = "name_on_card";
+				requiredFields[1] = "card_number";
+				requiredFields[2] = "cvv2";
+			}
+			else{
+				selectExpireDate(document.forms['order']);
+				requiredFields[len + 1] = "name_on_card";
+				requiredFields[len + 2] = "card_number";
+				requiredFields[len + 3] = "cvv2";
+			}
+        </script>
+	</body>
+</html>

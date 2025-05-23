@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Forgot Email</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style>
+p{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #5C4033;
+	font-size: 10px;
+}
+</style>
+</head>
+<body>
+	<p>Your Login Information for <?=$storeName;?> 
+	  <br>
+	You can find us on the web at <a href="http://www.mmdesign.com/">www.mmdesign.com</a></p>
+<?php if($reset):?>
+	<p>Login Email Address: <?=$username;?><br />
+	   Password has been reset to: <?=$password;?></p>
+	<p>After you login, make sure to go to My Account and change your password!</p>
+<?php else:?>
+	<p>Login Email Address: <?=$username;?><br />
+	   Password: <?=$password;?></p>
+<?php endif;?>
+	<p><a href="<?=$loginURL;?>">Click Here to login</a></p>
+</body>
+</html>
+
+<text>
+
+<?=$_CR;?>
+Your Log In Information for <?=$storeName;?><?=$_CR;?><?=$_CR;?>
+
+<?php if($reset):?>
+	Username: <?=$username;?><?=$_CR;?>
+	Password has been reset to: <?=$password;?><?=$_CR;?><?=$_CR;?>
+<?php else:?>
+	Username: <?=$username;?><?=$_CR;?>
+	Password: <?=$password;?><?=$_CR;?><?=$_CR;?>
+<?php endif;?>
+	Go to: <?=$loginURL;?> to login<?=$_CR;?><?=$_CR;?>
+
+
+
+
+
+

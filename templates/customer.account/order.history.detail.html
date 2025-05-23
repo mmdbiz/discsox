@@ -1,0 +1,544 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+
+<title>Invoice - <?=$order['order_number'];?></title>
+
+<style>
+
+A {
+
+	 color: #3366CC;
+
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+
+     font-size: 11px;
+
+     text-decoration: none;
+
+}
+
+A:hover {
+
+	 color: #FF0000;
+
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+
+     font-size: 11px;
+
+     text-decoration: underline;
+
+}
+
+h1 {
+
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+
+     color: #000000;
+
+}
+
+td,p {
+
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+
+     color: #0;
+
+     font-size: 12px;
+
+}
+
+th{
+
+	background-color: #CCCCCC;
+
+	color: #000000;
+
+	font-family: Arial, Verdana, Helvetica, sans-serif;;
+
+	font-size: 12px;
+
+}
+
+.invoiceHeader{
+
+	border-style: solid;
+
+	border-color: #ffffff;
+
+	border-width: 0px 0px 1px 0px;
+
+	background-color: #CCCCCC;
+
+	color: #000000;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 12px;
+
+}
+
+.cartHeader{
+
+	border-style: solid;
+
+	border-color: #CDCDCD;
+
+	border-width: 1px 0px 1px 1px;
+
+	background-color: #CCCCCC;
+
+	color: #000000;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 12px;
+
+}
+
+.cartHeaderEnd{
+
+	border-style: solid;
+
+	border-color: #CDCDCD;
+
+	border-width: 1px 1px 1px 1px;
+
+	background-color: #CCCCCC;
+
+	color: #000000;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 12px;
+
+}
+
+.cartRow{
+
+	background-color: #FFFFFF;
+
+	color: #000000;
+
+	vertical-align: top;
+
+	border-style: solid;
+
+	border-color: #CDCDCD;
+
+	border-width: 0px 0px 1px 1px;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 12px;
+
+}
+
+.cartRowEnd{
+
+	background-color: #FFFFFF;
+
+	color: #000000;
+
+	vertical-align: top;
+
+	font-size: 12px;
+
+	border-style: solid;
+
+	border-color: #CDCDCD;
+
+	border-width: 0px 1px 1px 1px;
+
+}
+
+</style>
+
+<style type="text/css" media="print">
+
+#links{
+
+	display:none;
+
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+
+<div align="center" style="margin-top:10px;">
+
+
+
+<?php if(count($order) > 0):?>
+
+
+
+	<table border="0" cellpadding="3" cellspacing="0" width="98%">
+
+		<tr>
+
+			<td align="left">
+
+				<h1>INVOICEs</h1>
+
+			</td>
+
+			<td align="right">
+
+				<table border="0" cellspacing="0" cellpadding="3">
+
+					<tr>
+
+						<td align="right"><b>Order Number:</b> </td>
+
+						<td><?=$order['order_number'];?></td>
+
+					</tr>
+
+					<tr>
+
+						<td align="right"><b>Order Date:</b> </td>
+
+						<td><?=$order['order_date'];?></td>
+
+					</tr>
+
+				</table>
+
+			</td>
+
+		</tr>
+
+		<tr valign="top">
+
+			<td width=50%>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="3">
+
+				<tr>
+
+					<th align="left" class="invoiceHeader">BILL TO:</th>
+
+				</tr>
+
+				<tr>
+
+					<td height="100" valign=top align="left">
+
+						<?php if(!empty($order['billaddress_companyname'])):?>
+
+							<?=$order['billaddress_companyname'];?><br />
+
+						<?php endif;?>
+
+						<?=$order['billaddress_firstname'];?> <?=$order['billaddress_lastname'];?><br />
+
+						<?=$order['billaddress_addr1'];?>
+
+						<?php if(!empty($order['billaddress_addr2'])):?>
+
+							, <?=$order['billaddress_addr2'];?>
+
+						<?php endif;?>
+
+						<br /><?=$order['billaddress_city'];?>,
+
+							<?=$order['billaddress_state'];?>,
+
+							<?=$order['billaddress_postalcode'];?>
+
+							<?=$order['billaddress_country'];?><br />
+
+						(<?=$order['billaddress_areacode'];?>) <?=$order['billaddress_phone'];?><br />
+
+    		  			<?=$order['billaddress_email'];?>
+
+					</td>
+
+				</tr>
+
+			</table>
+
+			</td>
+
+			<td width=50%>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="3">
+
+				<tr>
+
+					<th align="left" class="invoiceHeader">SHIP TO:</th>
+
+				</tr>
+
+				<tr>
+
+					<td height="100" valign=top align="left">
+
+						<?php if(!empty($order['shipaddress_companyname'])):?>
+
+							<?=$order['shipaddress_companyname'];?><br />
+
+						<?php endif;?>
+
+						<?=$order['shipaddress_firstname'];?> <?=$order['shipaddress_lastname'];?><br />
+
+    		  			<?=$order['shipaddress_addr1'];?>
+
+						<?php if(!empty($order['shipaddress_addr2'])):?>
+
+							, <?=$order['shipaddress_addr2'];?>
+
+						<?php endif;?>
+
+    		  			<br /><?=$order['shipaddress_city'];?>,
+
+    		  			<?=$order['shipaddress_state'];?>,
+
+    		  			<?=$order['shipaddress_postalcode'];?>
+
+    		  			<?=$order['shipaddress_country'];?><br /><br />
+
+
+
+						<b>Ship Via:</b> &nbsp; <?=$order['shipping_method'];?><br />
+
+						<b>Ship Date:</b> &nbsp; <?=$order['date_shipped'];?><br />
+
+						
+
+						<?php if(strstr($order['tracking_number'],',')):?>
+
+							<b>Tracking Numbers:</b><br />
+
+							<?php $order['tracking_number'] = str_replace(',','<br />',$order['tracking_number']);?>
+
+							<?=$order['tracking_number'];?>
+
+						<?php else:?>
+
+							<b>Tracking Number:</b> &nbsp; <?=$order['order_number'];?>
+
+						<?php endif;?>
+
+					</td>
+
+				</tr>
+
+			</table>
+
+			</td>
+
+		</tr>
+
+		<tr>
+
+			<td colspan="2">
+
+
+
+
+
+				<table border="0" cellpadding="3" cellspacing="0" width="100%">
+
+
+
+					<tr>
+
+						<th class="cartHeader" width="50">SKU</th>
+
+						<th class="cartHeader" width="90%" align="left">Description</th>
+
+						<th class="cartHeader" width="50" align="center">Qty</th>
+
+						<th class="cartHeader" width="75" align="center" nowrap>Price</th>
+
+						<th class="cartHeaderEnd" width="75" align="right" nowrap>Total</th>
+
+					</tr>
+
+
+
+					<?php foreach($order['details'] as $index=>$data):?>
+
+						<?php
+
+							//$_Common->debugPrint($data);
+
+							$id = $data['ordid'];
+
+							foreach($data as $key=>$value){
+
+								// loads the default values from the table for enum fields
+
+								$data[$key] = $_DB->getDefaultValues($key,$value,true);
+
+							}
+
+						?>
+
+
+
+						<tr>
+
+							<td class="cartRow" align="left" nowrap><?=$data['sku'];?></td>
+
+							<td class="cartRow" align="left">
+
+								<?=$data['name'];?>
+
+								<!-- Options -->
+
+								<?php if(!empty($data['options'])):?>
+
+									<br />
+                                    
+                                   <?php $optionPrice = 0;?>
+
+									<?php foreach($data['options'] as $j=>$option):?>
+
+										<div style="margin-top:2px;margin-left:10px;">
+
+											<?php if($option['name'] != "" && $option['name'] == "Option"):?>
+
+												<?=$option['name'];?> <?=$j+1;?>:
+
+											<?php elseif($option['name'] != "" && $option['name'] != "Option"):?>
+
+												<?=$option['name'];?>:
+
+											<?php endif;?>
+
+											<?=$option['value'];?>
+
+											<?php if($option['price'] != "0"):?>
+
+												<?php if($option['type'] == "option"):?>
+
+													($<?=$option['price'];?>)
+
+												<?php elseif($option['type'] == "setup"):?>
+
+													(Setup Charge: <?=$option['price'];?>)
+
+												<?php else:?>
+
+													(<?=$option['price'];?>)
+
+												<?php endif;?>                                                
+                            					<!-- if there are options add up all option prices-->
+                                                <?php $optionPrice += $option['price'];?>
+
+											<?php endif;?>
+
+										</div>
+
+									<?php endforeach;?>
+
+								<?php endif;?>
+
+							</td>
+
+							<td class="cartRow"><?=$data['quantity'];?></td>
+
+							<td class="cartRow" align="right">
+                            	<!-- if there are options display the sum of all option prices-->
+                                <?php if(!empty($data['options'])):?>                                                                
+                                	<?=$_Common->format_price($optionPrice);?> 
+                               	<?php else:?>
+                                    <?=$data['price'];?>      
+								<?php endif;?></td>
+
+							<!--<td class="cartRow" align="right"><?=$_Common->format_price($data['price'] / $data['quantity']);?></td>-->
+
+							<td class="cartRowEnd" align="right">
+
+                            	<!-- if there are options multiply the option price with QTY-->
+                                <?php if(!empty($data['options'])):?>                                                                
+                                	<?=$_Common->format_price($optionPrice * $data['quantity']);?> 
+                               	<?php else:?>
+									<?=$_Common->format_price($data['price'] * $data['quantity']);?>      
+								<?php endif;?>
+
+                                <!--<?=$data['price'];?>-->
+
+							</td>
+
+						</tr>
+
+
+
+					<?php endforeach;?>
+
+
+
+						<tr><td colspan="5" style="line-height:5px;">&nbsp;</td></tr>
+
+
+
+						<!-- totals -->
+
+						<?php if(count($order['totals']) > 0):?>
+
+							<?php foreach($order['totals'] as $fldName=>$total):?>
+
+								<?php if($total > 0):?>
+
+								<tr>
+
+									<td colspan="4" align="right" width="90%"><b><?=$fldName;?>:</b></td>
+
+									<td align="right"><b><?=$_Common->format_price($total,true);?></b></td>
+
+								</tr>
+
+								<?php endif;?>
+
+							<?php endforeach;?>
+
+						<?php endif;?>
+
+				</table>
+
+			</td>
+
+		</tr>
+
+	</table>
+
+	<p id="links"><br />
+
+		<a href="javascript:window.print();">Print Invoice</a> &nbsp;|&nbsp;
+
+		<a href="javascript:window.close();">Close Window</a>
+
+	</p>
+
+	
+
+<?php else:?>
+
+
+
+	<p><b>No order to display...</b></p>
+
+
+
+<?php endif;?>
+
+
+
+</div>
+
+</body>
+
+</html>

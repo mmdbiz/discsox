@@ -1,0 +1,532 @@
+/* --------------------- Start Fluid CSS ---------------------  */
+/* Simple fluid media
+   Note: Fluid media requires that you remove the media's height and width attributes from the HTML
+*/
+img, object, embed, video {
+  max-width: 100%;
+}
+
+/* IE 6 does not support max-width so default to width 100% */
+.ie6 img {
+  width: 100%;
+}
+
+/* Mobile Layout: 480px and below. */
+
+/*gemeral CSS code goes here*/
+
+
+h3{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #800000;
+	font-size: 16px;
+}
+legend {
+	color: #800000;
+}
+h4{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #800000;
+	font-size: 15px;
+	margin-bottom: 0;
+}
+input{
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+p{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #5C4033;
+	font-size: 11px;
+	margin: 0;
+	padding: 0;
+}
+th{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+	font-size: 11px;
+	background-color: #798777;
+	background-image: url(../../graphics/images/tab_bg_red.png);
+	background-repeat: repeat-x;
+}
+.tiny {
+	font-size: 5px;
+}
+.red {
+	color: #A41128;
+}
+
+
+td{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #5C4033;
+	font-size: 11px;
+	vertical-align: middle;
+	/*padding: 0px;*/
+}
+form {
+	margin: 0px;
+	padding: 0px;
+}
+
+.buttons{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+#qtybox
+{
+	width: auto;
+	padding-top: 25px;
+	vertical-align: bottom;
+	float:right;
+}
+
+/*#mainContent {
+	background:#fff;
+}*/
+.searchResults {
+    float: left;
+    text-align: center;
+    width: 100%;
+}
+.searchResults legend {
+    width: 100%;
+}
+.searchResults fieldset {
+    float: left;
+    height: 250px;
+    width: 200px;
+}
+/******** Special MMD Style Classes for form fields used in shipping template *********/
+.mmdHeaderRight{
+	border-style: solid;
+	border-width: 0px 0px 0px 2px;
+}
+
+/******** Special Style Classes used in the cart and orderform template *********/
+
+.cartHeader{
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 0px 1px 1px;
+}
+.cartHeaderEnd{
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 1px 0px 1px;
+}
+.cartRow{
+	background-color: #F5F5F5;
+	vertical-align:	middle;
+	font-size: 10px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 0px 0px 1px 1px;
+	padding-right: 5px;
+}
+.cartRowEnd{
+	background-color: #F5F5F5;
+	vertical-align:	middle;
+	font-size: 10px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 0px 1px 1px 1px;
+}
+.cartFooter{
+	background-color: #FFFFFF;
+	color: #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.center {
+	text-align:center;
+}
+.clearboth  {
+	clear:both;
+}
+.existingCustomer {
+    float: none;
+    padding-right: 0;
+    width: 100%;
+}
+.font115p {
+	font-size:115%;
+}
+.newCustomer {
+	float:none;
+	padding-left: 0;
+    width:100%;
+}
+.leftContainer {
+    float: none;
+    padding-right: 0;
+    width: 100%;
+}
+.rightContainer {
+	float:none;
+	padding-left: 0;
+    width:100%;
+	clear:both;
+}
+.billingInfo {
+    float: none;
+    padding-right: 0;
+    width: 100%;
+}
+.shipingInfo {
+	float:none;
+	padding-left: 0;
+    width:100%;
+	clear:both;
+}
+.pncurrent
+{
+	color: Red;
+}
+.shippinQuote{
+	background-color: #F5F5F5;
+	vertical-align: middle;
+	font-size: 10px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 0px 1px 1px;
+	padding: 4px;
+}
+.shippinQuoteEnd{
+	background-color: #F5F5F5;
+	vertical-align: middle;
+	font-size: 10px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 1px 1px 0px;
+	padding: 4px;
+}
+
+.topAlign{
+	vertical-align: top;
+}
+
+/******** Styles for the category menu *********/
+
+.catListTable{
+	border: 0px solid;
+}
+.listItemNoSubCats{
+	color: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	line-height: 11px;
+	font-weight: normal;
+    padding-left: 17px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	background-color:#FFFFFF;
+	background-image: url('../images/nav/list_arrow3.gif');
+	background-repeat: no-repeat;
+	background-position: 1px 4px;
+}
+.listItem{
+	line-height: 13px;
+}
+.parentCat{
+    color: #000000;
+    cursor: pointer;
+}
+.parentCatOver{
+    color: #0000FF;
+    font-weight: bold;
+}
+.parentCatClicked{
+    color: #FF0000;
+    cursor: pointer;
+}
+.parentCatOverClicked{
+    color: #0000FF;
+    font-weight: bold;
+}
+
+.listCat{
+	color: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 11px;
+}
+a.listCatBold{
+	color: #FF0000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 11px;
+	font-weight: bold;
+}
+.listCat:hover{
+	color: #0000FF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	line-height: 11px;
+}
+.subListItem{
+	background-image: url('../images/nav/plus.gif');
+	background-repeat: no-repeat;
+    background-position: 0px 5px;
+	cursor: pointer;
+	color: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 13px;
+    padding-top: 5px;
+	padding-left: 17px;
+	padding-bottom: 5px;
+}
+.subListItemClicked{
+	background-image: url('../images/nav/minus.gif');
+	background-repeat: no-repeat;
+    background-position: 0px 5px;
+    border: 1px dashed gray;
+	cursor: pointer;
+	color: #FF0000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 13px;
+    padding-top: 5px;
+	padding-left: 17px;
+	padding-bottom: 5px;
+}
+.offset1{
+	background-image: url('../images/nav/arrow_right.gif');
+	background-repeat: no-repeat;
+	position: relative;
+	left: 0px;
+	margin-top: 5px;
+	padding-top: 2px;
+	padding-left: 10px;
+	font-size: 11px;
+}
+.offset2{
+	background-image: url('../images/nav/arrow2.gif');
+	background-repeat: no-repeat;
+	position: relative;
+	left: 10px;
+	margin-top: 5px;
+	padding-left: 15px;
+	padding-top: 2px;
+	font-size: 11px;
+}
+.offset3{
+	/*background-image: url('../images/nav/arrow.gif');
+	background-repeat: no-repeat;*/
+	position: relative;
+	left: 10px;
+	margin-top: 5px;
+	padding-left: 10px;
+	padding-top: 2px;
+	font-size: 11px;
+}
+.offset4{
+	/*background-image: url('../images/nav/arrow.gif');
+	background-repeat: no-repeat;*/
+	position: relative;
+	left: 25px;
+	margin-top: 5px;
+	padding-left: 10px;
+	padding-top: 5px;
+	font-size: 11px;
+}
+
+/* special styles for dhtml popup images */
+/* Credits: Dynamic Drive CSS Library */
+/* URL: http://www.dynamicdrive.com/style/ */
+
+.thumbnail{
+    position: relative;
+    z-index: 0;
+}
+
+.thumbnail:hover{
+    background-color: transparent;
+    z-index: 50;
+}
+
+.thumbnail span{ /*CSS for enlarged image*/
+    position: absolute;
+    background-color: white;
+    padding: 5px;
+    border: 1px dashed gray;
+    visibility: hidden;
+    color: black;
+    text-decoration: none;
+}
+
+.thumbnail span img{ /*CSS for enlarged image*/
+    border-width: 0;
+    padding: 2px;
+}
+
+.thumbnail:hover span{ /*CSS for enlarged image on hover*/
+    visibility: visible;
+    /*	position where enlarged image should offset horizontally
+		from the right edge of the thumbnail.
+
+		if you move the image to the left side of the page,
+		use left: 0 instead.
+	*/
+    left: 0;
+}
+.divLineLeft {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #CCCCCC;
+}
+.fivepixPad {
+	padding-left: 5px;
+}
+.standout {
+	color: #FFFFFF;
+	background-color: #A41128;
+}
+.standout2 {
+	color: #FFFFFF;
+	background-color: #009966;
+}
+/*------------Mobile Styles --------------*/
+
+.absmiddle {
+	vertical-align: middle;
+	margin-bottom: 0.25em;
+	float: none;
+}
+.m_addSelected {
+	float:right;
+	margin-right:20px;
+}
+.m_volDiscount{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+.noBullet {
+    list-style-type: none;
+}
+.recylceImg {
+    margin-left: -15px !important;
+    margin-right: 5px;
+    margin-top: 3px;
+}
+.m_listContent ul {
+	padding-left: 15px;
+}
+.m_price {
+	color: #800000;
+	font-weight:bold;
+	margin-bottom:10px;
+	font-size: 120%;
+}
+.m_shipEstimate {
+	max-width:500px;
+}
+.m_search {
+	max-width:600px;
+}
+.m_prodDetailsContainer {
+	background-color: #FFFFFF;
+}
+.m_prodDetailsContainer ul {
+    margin: 0;
+    padding-left: 15px;
+}
+.m_prodDetailsContainer h4 {
+    margin: 0;
+}
+.marginB10px {
+	margin-bottom:10px;
+}
+.billaddressUpdate .ui-radio input {
+	margin: 5px 0 0 10px;
+}
+.shipaddressUpdate .ui-checkbox input {
+    left: 130px;
+    margin: 5px 0 0;
+}
+.ItemOnBackorderSmall {
+    background-color: #ffff99;
+    border: 1px dashed #333333;
+    display: inherit;
+    float: left;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 9px;
+    margin-left: 15px;
+    margin-top: 11px;
+    padding: 1px;
+    text-align: center;
+    width: 190px;
+}
+.skuDiscontinued {
+  background-color:#EEEEEE;
+  border:1px solid #DDDDDD;
+  color:#A31027;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:14px;
+  font-weight:bold;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:8px;
+  padding:5px;
+  text-align:center;
+  width:150px;
+}
+.textLeft {
+	text-align: left;
+}
+/* Tablet Layout: 481px to 768px. Inherits styles from: Mobile Layout. */
+@media only screen and (min-width: 481px) {
+  
+  /*Specific CSS code for Tablet size goes here*/
+}
+
+/* Desktop Layout: 769px to a max of 1232px.  Inherits styles from: Mobile Layout and Tablet Layout. */
+@media only screen and (min-width: 769px) {
+	
+/*Specific CSS code for Desktop size goes here*/
+  
+  .existingCustomer {
+	  float:left;
+	  width: 50%;
+  }
+  .newCustomer {
+	  float:left;
+	  padding-left: 0.25%;
+	  width: 49.75%;
+  }
+  .billingInfo {
+	  float:left;
+	  width: 50%;
+	  clear:none;
+  }
+  .leftContainer {
+	  float:left;
+	  width: 50%;
+	  clear:none;
+  }
+  .rightContainer {
+	  float:left;
+	  width: 50%;
+	  clear: none;
+  }
+  .shipingInfo {
+	  float:left;
+	  padding-left: 0.25%;
+	  width: 49.75%;
+	  clear: none;
+  }
+}
+/* --------------------- End Fluid CSS ---------------------  */
+
+.marginL15 {
+    margin-left: 15px;
+}
+.paddingTB5 {
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.padding10 {
+	padding:10px;
+}

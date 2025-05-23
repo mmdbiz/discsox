@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Ranges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" >
+    var sHeight = screen.height;
+    var sWidth = screen.width;
+    var styles = "admin.800.css";
+    if(sWidth > 800){
+        styles = "admin.1024.css";
+    }
+    if(sWidth > 1024){
+        styles = "admin.1152.css";
+    }
+    if(sWidth > 1100){
+        styles = "admin.1280.css";
+    }
+    document.write('<link rel="stylesheet" href="../stylesheets/' + styles + '" type="text/css">');
+</script>
+<script type="text/javascript">
+//<!--
+	var fldid = "";
+	var rows = "10";
+    var STDIN = unescape(location.search.replace(/\+/g,' '));
+    STDIN = STDIN.substring(1).split('&');
+    for(i=0; i < STDIN.length; i++){
+        STDIN[i] = STDIN[i].split('=');
+        if(STDIN[i][0] == "fldid"){
+            fldid = STDIN[i][1];
+        }
+        if(STDIN[i][1] == "rows"){
+            rows = STDIN[i][2];
+        }
+    }
+
+	function sendFeldText(form){
+		var data = "";
+		for(k=0; k < rows; k++){
+
+			fldrange = "range" + k;
+			fldvalue = "value" + k;
+
+			if(form.elements[fldrange].value != "" && form.elements[fldvalue].value != ""){
+
+				if(data == ""){
+					data = form.elements[fldrange].value + ":" + form.elements[fldvalue].value;
+				}
+				else{
+					data += "," + form.elements[fldrange].value + ":" + form.elements[fldvalue].value;
+				}
+			}
+			else{
+				if(form.elements[fldvalue].value != ""){
+					data = form.elements[fldvalue].value;
+				}
+			}
+		}
+		//alert(data);
+		//if(data != ""){
+			opener.document.forms[0].elements[fldid].value = data;
+		//}
+		window.close();
+		return false;
+	}
+//-->
+</script>
+</head>
+
+<body style="background-color: white; color: black;margin-left:5;margin-top:5;margin-right:5;margin-bottom:5;">
+<div align='center'>
+<script type="text/javascript">
+//<!--
+	var label = "";
+	for (i=0; i < fldid.length; i++) {
+    	character = fldid.charAt(i);
+        if ("_".indexOf(character) != -1){
+        	label += " ";
+        }
+        else{
+        	label += character;
+	    }
+    }
+    
+    if(label == "surcharge"){
+		label = "shipping surcharge";
+    }
+    
+    document.title = label;
+	document.write("<h4 style='TEXT-TRANSFORM: capitalize;'>" + label + "</h4>");
+//-->
+</script>
+
+<p align="left">The price may be entered as a fixed price, a percentage, or an "each" price. 
+ Click on the Example button below to see the format of the different types of entries.</p>
+
+<form name="qtyform">
+<table border="0" cellspacing="0" cellpadding="3" width="200">
+
+
+<script type="text/javascript">
+//<!--
+
+	if(label == "shipping surcharge"){
+		document.write("<tr><th align='left'>State</th><th align='left'>Surcharge</th></tr>\n");
+	}
+	else{
+		document.write("<tr><th align='left'>Range</th><th align='left'>Price</th></tr>\n");
+	}
+
+
+	for(i=0; i < rows; i++){
+		document.write("<tr><td align=left><input type='text' name='range" + i + "' size='13'></td><td align=center><input type='text' name='value" + i + "' size='13'></td></tr>");
+	}
+
+	if(opener.document.forms[0].elements[fldid].value != ""){
+		var values = opener.document.forms[0].elements[fldid].value.split(",");
+		if(values.length > 0 && values[0].indexOf(':') != -1){
+			for(j=0;j<values.length;j++){
+				values[j] = values[j].split(":");
+				rangeFld = "range" + j;
+				valueFld = "value" + j;
+				document.forms[0].elements[rangeFld].value = values[j][0];
+				document.forms[0].elements[valueFld].value = values[j][1];
+			}
+		}
+		else{
+			rangeFld = "range" + '0';
+			valueFld = "value" + '0';
+			document.forms[0].elements[rangeFld].value = '';
+			document.forms[0].elements[valueFld].value = values[0];
+		}
+	}
+
+document.forms[0].elements['range0'].focus();
+
+function loadExample(){
+	var example = "1-5:5.00,6-10:10.00,11-15:6.00e,16-999:10%";
+	
+	if(label == "shipping surcharge"){
+		example = "AK:2.00,HI:2.00";
+	}
+	
+	var values = example.split(",");
+	for(j=0;j<values.length;j++){
+		values[j] = values[j].split(":");
+		rangeFld = "range" + j;
+		valueFld = "value" + j;
+		document.forms[0].elements[rangeFld].value = values[j][0];
+		document.forms[0].elements[valueFld].value = values[j][1];
+	}
+}
+
+//-->
+</script>
+
+</table>
+<p>
+	<input class='buttons' type='button' value='Example' onclick="loadExample(this.form)" ID="Button1" NAME="Button1"/>
+	<input class='buttons' type='reset' value='Clear' ID="Reset1" NAME="Reset1"/>
+	<input class='buttons' type='button' value='Close' onclick="window.close()" ID="Button2" NAME="Button2"/>
+  	<input class='buttons' type='button' value='Save' onclick="sendFeldText(this.form)" ID="Button3" NAME="Button3"/>
+</p>
+</form>
+</div>
+</body>
+</html>

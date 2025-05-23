@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+        <title>Customer Account Information</title>
+    </head>
+<body>
+
+	<?php if(isset($_SESSION['firstname']) && isset($_SESSION['lastname'])):?>
+		<h4 class="red"><strong>Welcome <?=$_SESSION['firstname'];?> <?=$_SESSION['lastname'];?></strong></h4>
+	<?php else:?>
+		<h4 class="red"><strong>Welcome...</strong></h4>
+	<?php endif;?>
+
+	<p>Select from the account menu above for more information.</p>
+
+	<?php if(count($summary) > 0):?>
+		<h4 class="red"><strong>Your Purchase Summary</strong></h4>
+		<table class = "table table-striped table-responsive max-width-400" >
+			<tr>
+				<td align="right" >Number of orders placed: </td>
+				<td align="right"><?=$summary['number_of_orders'];?></td>
+			</tr>
+			<?php if($summary['discounts'] > 0):?>
+			<tr>
+				<td align="right">Discount total: </td>
+				<td align="right"><?=$_Common->format_price($summary['discounts'],true);?></td>
+			</tr>
+			<?php endif;?>
+			<?php if($summary['salestax'] > 0):?>
+			<tr>
+				<td align="right" >Sales tax total: </td>
+				<td align="right"><?=$_Common->format_price($summary['salestax'],true);?></td>
+			</tr>
+			<?php endif;?>
+			<?php if($summary['shipping'] > 0):?>
+			<tr>
+				<td align="right">Shipping total: </td>
+				<td align="right"><?=$_Common->format_price($summary['shipping'],true);?></td>
+			</tr>
+			<?php endif;?>
+
+			<tr>
+				<td align="right" >Total for all orders: </td>
+				<td align="right"><?=$_Common->format_price($summary['order_totals'],true);?></td>
+			</tr>
+		</table>
+	<?php endif;?>
+
+</body>
+</html>

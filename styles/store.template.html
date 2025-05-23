@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title><?=$title?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	<meta name="description" content="<?=$metaDescription;?>">
+	<meta name="keywords" content="<?=$metaKeywords;?>">
+	<meta name="robots" content="index,follow">
+	<meta name="revisit-after" content="15 days">
+	<meta name="distribution" content="global">
+	<!-- Always load our cart styles first. Then you can modify them in your stylesheet if need be. -->
+	<link rel="stylesheet" type="text/css" href="styles/cart.styles.css" />
+	<link rel="stylesheet" type="text/css" href="styles/store.styles.css" />
+	<script type='text/javascript' src='javascripts/misc.js'></script>
+</head>
+<body bgcolor="#ffffff" leftmargin=0 topmargin=0 marginwidth="0" marginheight="0">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="100%" align="left" valign="top" bgcolor="3F6CAD"><img src="images/blank.gif" width="100%" height="4" border="0"></td>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="100%" align="left" valign="top">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td rowspan="2" width="340" align="left" valign="top"><img src="images/header-logo.jpg" width="340" height="60" border="0"></td>
+          <td width="100%" align="left" valign="top"><img src="images/menu-space.jpg" width="100%" height="32" border="0"></td>
+          <td width="47" align="left" valign="top"><a href="<?=$website_url;?>/index.php"><img src="images/menu-home.jpg" width="47" height="32" alt="Home" border="0"></a></td>
+          <td width="105" align="left" valign="top"><a href="<?=$website_url;?>/search.php"><img src="images/menu-search.jpg" width="105" height="32" alt="Advanced Search" border="0"></a></td>
+          <td width="66" align="left" valign="top"><a href="<?=$website_url;?>/cart.php"><img src="images/menu-viewcart.jpg" width="66" height="32" alt="View Cart" border="0"></a></td>
+          <td width="63" align="left" valign="top"><a href="<?=$secure_url;?>/checkout.php"><img src="images/menu-checkout.jpg" width="63" height="32" alt="Checkout" border="0"></a></td>
+          <td width="64" align="left" valign="top"><a href="<?=$website_url;?>/about.php"><img src="images/menu-about.jpg" width="64" height="32" alt="About Us" border="0"></a></td>
+          <td width="71" align="left" valign="top"><a href="<?=$website_url;?>/contact.php"><img src="images/menu-contact.jpg" width="71" height="32" alt="Contact Us" border="0"></a></td>
+        </tr>
+        <tr>
+          <td colspan="7" width="100%" align="left" valign="top"><img src="images/header-bottom-rt.jpg" width="100%" height="28" alt="" border="0"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="100%" align="left" valign="middle">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<form action="<?=$website_url;?>/products.php" method="get">
+        <tr background="images/greenbar.jpg">
+          <td width="20" align="left" valign="top" background="images/greenbar.jpg"><img src="images/blank.gif" width="20" height="54" border="0"></td>
+          <td width="80" align="left" valign="top" background="images/greenbar.jpg"><img src="images/search.jpg" width="60" height="56" alt="Search:" border="0" hspace="10"></td>
+          <td width="100%" align="left" style="vertical-align:middle;" background="images/greenbar.jpg">
+            <input type="text" size="15" name="keywords" class="textbox"/>
+            <input type="hidden" name="and" value="1"> &nbsp;
+            <input type="submit" name="search" value="Go" class="button"/>
+          </td>
+          <td width="151" align="left" valign="top" background="images/greenbar.jpg"><a href="<?=$website_url;?>/cart.php"><img src="images/yourshoppingcart.jpg" width="151" height="56" alt="Your Shopping Cart" border="0" hspace="10"></a></td>
+          <td width="454" align="left" style="vertical-align:middle;" background="images/greenbar.jpg">
+            <!-- START: nested table for the mini cart shell -->
+            <table width="134" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td colspan="5" width="134" align="left" valign="top"><img src="images/minicart-header.gif" width="134" height="5" border="0"></td>
+              </tr>
+              <tr>
+                <td width="1" align="left" valign="top" bgcolor="666666"><img src="images/blank.gif" width="1" height="1" border="0"></td>
+                <td width="4" align="left" valign="top" bgcolor="ffffff"><img src="images/blank.gif" width="4" height="1" border="0"></td>
+                <td width="124" align="left" valign="top" bgcolor="ffffff">
+                  <!-- START: nested table for mini cart items-->
+                  <table width="124" cellpadding="2" cellspacing="0" border="0">
+                    <tr>
+						<td align="right" valign="top" class="minicart">Items:</td>
+						<td align="left" valign="top" class="minicart" nowrap>
+							<font class="minicartor"><?=$miniCart['item_count'];?></font>
+                        </td>
+                    </tr>
+                    <tr>
+						<td align="right" valign="top" class="minicart">Total:</td>
+						<td align="left" valign="top" class="minicart" nowrap>
+							<font class="minicartor"><?=$_Common->format_price($miniCart['total'],true);?></font>
+						</td>
+                    </tr>
+                  </table>
+                  <!-- END: nested table for mini cart items-->
+                </td>
+                <td width="4" align="left" valign="top" bgcolor="ffffff"><img src="images/blank.gif" width="4" height="1" border="0"></td>
+                <td width="1" align="left" valign="top" bgcolor="666666"><img src="images/blank.gif" width="1" height="1" border="0"></td>
+              </tr>
+              <tr>
+                <td colspan="5" width="134" align="left" valign="top"><img src="images/minicart-footer.gif" width="134" height="5" border="0"></td>
+              </tr>
+            </table>
+			</tr>
+  			</form>
+        </table>
+    </td>
+    <td width="20" align="left" valign="top" background="images/greenbar.jpg"><img src="images/blank.gif" width="20" height="54" border="0"></td>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="100%" align="left" valign="top" bgcolor="000000"><img src="images/blank.gif" width="100%" height="1" alt="" border="0"></td>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <!-- menu area -->
+    <td width="180" style="align:left; vertical-align:top;">
+      <!-- menu tables -->
+      <table width="180" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td width="176" align="center" valign="middle" background="images/categories-header.gif"><img src="images/categories.jpg" width="81" height="23" border="0"></td>
+          <td width="4"><img src="images/categories-header-end.gif" width="4" height="23" border="0"></td>
+        </tr>
+      </table>
+      <table width="180" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td>
+            <!-- category list -->
+            <div style="align:left; vertical-align:top;">
+              <?=$categoryList;?>
+            </div>
+          </td>
+          <td width="1" bgcolor="A9A9A9"><img src="images/blank.gif" width="1" height="1" alt="" border="0"></td>
+        </tr>
+      </table>
+      <table width="180" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td width="170" background="images/categories-footer.jpg"></td>
+          <td width="10"><img src="images/categories-footer-end.jpg" width="10" height="19" border="0"></td>
+        </tr>
+      </table>
+    </td>
+    <td width="100%" style="vertical-align:top;">
+      <table width="100%" cellpadding="20" cellspacing="0" border="0">
+        <tr>
+          <td width="100%" style="vertical-align:top;">
+            <!--webbot bot="PurpleText" PREVIEW="Do not remove this tag below.
+				It tells us where the content of the cart template goes."-->
+            <?=$contents;?>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

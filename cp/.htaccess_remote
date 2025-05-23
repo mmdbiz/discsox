@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Restricted Area"
+AuthUserFile "/home/mmdesi5/.htpasswds/public_html/qs30/cp/passwd"
+require valid-user

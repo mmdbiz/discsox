@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title><?=$pageTitle;?></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<link rel="stylesheet" type="text/css" href="../styles/cart.styles.css" />
+	</head>
+<body>
+<!--The following code syncronizes the customer e-mail preferences with Constant Contact-->
+
+<!--End Constant Contact Code-->
+<!--webbot bot="PurpleText" PREVIEW="
+This page contains PHP script variables in the HTML that may be hidden in your editor.
+So, please be careful editing this page and be sure to keep a backup copy before overwriting it.
+View the HTML source code for more details.
+"-->
+
+
+	<?php if(count($_CART) == 0): ?>
+
+		<div align="center">
+			<h4><br>Your cart is currently empty...</h4>
+			<p><a href="<?=$_CF['basics']['home_page_name'];?>">Click here</a> to return to the home page.</p>
+		</div>
+
+	<?php elseif(count($missingFields) > 0): ?>
+
+		<form name="process" method="post" action="process.php" ID="Form1">
+			<table border="0" width="100%" cellspacing="1" ID="Table1">
+				<tr>
+					<td colspan="2" valign="top" align="center"><h4>The following fields are required to process your order:</h4></td>
+				</tr>
+				<?php foreach($missingFields as $fldName=>$fldText):?>
+				<?php
+					$size = 40;
+					$max = 40;
+					if($fldName == "card_number"){
+						$size = 16;
+						$max = 16;
+					}
+					elseif($fldName == "expire_month"){
+						$size = 2;
+						$max = 2;
+					}
+					elseif($fldName == "expire_year" || $fldName == "CVV2"){
+						$size = 4;
+						$max = 4;
+					}
+				?>
+				<tr>
+					<td align="right"><?=$fldText;?></td>
+					<td>
+						<input type="text" name="<?=$fldName;?>" value="" size="<?=$size;?>" maxlength="<?=$max;?>" ID="Text1">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="2" valign="top" align="center">
+						<input type="submit" name="submit" value="Submit Order" ID="Submit1">
+					</td>
+				</tr>
+				<?php endforeach;?>
+			</table>
+		</form>
+
+	<?php elseif($error):?>
+
+		<table border="0" width="100%" cellspacing="1" ID="Table2">
+		<tr>
+			<td width="100%" valign="top" align="center">
+				<h4><br>Program Error</h4>
+				<font color=blue><?=$error;?></font><br><br>
+			</td>
+		</tr>
+		</table>
+
+	<?php else:?>
+
+		<?php
+			$pickup = false;
+			if(isset($_CF['shipping']['offer_local_pickup']) && $_CF['shipping']['offer_local_pickup']){
+				if($selectedCarrier == $_CF['shipping']['local_pickup_text']){
+					$pickup = true;
+				}
+			}
+			error_reporting(E_PARSE|E_WARNING);
+			$showPrices = $_CF['cart']['show_prices'];
+			$orderLabel = "Order";
+			$colspan = 4;
+			if(!$showPrices){
+				$orderLabel = "Quote";
+				$colspan = 2;
+			}
+		?>
+		<style>
+			td{ vertical-align: middle; }
+			.topAlign{ align: left; vertical-align: top; }
+		</style>
+
+		<h4><?=$pageTitle;?></h4>
+
+		<div align="left">
+
+			<table border="0" cellpadding="3" cellspacing="0" width="100%" align="left" ID="Table4">
+				<tr>
+					<td align="left"><?=$orderLabel;?> Date: <?=$order_date;?></td>
+					<td align="right"><?=$orderLabel;?> Number: <?=$order_number;?></td>
+				</tr>
+				<tr>
+					<?php if($showPrices):?>
+						<th align="left">Bill To</th>
+					<?php else:?>
+						<th align="left">Contact Information</th>
+					<?php endif;?>
+					<th align="left">
+						<?php if($_CF['shipping']['require_shipping']):?>
+							Ship To
+						<?php else:?>
+							&nbsp;
+						<?php endif;?>
+					</th>
+				</tr>
+				<tr><td colspan="2" style="line-height:5px;">&nbsp;</td></tr>
+				<tr>
+					<td align="left" class="topAlign">
+
+						<?php if(!empty($_SESSION['billaddress_companyname'])):?>
+							<?=$_SESSION['billaddress_companyname'];?><br />
+						<?php endif;?>
+
+						<?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?><br />
+						<?=$_SESSION['billaddress_addr1'];?><br />
+
+						<?php if(!empty($_SESSION['billaddress_addr2'])):?>
+							<?=$_SESSION['billaddress_addr2'];?><br />
+						<?php endif;?>
+
+						<?=$_SESSION['billaddress_city'];?>,
+						<?=$_SESSION['billaddress_state'];?>,
+						<?=$_SESSION['billaddress_country'];?>
+						<?=$_SESSION['billaddress_postalcode'];?>
+						<br />
+						Day: (<?=$_SESSION['billaddress_areacode'];?>)						<?=$_SESSION['billaddress_phone'];?>
+						&nbsp;&nbsp;Evening: (<?=$_SESSION['billaddress_areacode2'];?>) <?=$_SESSION['billaddress_phone2'];?><br />
+						<?=$_SESSION['billaddress_email'];?>
+					</td>
+					<?php if($_CF['shipping']['require_shipping']):?>
+					<td align="left" class="topAlign">
+					
+						<?php if(!empty($_SESSION['shipaddress_companyname'])):?>
+							<?=$_SESSION['shipaddress_companyname'];?><br />
+						<?php endif;?>
+					
+						<?=$_SESSION['shipaddress_firstname'];?> <?=$_SESSION['shipaddress_lastname'];?><br />
+						<?=$_SESSION['shipaddress_addr1'];?><br />
+
+						<?php if(!empty($_SESSION['shipaddress_addr2'])):?>
+							<?=$_SESSION['shipaddress_addr2'];?><br />
+						<?php endif;?>
+
+						<?=$_SESSION['shipaddress_city'];?>,
+						<?=$_SESSION['shipaddress_state'];?>,
+						<?=$_SESSION['shipaddress_country'];?>
+						<?=$_SESSION['shipaddress_postalcode'];?><br />
+						(<?=$_SESSION['shipaddress_areacode'];?>) <?=$_SESSION['shipaddress_phone'];?><br />
+						<?=$_SESSION['shipaddress_email'];?>
+					</td>
+					<?php else:?>
+						&nbsp;
+					<?php endif;?>
+				</tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+			</table>
+
+			<br clear="all" />
+
+			<table border="0" cellspacing="0" cellpadding="3" width="100%" align="left" ID="Table7">
+			<tr>
+				<th class=cartHeader align="center" nowrap width="50">Quantity</th>
+				<th class=cartHeader align="center" nowrap>Item #</th>
+				<?php if($showPrices):?>
+					<th class=cartHeader align="left" nowrap width="70%">Name</th>
+					<th class=cartHeader align="center" nowrap>Unit Price</th>
+					<th class=cartHeaderEnd align="right" nowrap>Total</th>
+				<?php else:?>
+					<th class="cartHeaderEnd" align="left" nowrap width="70%">Name</th>
+				<?php endif;?>
+			</tr>
+
+			<!-- Start of each cart row -->
+			<?php foreach($_CART as $i=>$fields): ?>
+				<?php
+					$cartid = $fields['cartid'];
+				?>
+				<tr>
+					<td class=cartRow align="center" nowrap><?=intval($fields['quantity']);?></td>
+					<td class=cartRow align="center">
+						<a href="<?=$fields['page'];?>"><?=$fields['sku'];?></a>
+					</td>
+					<?php if($showPrices):?>
+						<td class=cartRow align="left">
+					<?php else:?>
+						<td class=cartRowEnd align="left" width="80%">
+					<?php endif;?>
+						<b><?=$fields['name'];?></b>
+						<!-- Options -->
+						<?php if(!empty($fields['options'])):?>
+							<br />
+							<?php foreach($fields['options'] as $j=>$option):?>
+								<div style="margin-top:2px;margin-left:10px;">
+									<?php if($option['name'] != "" && $option['name'] == "Option"):?>
+										<?=$option['name'];?> <?=$j+1;?>:
+									<?php elseif($option['name'] != "" && $option['name'] != "Option"):?>
+										<?=$option['name'];?>:
+									<?php endif;?>
+									<?=$option['value'];?>
+									<?php if($showPrices):?>
+										<?php if($option['price'] != "0"):?>
+											<?php if($option['type'] == "option"):?>
+												($<?=$_Common->format_price($option['price']);?>)
+											<?php elseif($option['type'] == "setup"):?>
+												(Setup Charge: <?=$_Common->format_price($option['price']);?>)
+											<?php else:?>
+												(<?=$_Common->format_price($option['price']);?>)
+											<?php endif;?>
+										<?php endif;?>
+									<?php endif;?>
+								</div>
+							<?php endforeach;?>
+						<?php endif;?>
+					</td>
+					<?php if($showPrices):?>
+						<td class=cartRow align="right" nowrap><?=$_Common->format_price($fields['line_total'] / intval($fields['quantity']));?></td>
+				  <td class=cartRowEnd align="right" nowrap><?=$_Common->format_price($fields['line_total']);?></td>
+					<?php endif;?>
+				</tr>
+			<?php endforeach;?>
+			<!-- End of each cart row -->
+			<?php if($showPrices):?>
+				<tr>
+					<td colspan="<?=$colspan;?>" style="line-height:5px;">&nbsp;</td>
+					<td style="line-height:5px;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right">Order Subtotal:</td>
+					<td align="right" nowrap><?=$_Totals['subtotal'];?></td>
+				</tr>
+
+				<?php if(isset($_Totals['discount']) && $_Totals['discount'] > 0):?>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right">
+						<?php if(!empty($_SESSION['discount_text'])):?>
+							<?=$_SESSION['discount_text'];?>:
+						<?php else:?>
+							Discount:
+						<?php endif;?>
+					</td>
+					<td align="right" nowrap>- <?=$_Totals['discount'];?></td>
+				</tr>
+				<?php endif;?>
+
+				<?php if($pickup || (isset($_Totals['shipping']) && $_Totals['shipping'] > 0)):?>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right"><?=$selectedCarrier;?>:</td>
+					<td align="right" nowrap><?=$_Totals['shipping'];?></td>
+				</tr>
+				<?php endif;?>
+
+				<?php if(isset($_Totals['insurance']) && $_Totals['insurance'] > 0):?>
+					<tr>
+						<td colspan="<?=$colspan;?>" align="right">Shipping Insurance:</td>
+						<td align="right" nowrap><?=$_Totals['insurance'];?></td>
+					</tr>
+				<?php endif;?>
+
+				<?php $showDomestic = true; ?>
+				<?php if(isset($_Totals['GST']) && $_Totals['GST'] > 0):?>
+				<?php $showDomestic = false; ?>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right">GST:</td>
+					<td align="right" nowrap><?=$_Totals['GST'];?></td>
+				</tr>
+				<?php endif;?>
+
+				<?php if(isset($_Totals['HST']) && $_Totals['HST'] > 0):?>
+				<?php $showDomestic = false; ?>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right">HST:</td>
+					<td align="right" nowrap><?=$_Totals['HST'];?></td>
+				</tr>
+				<?php endif;?>
+
+				<?php if(isset($_Totals['PST']) && $_Totals['PST'] > 0):?>
+				<?php $showDomestic = false; ?>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right">PST:</td>
+					<td align="right" nowrap><?=$_Totals['PST'];?></td>
+				</tr>
+				<?php endif;?>
+
+				<?php if(isset($_Totals['VAT']) && $_Totals['VAT'] > 0):?>
+				<?php $showDomestic = false; ?>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right">VAT:</td>
+					<td align="right" nowrap><?=$_Totals['VAT'];?></td>
+				</tr>
+				<?php endif;?>
+
+				<?php if($showDomestic && $_Totals['salestax'] > 0):?>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right"><?=$_SESSION['shipaddress_state'];?> Sales Tax:</td>
+					<td align="right" nowrap><?=$_Totals['salestax'];?></td>
+				</tr>
+				<?php endif;?>
+
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right">&nbsp;</td>
+					<td align="right" nowrap>------</td>
+				</tr>
+				<tr>
+					<td colspan="<?=$colspan;?>" align="right" nowrap><b>Order Total:</b></td>
+					<td align="right" nowrap><b><?=$_Common->format_price($_Totals['grandtotal'],true);?></b></td>
+				</tr>
+			<?php endif;?>
+			</table>
+		    <br clear="all" />
+		    
+			<?php if(!empty($downloadLinks) && count($downloadLinks) > 0):?>
+				<p>&nbsp;</p>
+				<table border="0" cellspacing="0" cellpadding="3" width="100%" ID="Table5">
+				<tr>
+					<th align="left">Your Downloads</th>
+				</tr>
+				<tr>
+					<td style="padding-top:10px;">
+						Click on the links below to download your order.
+					</td>
+				</tr>
+				<?php foreach($downloadLinks as $j=>$link):?>
+				<tr>
+					<td><li><?=$link;?></td>
+				</tr>
+				<?php endforeach;?>
+				</table>
+			<?php endif;?>
+		</div>
+		<p>&nbsp;</p><hr size="1" color="#5C4033">
+		<p>&nbsp;</p>
+		<p align="center">&nbsp;&nbsp;<a href="#" onClick="javascript:window.print()" title="print page"><img src="../../graphics/print.gif" border="0" class="absmiddle"></a> Print this page for your records. </p>
+		<p align="center">&nbsp;</p>
+		<hr size="1" color="#5C4033">
+		<p align="center">&nbsp;</p>
+        <!--Add Tracking Code--><!-- #BeginLibraryItem "/Library/-CodeAnalytics.lbi" -->
+<!--Google Analytics Code -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try{ 
+var pageTracker = _gat._getTracker("UA-1342362-1");
+pageTracker._trackPageview();
+} catch(err) {} 
+</script><!-- #EndLibraryItem --><!-- Start the order tracking here-->
+        <script type="text/javascript">
+			var pageTracker = _gat._getTracker("UA-1342362-1");
+			pageTracker._trackPageview();
+			
+			<?php if($order_number > 0):?>
+			
+			  pageTracker._addTrans(
+				"<?=$order_number;?>", // Order ID
+				"", // Affiliation
+				"<?=$_Totals['grandtotal'];?>", // Total
+				"<?=$_Totals['salestax'];?>", // Total
+				"<?=$_Totals['shipping'];?>", // Shipping
+				"<?=$_SESSION['billaddress_city'];?>", // City
+				"<?=$_SESSION['billaddress_state'];?>", // State
+				"<?=$_SESSION['billaddress_country'];?>" // Country
+			  );
+			
+			  <?php foreach($_CART as $i=>$row):?>
+				pageTracker._addItem(
+				  "<?=$order_number;?>", // Order ID
+				  "<?=$row['sku'];?>", // SKU
+				  "<?=$row['name'];?>", // Product Name
+				  "", // Category
+				  "<?=$row['price'];?>", // Price
+				  "<?=$row['quantity'];?>" // Quantity
+				);
+			  <?php endforeach;?>
+			
+			  pageTracker._trackTrans();
+			
+			<?php endif;?>
+
+        </script> 
+	<?php endif;?>    
+    
+				
+<!--////////////////// Start REGISTER EMAIL WITH CONSTANT CONTACT ///////////////////////
+////////////////// END REGISTER EMAIL WITH CONSTANT CONTACT ///////////////////////-->
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Quikstore 2.12 Example Product Page</title>
+<LINK rel="stylesheet" type="text/css" media="screen" href="styles/cart.styles.css">
+<STYLE TYPE="text/css">
+<!--
+DIV {
+     font-family: Verdana;
+     color: #5C4033;
+     font-size: 10pt;
+}
+-->
+</STYLE>
+<script type="text/javascript" src="javascripts/optioncheck.js"></script>
+</head>
+
+<body>
+<div align="center"><center>
+<p>&nbsp;</p>
+<table border="0" cellpadding="2" width="585">
+    <tr>
+        <th colspan="2" align="left">Wine Glass Set</th>
+    </tr>
+    <tr>
+        <td><img border="0" src="images/glass.gif" width="96" height="225"></td>
+        <td valign="top">Beautiful tear drop wine glass set! Perfect for
+          entertaining guests...<p><strong><font color="#FF0080">ON SALE!</font>
+          $29.95</strong></p>
+     </center>
+     <form action="cart.php" method="get" onSubmit="return doOptionCheck(this);">
+          <input type="hidden" name="add_to_cart" value="yes">
+          <input type="hidden" name="page" value="quikcode.html">
+          <input type="hidden" name="store_type" value="html">
+
+     <p align="left">
+          Options: <select name="OPTION|1|CAL20" size="1">
+                <option value="invalid|color">Select Color</option>
+                <option value="red|0|RD">Red</option>
+                <option value="green|0|GR">Green</option>
+                <option value="blue|0|BL">Blue</option>
+          </select></p>
+
+	<p class="optionName">Size:<br>
+	<input type="radio" name="OPTION|2|CAL20" value="small|0|SM"> <span class="optionValue">small</span><br>
+	<input type="radio" name="OPTION|2|CAL20" value="medium|0|MED"> <span class="optionValue">medium</span><br>
+	<input type="radio" name="OPTION|2|CAL20" value="large|1.00|LG"> <span class="optionValue">Large (1.00)</span><br>
+	</p>
+
+
+
+            <p align="left">
+               1-4 Sets - 29.95 per set<br>
+               5-9 Sets - 25.95 per set<br>
+               10 Sets or more - Only 20.95 per set </p>
+            <p align="left">&nbsp;</p>
+            <p><DIV ALIGN="RIGHT">
+            Quantity: <INPUT NAME="item-CAL20|1:29.95,5:25.95,10:20.95|Wine Glass Set|10 Oz.|2.3" size="3">
+
+
+
+
+
+
+
+
+            <input class="buttons" type="submit" name="add_to_cart" value="Add to Cart">
+            </DIV>
+        </form>
+        </td>
+    </tr>
+</table>
+  <center>
+
+<form action="cart.php" method="get">
+    <p>Qty: <input type="text" name="item[ATL-22133.2-S.1][quantity]" size=3> 3.0 Test item
+    <input class="buttons" type="submit" name="add_to_cart" value="Add to Cart"></p>
+</form>
+
+
+<hr width="585" size="1">
+
+<form action="cart.php" method="get">
+    <input type="hidden" name="store_type" value="html">
+    <input type="hidden" name="page" value="quikcode.html">
+    <p align="center">
+    <input type="submit" name="view_cart" value="Review Your Cart"></p>
+</form>
+
+<p>
+    <script type="text/javascript">
+        var miniCart = "empty";
+        document.write(miniCart);
+    </script>
+</p>
+
+</center></div>
+<p align="center">Powered by <a href="http://www.quikstore.com"> Quikstore</a><br>
+        Copyright ©1997-2005 All Rights Reserved</p>
+</body>
+</html>
+
+

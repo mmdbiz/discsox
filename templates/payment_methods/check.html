@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Please enter your payment information</title>
+		<link rel="stylesheet" href="../../styles/cart.styles.css" type="text/css">
+	</head>
+	<body>
+
+		<table border="0" cellpadding="3" cellspacing="0" width="100%" ID="Table1">
+			<tr><th colspan="4" align="left">Checking Information</th></tr>
+			<tr><td colspan="4" style="line-height:5px;">&nbsp;</td></tr>
+			<tr>
+				<td class="shipPayCell" align="right">Bank Name:</td>
+				<td class="shipPayCell"><input type="text" size="16" name="bank_name" maxlength="25"></td>
+				<td class="shipPayCell" align="right">Account Number:</td>
+				<td class="shipPayCellEnd"><input type="text" size="16" name="account_number"></td>
+			</tr>
+			<tr>
+				<td class="shipPayCell" align="right">Name On Account:</td>
+				<td class="shipPayCell"><input type="text" size="16" name="name_on_account"></td>
+				<td class="shipPayCell" align="right">ABA Routing Code:</td>
+				<td class="shipPayCellEnd"><input type="text" size="16" name="aba_routing_code" maxlength="25"></td>
+			</tr>
+			<tr>
+				<td class="shipPayCell" align="right">Account Type:</td>
+				<td class="shipPayCellEnd" align="left">
+					<input type="radio" name="account_type" value="Business" checked> Business
+					<input type="radio" name="account_type" value="Personal"> Personal
+				</td>
+				<td class="shipPayCell" align="right">Check Number:</td>
+				<td class="shipPayCellEnd"><input type="text" size="16" name="check_number" maxlength="25" ID="Text1"></td>
+			</tr>
+			<tr>
+				<td class="shipPayCell" align="right">Social Security Number:</td>
+				<td class="shipPayCell"><input type="text" size="16" name="ssn" ID="Text2"></td>
+				<td class="shipPayCell" align="right">Drivers License Number:</td>
+				<td class="shipPayCellEnd">
+					<input type="text" size="16" name="drivers_license_number" maxlength="25" ID="Text3">
+					State: <input type="text" name="drivers_license_state" value="" size="2">
+				</td>
+			</tr>
+		</table>
+		<!-- required fields for this payment type below -->
+		<input type="hidden" name="payment_method" value="check.html">
+        <input type="hidden" name="required[]" value="bank_name">
+        <input type="hidden" name="required[]" value="account_number">
+        <input type="hidden" name="required[]" value="name_on_account">
+        <input type="hidden" name="required[]" value="aba_routing_code">
+        <input type="hidden" name="required[]" value="check_number">
+		<script type="text/javascript">
+			if(typeof len != "undefined"){
+				requiredFields[len + 1] = "bank_name";
+				requiredFields[len + 2] = "account_number";
+				requiredFields[len + 3] = "name_on_account";
+				requiredFields[len + 4] = "aba_routing_code";
+				requiredFields[len + 5] = "check_number";
+			}
+			else{
+				var requiredFields = new Array();
+				requiredFields[0] = "bank_name";
+				requiredFields[1] = "account_number";
+				requiredFields[2] = "name_on_account";
+				requiredFields[3] = "aba_routing_code";
+				requiredFields[4] = "check_number";
+			}
+        </script>
+       
+	</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+        <title>Customer Account Information</title>
+</head>
+<body>
+	<script LANGUAGE="JavaScript">
+	function OpenWindow(URL) {
+		var myWin = window.open(URL,"_blank",
+				"height=500,width=780,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes");
+	}
+	</script>
+	<style>
+		#summary h4{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #800000;
+			font-size: 15px;
+			padding-bottom:10px;
+		}
+		#summary p{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #5C4033;
+			font-size: 11px;
+		}
+		#summary table th{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #FFFFFF;
+			font-size: 11px;
+			background-color: #798777;
+			text-align:center;
+		}
+		#summary table td{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #000000;
+			font-size: 11px;
+			vertical-align: top;
+			padding:3px;
+		}
+	</style>
+
+	<?php if(count($records) > 0):?>
+
+		<div id="summary">
+
+			<?php
+				global $count,$links,$start,$end,$customerName,$totals;
+				$color = array();
+				$color[0] = "#CCCCCC";
+				$color[~0] = "#FFFFFF";
+				$ck = 0;
+				$primaryKey = "orid";
+			?>
+
+			<H4>Order History for <?=$customerName;?></H4>
+			<p>Click on the order number to view details.<br /><br /></p>
+            <FORM method="post" action = "http://wwwapps.ups.com/WebTracking/OnlineTool">
+			<table border="0" cellpadding="3" cellspacing="0" width="80%" ID="Table1" >
+		  <tr>
+				<td colspan="3" align="left">
+					<b><?="$start - $end of $count Orders";?></b>				</td>
+				<td colspan="4" align="right">
+					<?=$links;?>&nbsp;				</td>
+			</tr>
+			<tr>
+				<th align="center" width="13%" nowrap>Order #</th>
+				<th align="center" width="13%" nowrap>Order Date</th>
+				<th align="center" width="13%" nowrap>Paid</th>
+			  <th align="center" nowrap>Date Shipped</th>
+			    <th width="13%" align="center" nowrap>Tracking</th>
+		      <th align="center" width="13%" nowrap>Subtotal</th>
+			  <th align="center" width="13%" nowrap>Reorder</th>
+			</tr>
+			
+			<?php foreach($records as $index=>$data):?>
+				
+				<?php
+					if($data['date_shipped'] == '0-00-0000'){
+						$data['date_shipped'] = "&nbsp;";
+					}
+					$sid = session_id();
+				?>
+				
+				<tr bgcolor="<?=$color[$ck = ~$ck];?>">
+					<td align="center">
+				  <div style="cursor:hand;" onClick="OpenWindow('myaccount.php?cart_id=<?=$sid;?>&amp;order_history=1&amp;detail=1&amp;orid=<?=$data['orid'];?>');">
+				  <font color="blue"><u><?=$data['order_number'];?></u></font>						</div>					</td>
+					<td align=center><?=$data['order_date'];?></td>
+					<td align=center><?=$data['paid'];?></td>
+		    <td align=center><!--<?=$data['date_shipped'];?>-->
+				      <?=$data['order_date'];?> 
+          <br>
+				    + 1-2 Business Days Max.</td>
+	        <td align=center> <input type="submit" value="Track it">
+                      <input type="hidden" name="InquiryNumber" value="<?=$data['order_number'];?>">
+                      <input type="hidden" name="SenderShipperNumber"  value="V4933E">
+                      <input type="hidden" name="UPS_HTML_License" value="8BA11DB3BA8AC888">
+                      <input type="hidden" name="IATA" value="US">
+                      <input type="hidden" name="Lang" value="eng">
+                      <input type="hidden" name="UPS_HTML_Version" value="3.0">
+                      <input type="hidden" name="TypeOfInquiryNumber" value="R">
+                      <input type="hidden" name="nonUPS_body" value="BGCOLOR=&quot;#CADAC7 &quot;">
+                      <input type="hidden" name="nonUPS_title" value="DiscSox Package Tracking">
+                      <input type="hidden" name="nonUPS_header" value="&lt;CENTER&gt; &lt;table width=&quot;100%&quot; height=&quot;65&quot; border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bgcolor=&quot;A41128&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;10&quot; align=&quot;center&quot; background=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; class=&quot;red5px&quot; &gt;&nbsp;&lt;/td&gt;
+    &lt;td height=&quot;10&quot; align=&quot;center&quot; background=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; class=&quot;red5px&quot;&gt;&lt;/td&gt;
+    &lt;td height=&quot;10&quot; align=&quot;center&quot; background=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; class=&quot;red5px&quot;&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;form method=&quot;get&quot; action=&quot;http://search.atomz.com/search/&quot;&gt;
+    &lt;!-- Atomz Search HTML for DiscSox CD Storage --&gt;
+    &lt;tr&gt; 
+      &lt;td class=&quot;sleeve_text_red&quot; width=&quot;125&quot; background=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; align=&quot;center&quot; &gt;&lt;a href=&quot;http://www.mmdesign.com/index.html&quot;&gt;&lt;img src=&quot;http://www.mmdesign.com/graphics/mmd_logo_red.gif&quot; width=&quot;159&quot; height=&quot;44&quot; border=&quot;0&quot; alt=&quot;MMDesign CD Storage and DVD Storage solutions: Corporate Information&quot; align=&quot;absmiddle&quot;&gt;&lt;/a&gt;&lt;/td&gt;
+      &lt;td class=&quot;sleeve_text_red&quot; valign=&quot;bottom&quot; align=&quot;center&quot; background=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; &gt;&lt;iframe src=&quot;http://www.mmdesign.com/graphics/title.gif&quot; name=&quot;cd_info&quot; scrolling=&quot;no&quot; height=&quot;45&quot;  width=&quot;430&quot;frameborder=&quot;0&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot;&gt;&lt;a href=&quot;http://www.mmdesign.com/index.html&quot;&gt;&lt;img src=&quot;http://www.mmdesign.com/graphics/title.gif&quot; width=&quot;430&quot; height=&quot;45&quot; border=&quot;0&quot; align=&quot;middle&quot; hspace=&quot;10&quot; alt=&quot;DiscSox CD Storage and DVD Storage Solutions and Accessories&quot;&gt;&lt;/a&gt;&lt;/iframe&gt;&lt;/td&gt;
+      &lt;td rowspan=&quot;2&quot; align=&quot;center&quot; valign=&quot;top&quot; class=&quot;white_link&quot;&gt; &lt;input name=&quot;sp-q&quot; size=&quot;6&quot; type=&quot;text&quot;&gt; 
+        &nbsp;&nbsp; &lt;input type=image value=&quot;Search&quot; src=&quot;http://www.mmdesign.com/graphics/sbuttons/magnify.gif&quot; alt=&quot;Search CD Storage and DVD Storage&quot; border=0 width=&quot;21&quot; height=&quot;18&quot; name=&quot;image2&quot;&gt; 
+        &lt;br&gt; &lt;img src=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; width=&quot;130&quot; height=&quot;8&quot;&gt;&lt;br&gt; 
+        &lt;input type=hidden name=&quot;sp-a&quot; value=&quot;sp1000bf39&quot;&gt; &lt;a href=&quot;http://www.mmdesign.com/contact.htm&quot; class=&quot;white&quot; &gt;Contact&nbsp;Us&lt;/a&gt; 
+        | &lt;a href=&quot;http://www.mmdesign.com/map.htm&quot; class=&quot;white&quot;&gt;Site&nbsp;Map&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/form&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;10&quot; align=&quot;center&quot; background=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; class=&quot;red5px&quot; &gt;&lt;/td&gt;
+    &lt;td height=&quot;10&quot; align=&quot;center&quot; background=&quot;http://www.mmdesign.com/graphics/transparent.gif&quot; class=&quot;red5px&quot;&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt; ">
+                      <input type="hidden" name="nonUPS_footer"
+value="&lt;HR&gt;
+Copyright &copy; 2003 MMDesign Studio International, Inc. &nbsp;&nbsp;&lt;a href=&quot;http://www.mmdesign.com/index.html&quot;&gt;&lt;img src=&quot;http://www.mmdesign.com/graphics/ybuttons/home.gif&quot; width=&quot;60&quot; height=&quot;21&quot; border=&quot;0&quot; align=&quot;absmiddle&quot; hspace=&quot;10&quot; &gt;&lt;/a&gt; &lt;/CENTER&gt;"></td>
+			      <td align="right" nowrap><?=$_Common->format_price($data['subtotal'],true);?></td>
+				  <td align="center" nowrap>
+					
+					<a href="myaccount.php?reorder=1&amp;orid=<?=$data['orid'];?>"><strong>Reorder</strong></a>					</td>
+			  </tr>
+
+			<?php endforeach;?>
+			
+			<!-- page totals -->
+			<?php if(count($totals) > 0):?>
+				<tr>
+					<td colspan="5" align="right">&nbsp;</td>
+					<td align=right>======</td>
+					<td align=center>&nbsp;</td>
+			  </tr>
+				<?php foreach($totals[0] as $key=>$sum):?>
+					<?php $label = ucwords(str_replace("_"," ",$key));?>
+					
+					<?php if($key == 'Report Total'):?>
+						<tr>
+							<td colspan="5" align="right">&nbsp;</td>
+							<td align=right>======</td>
+							<td align=center>&nbsp;</td>
+			  </tr>
+						<tr>
+							<td colspan="5" align="right"><?=$label;?>:</td>
+							<td align=right><?=$_Common->format_price($sum,true);?></td>
+							<td align=center>&nbsp;</td>
+			  </tr>
+					<?php else:?>
+						<tr>
+							<td colspan="5" align="right"><?=$label;?>:</td>
+							<td align="right" nowrap><?=$_Common->format_price($sum,true);?></td>
+							<td align=center>&nbsp;</td>
+			  </tr>
+					<?php endif;?>
+
+				<?php endforeach;?>
+				
+			<?php endif;?>
+
+			<tr><td colspan="7">&nbsp;</td></tr>
+
+			<tr>
+				<td colspan="7">
+					<hr size="1" noshade>				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<b><?="$start - $end of $count Orders";?></b>				</td>
+				<td colspan="4" align="right">
+					<?=$links;?>				</td>
+			</tr>
+		</table>
+		</form>
+<?php else:?>
+			<p>-- You have no orders to display. --</p>
+		<?php endif;?>
+		
+	</div>
+
+</body>
+</html>

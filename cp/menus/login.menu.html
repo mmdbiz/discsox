@@ -1,0 +1,38 @@
+
+<html>
+<head>
+<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+<title>Login Menu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript">
+//<!--
+    var sHeight = screen.height;
+    var sWidth = screen.width;
+    var styles = "admin.800.css";
+    if(sWidth > 800){
+        styles = "admin.1024.css";
+    }
+    if(sWidth > 1024){
+        styles = "admin.1152.css";
+    }
+    if(sWidth > 1100){
+        styles = "admin.1280.css";
+    }
+    document.write('<link rel="stylesheet" href="../stylesheets/' + styles + '" type="text/css">');
+//-->
+</script>
+<base target="content" />
+</head>
+<body class="menuBackground">
+<p><br>
+<li style="padding-bottom:5px;"><a href="../login.php">Login</a><br>
+<li><a href="../login.php?logout=true">Logout</a><br>
+
+<script type="text/javascript">
+//<!--
+	//var myLink = document.links[0].href;
+	//parent.content.location = myLink;
+//-->
+</script>
+</body>
+</html>

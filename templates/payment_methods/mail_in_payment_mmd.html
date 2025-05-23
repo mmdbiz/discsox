@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Please enter your payment information</title>
+		<link rel="stylesheet" href="../../styles/cart.styles.css" type="text/css">
+</head>
+	<body>
+		<input type="hidden" name="payment_method" value="mail_in_payment.html">
+		<input name="type_of_order" type="hidden" id="type_of_order" value="Check Order!">
+		<table width="100%" cellspacing="0">
+          <tr bordercolor="#F0F0F0">
+            <th width="300" height="21" align="left">&nbsp;&nbsp;Check Payment Instructions:</th>
+            <th height="21" colspan="2" align="left">&nbsp;</th>
+          </tr>
+          <tr bordercolor="#F0F0F0">
+            <td height="30" colspan="3" align="left"><p>&nbsp;&nbsp;Complete this form and <span class="red"><strong>click Place Secure Order</strong></span> button below.</p>
+              <p>&nbsp;&nbsp;The next page is your receipt and will provide you with your order details. </p>
+              <p>&nbsp;&nbsp;Please print the order receipt page (the next page) and include it with 
+                your check for <strong>
+                <?=$_Common->format_price($_Totals['grandtotal'],true);?>
+                </strong>.</p>
+              <p>&nbsp;&nbsp;Send 
+            a copy of your order and a signed check <strong>            </strong> to:</p></td>
+          </tr>
+          <tr bordercolor="#F0F0F0">
+            <td rowspan="2" align="left" valign="middle"><blockquote> <b>MMDesign&nbsp;Studio&nbsp;International,&nbsp;Inc.<br>
+              2322&nbsp;Riverside&nbsp;Ct.<br>
+            San Leandro, CA  94579</b></blockquote></td>
+            <td align="left">              <p>Make check
+              payable  to <strong>MMDesign</strong></p></td>
+             <script type="text/javascript"> 
+				function OpenWindow(thisURL) { 
+				   var myWin = window.open(thisURL,"mywindow","width=515,height=275,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no"); 
+					 return false; 
+				} 
+			</script> 
+<td align="left">
+			<button class="buttons" onclick="return OpenWindow('<?=$website_url;?>/templates/print_check_instr.html?amount=<?=$_Common->format_price($_Totals['grandtotal'],true);?>');">Print these Instructions</button>			</td>
+          </tr>
+          <tr bordercolor="#F0F0F0">
+            <td colspan="2" align="left"><p class="cartRowEnd"><strong>Please note that your order will not be processed until   full payment has been received and cleared.</strong></p></td>
+          </tr>
+          <tr bordercolor="#F0F0F0">
+            <td colspan="3" align="left" valign="middle" class="tiny">&nbsp;</td>
+          </tr>
+        </table>
+</body>
+</html>

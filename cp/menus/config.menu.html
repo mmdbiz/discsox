@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<meta name="generator" content="microsoft visual studio .net 7.1">
+		<title>Configuration Menu</title>
+		<script LANGUAGE="JavaScript">
+		//<!--
+		sWidth = screen.width;
+		var styles = "admin.800.css";
+		if(sWidth > 850){
+			styles = "admin.1024.css";
+		}
+		if(sWidth > 1024){
+			styles = "admin.1152.css";
+		}
+		if(sWidth > 1100){
+			styles = "admin.1280.css";
+		}
+		document.write('<link rel="stylesheet" href="stylesheets/' + styles + '" type="text/css">');
+		//-->
+		</script>
+		<base target="content">
+		<style type="text/css">
+		body {
+			margin-left: 0;
+			margin-top: 0;
+			margin-right: 0;
+			margin-bottom: 0;
+		}
+		td{
+			line-height: 17px;
+		}
+		.blankRow{
+			line-height: 5px;
+		}
+		</style>
+	</head>
+	<body class=menuBackground>
+	
+
+	<form name="cfgselect" method="POST" action="configuration.php?displayMenu=true" target="menu">
+	<table align=left width="145" border="0" cellspacing="0" cellpadding="0" style="margin-left:0px;">
+		<tr><td class="blankRow">&nbsp;</td></tr>
+		<tr>
+			<td class="amenu" nowrap><b>&nbsp; Config Sections:<br></b></td>
+		</tr>
+		<tr>
+			<td nowrap>
+				<li><a class="amenu" href="configuration.php?addtoconfig=true">Add New Entry</a>
+			</td>
+		</tr>
+		<?php foreach($sections as $i=>$section):?>
+		<?php $sectionLabel = ucwords(preg_replace("/_/i", " ", $section)); ?>
+		<tr>
+			<td nowrap>
+				<li><a class="amenu" href="configuration.php?editconfig=true&section=<?=$section;?>"><?=$sectionLabel;?></a>
+			</td>
+		</tr>
+		<?php endforeach;?>
+
+		<tr><td class="blankRow">&nbsp;</td></tr>
+		<tr>
+			<td class="amenu" nowrap><b>&nbsp; Payment Gateways:<br></b></td>
+		</tr>
+		<tr>
+			<td nowrap><li><a class="amenu" href="gateways.php?list=true">List</a></td>
+		</tr>
+		<tr>
+			<td nowrap><li><a class="amenu" href="gateways.php?add=true">Add New</a></td>
+		</tr>
+		
+		<tr><td class="blankRow">&nbsp;</td></tr>
+		<tr>
+			<td class="amenu" nowrap><b>&nbsp; Extensions:<br></b></td>
+		</tr>
+		<tr>
+			<td nowrap><li><a class="amenu" href="extensions.php?list=true">List</a></td>
+		</tr>
+		<tr>
+			<td nowrap><li><a class="amenu" href="extensions.php?add=true">Add New</a></td>
+		</tr>
+		
+		
+	</table>
+	</form>
+
+	</body>
+</html>

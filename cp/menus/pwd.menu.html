@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Password Menu</title>
+<script LANGUAGE="JavaScript">
+//<!--
+sWidth = screen.width;
+var styles = "admin.800.css";
+if(sWidth > 850){
+    styles = "admin.1024.css";
+}
+if(sWidth > 1024){
+    styles = "admin.1152.css";
+}
+if(sWidth > 1100){
+    styles = "admin.1280.css";
+}
+document.write('<link rel="stylesheet" href="../stylesheets/' + styles + '" type="text/css">');
+
+//-->
+</script>
+</head>
+<body class=menuBackground>
+<table align=left border="0" cellspacing="3" cellpadding="0" style="margin-left:5px;margin-top:15px;">
+  <tr>
+	<td nowrap>
+	  <a class="amenu" href="../pass.php?display=true" target="content">Admin Password</a>
+	</td>
+  </tr>
+  <tr>
+	<td nowrap>
+	  <a class="amenu" href="../pass.php?displayCust=true" target="content">Customer Passwords</a>
+	</td>
+  </tr>
+</table>
+</body>
+</html>

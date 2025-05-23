@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+        <title>Customer Account Information</title>
+    </head>
+<body>
+
+	<?php if(isset($_REQUEST['add_shipping'])):?>
+		<p style="font-size:12px;font-weight:bold;">Add Shipping Address <br /><br /></p>
+	<?php else:?>
+		<p style="font-size:12px;font-weight:bold;">Edit Shipping Address <br /><br /></p>
+	<?php endif;?>
+
+	<form method="post" action="myaccount.php" ID="Form1">
+
+		<?php if(!$shippingSelect && isset($data['csid'])):?>
+		<input type="hidden" name="csid" id="csid" value="<?=$data['csid'];?>">
+		<?php endif;?>
+
+		<?php if(!empty($message)):?>
+		<p><font color="blue"><?=$message;?></font><br /><br /></p>
+		<?php endif;?>
+
+		<?php if(!empty($error)):?>
+		<p><font color="red"><b><?=$error;?></b></font><br /><br /></p>
+		<?php endif;?>
+
+		<table width="500" border="0" cellspacing="0" cellpadding="3">
+		
+			<?php if($shippingSelect):?>
+			<tr>
+				<td align="right"><b>Select Address: </b></td>
+				<td><?=$shippingSelect;?></td>
+			</tr>
+			<tr>
+				<td colspan="2">&nbsp;</td>
+			</tr>
+			<?php endif;?>
+			
+			<?php foreach($data as $name=>$value):?>
+				<?php
+					$displayName = str_replace('_'," ",$name);
+					$displayName = ucwords(str_replace('shipaddress'," ",$displayName));
+					if($name == 'csid'){
+						continue;
+					}
+				?>
+				<tr>
+					<td width="50%" align="right" style="vertical-align:middle;padding-right:5px;" nowrap><?=$displayName;?>: </td>
+					<td align="left" valign="middle" width="50%">
+						<?php if(substr($value,0,7) == '<select'):?>
+							<?=$value;?>
+						<?php else:?>
+							<input type="text" name="<?=$name;?>" ID="<?=$name;?>" size="40" value="<?=$value;?>">
+						<?php endif;?>
+					</td>
+				</tr>
+			<?php endforeach;?>
+
+			<tr>
+				<td colspan="2">&nbsp;</td>
+			</tr>
+
+			<tr>
+				<td colspan="2" align="center" style="padding-top:10px">
+					<?php if(!isset($_REQUEST['add_shipping'])):?>
+						<input type="submit" name="update_shipping" value="Update" ID="update_shipping">
+						&nbsp; <input type="submit" name="delete_shipping" value="Delete" ID="delete_shipping" onclick="return confirm('Are you sure you want to delete this address?')">
+						&nbsp; <input type="submit" name="add_shipping" value="Add New" ID="add_shipping">
+					<?php else:?>
+						<input type="submit" name="update_shipping" value="Add New Address" ID="Submit1">
+					<?php endif;?>
+				</td>
+			</tr>
+		</table>
+		
+	</form>
+
+</body>
+</html>

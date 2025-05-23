@@ -1,0 +1,78 @@
+<\?xml version="1.0"\?>
+
+<AccessRequest xml:lang="en-US">
+   <AccessLicenseNumber><?=$cfg['settings']['AccessLicenseNumber'];?></AccessLicenseNumber>
+   <UserId><?=$cfg['settings']['UserId'];?></UserId>
+   <Password><?=$cfg['settings']['Password'];?></Password>
+</AccessRequest>
+
+<\?xml version="1.0"\?>
+
+<RatingServiceSelectionRequest xml:lang="en-US">
+	<Request>
+		<TransactionReference>
+			<CustomerContext>Rating and Service</CustomerContext>
+			<XpciVersion>1.0001</XpciVersion>
+		</TransactionReference>
+		<RequestAction>Rate</RequestAction>
+		<RequestOption><?=$cfg['settings']['RequestOption'];?></RequestOption>
+	</Request>
+	<PickupType>
+		<Code><?=$cfg['settings']['PickupType'];?></Code>
+	</PickupType>
+	<Shipment>
+		<Shipper>
+			<Address>
+			<?php if($orig_zip != "" && $orig_city == ""):?>
+				<PostalCode><?=$orig_zip;?></PostalCode>
+				<CountryCode><?=$orig_country;?></CountryCode>
+			<?php elseif($orig_zip != "" && $orig_city != ""):?>
+				<PostalCode><?=$orig_zip;?></PostalCode>
+				<CountryCode><?=$orig_country;?></CountryCode>
+				<City><?=$orig_city;?></City>
+			<?php else:?>
+				<CountryCode><?=$orig_country;?></CountryCode>
+				<City><?=$orig_city;?></City>
+			<?php endif;?>
+			</Address>
+		</Shipper>
+		<ShipTo>
+			<Address>
+			<?php if($country == "US"):?>
+				<PostalCode><?=$zip;?></PostalCode>
+				<CountryCode>US</CountryCode>
+			<?php elseif($country == "CA" || $country == "PR"):?>
+				<PostalCode><?=$zip;?></PostalCode>
+				<CountryCode><?=$country;?></CountryCode>
+			<?php else:?>
+				<PostalCode><?=$zip;?></PostalCode>
+				<CountryCode><?=$country;?></CountryCode>
+			<?php endif;?>
+				<ResidentialAddress><?=$ResidentialAddress;?></ResidentialAddress>
+			</Address>
+		</ShipTo>
+		<Service>
+			<Code><?=$cfg['settings']['ServiceCode'];?></Code>
+		</Service>
+		<?php foreach($packages as $i=>$fields): ?>
+			<Package>
+				<PackagingType>
+					<Code><?=$fields['pkgcode'];?></Code>
+					<Description><?=$fields['pkgdesc'];?></Description>
+				</PackagingType>
+				<Description>Rate</Description>
+				<PackageWeight>
+					<Weight><?=$fields['weight'];?></Weight>
+				</PackageWeight>
+				<?php if($fields['length'] != "" && $fields['width'] != "" && $fields['height'] != ""):?>
+				<Dimensions>
+					<Length><?=$fields['length'];?></Length>
+					<Width><?=$fields['width'];?></Width>
+					<Height><?=$fields['height'];?></Height>
+				</Dimensions>
+				<?php endif;?>
+			</Package>
+		<?php endforeach;?>
+		<ShipmentServiceOptions/>
+	</Shipment>
+</RatingServiceSelectionRequest>

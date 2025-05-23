@@ -1,0 +1,243 @@
+
+<html>
+<head>
+<meta name=vs_targetSchema content="http://schemas.microsoft.com/intellisense/ie5">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<title><?=$section;?></title>
+<script	LANGUAGE="JavaScript">
+//<!--
+sWidth = screen.width;
+var	styles = "admin.800.css";
+if(sWidth >	850){
+	styles = "admin.1024.css";
+}
+if(sWidth >	1024){
+	styles = "admin.1152.css";
+}
+if(sWidth >	1100){
+	styles = "admin.1280.css";
+}
+document.write('<link rel="stylesheet" href="stylesheets/' + styles	+ '" type="text/css">');
+function populateTextBoxes(form, IdField){
+	 form.submit();
+}
+<?php if($refreshMenu):?>
+	parent.menu.location = "configuration.php?displayMenu=true";
+<?php endif;?>
+//-->
+</script>
+
+<style>
+ul{
+  font-size: 8pt;
+  font-family: Verdana;
+  color: #000064;
+}
+.itemHead{
+	font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<?php if($helpEditable){$colspan = 3;}Else{$colspan=2;};?>
+
+<form method="POST" action="configuration.php">
+<input type="hidden" name="section" value="<?=$section;?>">
+
+
+<div style="text-align:	left">
+<table border="0" width="90%" cellspacing="0" cellpadding="3">
+
+	<tr>
+		<td align="left" colspan="<?=$colspan;?>" nowrap><span class="itemHead"><?=$section_label;?></span></td>
+	</tr>
+	<tr><td	colspan="<?=$colspan;?>"><hr size=1></td></tr>
+	<?php if(!empty($section_help)):?>
+		<tr>
+			<td	colspan="<?=$colspan;?>" style="text-align:top; font-size:12px;">
+				<?php if($helpEditable):?>
+					<textarea name="section_help" rows="5" cols="70" wrap="virtual" ID="Textarea1"><?=stripslashes($section_help);?></textarea>
+				<?php else:?>
+					<?=nl2br(stripslashes($section_help));?>
+				<?php endif;?>
+			</td>
+		</tr>
+		<tr><td	colspan="<?=$colspan;?>">&nbsp;</td></tr>
+	<?php endif;?>
+
+	<?php foreach($settings as $i=>$fields):?>
+
+		<?php $key = $fields['key']; ?>
+
+		<?php $displayKey = preg_replace("/\_/", " ",$fields['key']);?>
+		
+		<?php if(!empty($fields['key_help']) || $helpEditable):?>
+		<tr>
+			<?php if($helpEditable):?>
+				<td class="itemRow">&nbsp;</td>
+				<td class="itemRow" align=right valign=top>Help: </td>
+			<?php else:?>
+				<td class="itemRow">&nbsp;</td>
+			<?php endif;?>
+			<td class="comments">
+				<?php if($helpEditable):?>
+					<textarea name="help[<?=$key;?>]" rows="5" cols="70" wrap="virtual" ID="Textarea2"><?=stripslashes($fields['key_help']);?></textarea>
+				<?php else:?>
+					<?=nl2br(stripslashes($fields['key_help']));?>
+				<?php endif;?>
+			</td>
+		</tr>
+		<?php endif;?>
+		
+		<tr>
+			<?php if($helpEditable):?>
+				<td valign="top" width="50">
+					<input type="text" name="sequence[<?=$key;?>]" size="2" value="<?=$fields['sequence'];?>" ID="Text3">
+				</td>
+			<?php endif;?>
+			<td class="itemRow" align=right valign=top nowrap width="20%" style="TEXT-TRANSFORM: capitalize;padding-top:5px;"><?=$displayKey;?>:</td>
+			<td class="itemDetail" width="80%">
+				<!-- true/false -->
+				<?php if(strtolower($fields['value']) == "true" || strtolower($fields['value']) == "false"):?>
+					<?php if($fields['value'] == "true"):?>
+						<select name="<?=$fields['key'];?>">
+							<option value="true" selected>True</option>
+							<option value="false">False</option>
+						</select>
+					<?php else:?>
+						<select name="<?=$fields['key'];?>">
+							<option value="true">True</option>
+							<option value="false" selected>False</option>
+						</select>
+					<?php endif;?>
+
+				<?php elseif($fields['key'] == 'accepted_payment_methods'):?>
+
+					<?php
+						$sql = "SELECT * FROM payment_methods ORDER BY method";
+						$methods = $_DB->getRecords($sql,'method');
+						$payFiles = array();
+						$dir = "../templates/payment_methods";
+						if(is_dir($dir)){
+							if(!($handle = opendir($dir))){
+								die("Access denied to $dir");
+							}
+							while($name = readdir($handle)){
+								if($name == ".." || $name == "."){
+									continue;
+								}
+								elseif(is_file("$dir/$name") && strstr($name,'htm')){
+									$payFiles[$name] = $name;
+								}
+							}
+							closedir($handle);	
+							if(count($payFiles) > 0){
+								foreach($payFiles as $f=>$fName){
+									if(!isset($methods[$f])){
+										$methods[$f]['method'] = $fName;
+										$methods[$f]['active'] = 'false';
+									}
+								}
+							}
+							//$_Common->debugPrint($payFiles);
+						}
+						//$_Common->debugPrint($methods);
+					?>
+
+					<?php foreach($methods as $k=>$flds):?>
+						<?php if($flds['active'] == 'true'):?>
+							<input type="checkbox" name="accepted_payment_methods[]" value="<?=$flds['method'];?>" checked> <?=$flds['method'];?><br />
+						<?php else:?>
+							<input type="checkbox" name="accepted_payment_methods[]" value="<?=$flds['method'];?>"> <?=$flds['method'];?><br />
+						<?php endif;?>
+					<?php endforeach;?>
+
+				<?php elseif($fields['key'] == 'credit_card_types'):?>
+					<?php
+						$sql = "SELECT * FROM credit_cards ORDER BY card_name";
+						$ccTypes = $_DB->getRecords($sql);
+					?>
+					
+					<?php foreach($ccTypes as $k=>$flds):?>
+						<?php if($flds['active'] == 'true'):?>
+							<input type="checkbox" name="credit_card_types[<?=$flds['card_name'];?>]" value="true" checked> <?=$flds['card_name'];?><br />
+						<?php else:?>
+							<input type="checkbox" name="credit_card_types[<?=$flds['card_name'];?>]" value="true"> <?=$flds['card_name'];?><br />
+						<?php endif;?>
+					<?php endforeach;?>
+					<br />
+					Add New Card: <input type="text" name="new_credit_card" size="30" value=""><br /><br />
+					
+				<?php elseif($fields['key'] == 'default_payment_method'):?>
+				
+					<select name="default_payment_method">
+					<?php foreach($methods as $k=>$flds):?>
+					
+						<?php
+							if($flds['active'] != 'true'){
+								continue;
+							}
+						?>
+					
+						<?php if($flds['method'] == $fields['value']):?>
+							<option value="<?=$flds['method'];?>" selected><?=$flds['method'];?></option>
+						<?php else:?>
+							<option value="<?=$flds['method'];?>"><?=$flds['method'];?></option>
+						<?php endif;?>
+					<?php endforeach;?>
+					</select>
+					
+				<?php elseif(strlen($fields['value']) < 55):?>
+				
+					<?php if($fields['key'] == "password"):?>
+					<input type="password" name="<?=$fields['key'];?>" size="60" value="<?=$fields['value'];?>" ID="Text4">
+					<?php else:?>
+					<input type="text" name="<?=$fields['key'];?>" size="60" value="<?=$fields['value'];?>">
+					<?php endif;?>
+
+				<?php else:?>
+					<!-- long values -->
+					<textarea name="<?=$fields['key'];?>" rows="5" cols="70" wrap="virtual"><?=$fields['value'];?></textarea>
+				<?php endif;?>
+			</td>
+		</tr>
+	<?php endforeach;?>
+	
+	<?php if($section == "extensions"):?>
+	<tr>
+		<td	colspan=2>&nbsp;</td>
+	</tr>
+	<tr>
+		<td	colspan=2><b>Add New Extension:</b></td>
+	</tr>
+	<tr>
+		<td align="right">Base Class to be extended:	</td>
+		<td><input type="text" name="class_to_extend" size="30" value="" ID="Text1"></td>
+	</tr>
+	<tr>
+		<td align="right">Extension Name: </td>
+		<td><input type="text" name="extended_class_name" size="30" value="" ID="Text2"></td>
+	</tr>
+	<?php endif;?>
+	
+	<tr>
+		<td	colspan=2>&nbsp;</td>
+	</tr>
+	<tr>
+		<td	colspan=2><hr size=1></td>
+	</tr>	
+	<tr>
+		<td align=center colspan=2>
+			<input class="buttons" type="Submit" name="updateconfig" value="Update Section">
+		</td>
+	</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+</form>
+</body>
+</html>
+

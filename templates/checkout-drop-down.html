@@ -1,0 +1,850 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title><?=$pageTitle;?></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<link rel="stylesheet" type="text/css" href="../styles/cart.styles.css" />
+</head>
+<body>
+
+
+<!--webbot bot="PurpleText" PREVIEW="
+This page contains PHP script variables in the HTML that may be hidden in your editor.
+So, please be careful editing this page and be sure to keep a backup copy before overwriting it.
+View the HTML source code for more details.
+"-->
+	<div align="center">
+
+		<?php if(count($_CART) == 0): ?>
+
+			<div align="center">
+				<h4><br>Your cart is currently empty...</h4>
+				<p><a href="<?=$_CF['basics']['home_page_name'];?>">Click here</a> to return to the home page.</p>
+			</div>
+
+		<?php else:?>
+
+			<?php
+				error_reporting(E_PARSE|E_WARNING);
+				$requiredFlds = join("','",array_keys($requiredFields));
+				$showPrices = $_CF['cart']['show_prices'];
+			?>
+
+			<script type="text/javascript">
+				var requiredFields = new Array('<?=$requiredFlds;?>');
+				var len = requiredFields.length - 1;
+				var selectedBillCountry = "<?=$_SESSION['billaddress_country'];?>";
+				var selectedBillState = "<?=$_SESSION['billaddress_state'];?>";
+				var selectedBillCounty = "<?=$_SESSION['billaddress_county'];?>";
+				var selectedShipCountry = "<?=$_SESSION['shipaddress_country'];?>";
+				var selectedShipState = "<?=$_SESSION['shipaddress_state'];?>";
+				var selectedShipCounty = "<?=$_SESSION['shipaddress_county'];?>";
+
+				<?php if($taxTable && $taxTableField == "shipaddress_county"):?>
+					function countyList(){
+						<?=$countyJava;?>
+					}
+					var counties = new countyList();
+				<?php else:?>
+					var counties = new Array();
+				<?php endif;?>
+
+				var hideareacode = true;
+				<?php if(isset($_CF['basics']['always_display_area_code']) && $_CF['basics']['always_display_area_code']):?>
+					hideareacode = false;
+				<?php endif;?>
+
+			</script><script type="text/javascript">
+		var selectedUserName = "registration[username]";
+
+		<!--We switched the username to e-mail addresses -->
+		function checkEntries(form){
+			if(form.user.value == ""){
+				alert("You did not enter a valid Email Address?");
+				form.user.focus();
+				return false;
+			}
+			<!--So we check the login name for being an e-mail -->
+			if(form.user.value != ""){
+				if(!emailCheck(form.user.value)){
+					alert("You did not enter a valid email address?");
+					form.user_email.focus();
+					return false;
+				}
+			}
+			<?php if($_CF['login']['require_password']):?>
+			if(form.pass.value == "" && !form.forgot.checked){
+				alert("You did not enter a valid password?");
+				form.pass.focus();
+				return false;
+			}
+			<?php endif;?>
+		return true;
+		}
+		function checkEntriesForgot(form){
+		<!--We switched the username to e-mail addresses -->
+			if(form.user_name.value == "" && form.user_email.value == ""){
+				alert("You did not enter a valid email address?");
+				form.user.focus();
+				return false;
+			}
+			<!--So we check the login name for being an e-mail -->
+			if(form.user_name.value != ""){
+				if(!emailCheck(form.user_name.value)){
+					alert("You did not enter a valid email address?");
+					form.user_email.focus();
+					return false;
+				}
+			}
+			if(form.user_email.value != ""){
+				if(!emailCheck(form.user_email.value)){
+					alert("That is not a valid email address?");
+					form.user_email.focus();
+					return false;
+				}
+			}
+			return true;
+		}
+<!-- Marcello _______________________________________ -->
+		function checkShipTo(form,field){
+				var fldIndex = form.elements[field].selectedIndex;
+				var stid = form.elements[field].options[fldIndex].value;
+				if (form.elements[field].options[fldIndex].text == 'My Billing Address') {
+//					alert("same as billing is checked?");
+//				    Address is same as billing
+					showHideShip(false);
+					form.sameasbilling.checked =  true;
+					<?php $_CF['basics']['ship_to_billing'] = true; ?>
+					shipsame(form);
+				}
+				else{				
+//					alert("different address is checked?");
+					showHideShip(true);		
+					form.sameasbilling.checked =  false;	
+					<?php $_CF['basics']['ship_to_billing'] = false; ?>
+					shipsame(form);
+				}			
+		}
+		function checkShipTo2(form,field){
+				var fldIndex = form.elements[field].selectedIndex;
+				var stid = form.elements[field].options[fldIndex].value;
+				if (form.elements[field].options[fldIndex].text == 'My Billing Address') {
+//					alert("same as billing is checked?");
+//				    Address is same as billing
+					document.forms['hideaddrform'].submit();
+				}
+				else{				
+//					alert("different address is checked?");
+					document.forms['showaddrform'].submit();
+				}			
+		}
+		function showHideShip(whichOne){
+//			This sets the visibility of the ship to table	
+			if(whichOne){
+				showIt('Table4',true);
+				showIt('billToReq',true);
+				showIt('shipToReq',false);		
+			}
+			else{
+				showIt('Table4',false);
+				showIt('billToReq',false);
+				showIt('shipToReq',true);		
+			}
+		}
+		function continueConditionally(form){
+//			var fieldsChecked = checkRequiredFields(form);
+
+			if (form.sameasbilling.checked) {
+//				alert("same as billing is checked?");
+				shipsame(form);
+			}
+//			if(fieldsChecked){
+			if(checkRequiredFields(form)){
+//				alert("fields have been checked?");
+				return true;
+			}
+			return false;
+		}
+//	
+<!-- Marcello _______________________________________ -->
+		function showForgot(doforgot){
+			if(doforgot){
+				showIt('message',false);
+				showIt('Table9',false);
+				showIt('Table10',true);
+			}
+			else{
+				showIt('message',true);
+				showIt('Table9',true);
+				showIt('Table10',false);
+			}
+		}
+		function showIt(whichEl,show){
+			if(document.all){
+				whichEl = document.all[whichEl];
+			}
+			else{
+				whichEl = document.getElementById(whichEl);
+			}
+			if(whichEl){
+				if(show){
+					whichEl.style.display = "";
+				}
+				else{
+					whichEl.style.display = "none";
+				}
+			}
+		}
+		function emailCheck(str){
+			var at="@"
+			var dot="."
+			var lat=str.indexOf(at)
+			var lstr=str.length
+			var ldot=str.indexOf(dot)
+			if (str.indexOf(at)==-1){
+				return false;
+			}
+			if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+				return false;
+			}
+			if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+				return false;
+			}
+			if (str.indexOf(at,(lat+1))!=-1){
+				return false;
+			}
+			if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+				return false;
+			}
+			if (str.indexOf(dot,(lat+2))==-1){
+				return false;
+			}
+			if (str.indexOf(" ")!=-1){
+				return false;
+			}
+			return true;
+		}
+		</script>
+			<script type="text/javascript" src="javascripts/checkout.js"></script>
+
+
+<!-- DON'T REMOVE THIS FORM. IT'S USED WHEN SOMEONE MAKES
+				A SELECTION ON THIS PAGE THAT REQUIRES US TO RELOAD THE PAGE. -->
+			<?php if(count($addressBook) > 1):?>
+				<form name="addrform" action="checkout_show_billaddr.php" method="get" ID="Form2">
+					<input type="hidden" name="csid" ID="Hidden2">
+				</form>
+			<?php endif;?>
+
+				<form name="hideaddrform" action="checkout.php" method="get" ID="Form5">
+				</form>
+				<form name="showaddrform" action="checkout_show_billaddr.php" method="get" ID="Form6">
+				</form>
+
+			<!-- <form name="order" method="get" action="shipping.php" ID="Form3">-->
+
+	  <div align="left" style="margin-right:25px;">
+		<table border="0" cellspacing="0" cellpadding="2" width="100%" ID="Table1">
+			<tr>
+			  <td align="left"><h4><?=$pageTitle;?></h4></td>
+		  </tr>
+			<tr>
+			  <td align="left">&nbsp;</td>
+		  </tr>
+		</table>
+        <?php if(empty($_SESSION['isRegistered']) && $_CF['login']['show_registration']):?>
+            <form method="post" action="login.php" ID="Form1">
+                <table width="50%" border="0" align="left" cellpadding="0" cellspacing="0">
+                  <tr bordercolor="#F0F0F0">
+                    <th height="19" align="left" style="padding-left:5px;"><strong>Are you an existing customer?</strong></th>
+                    <td width="26" align="left">&nbsp;</td>
+                  </tr>
+                  <tr bordercolor="#F0F0F0">
+                    <td align="right" class="tiny">&nbsp;&nbsp;</td>
+                    <td align="right" class="tiny">&nbsp;</td>
+                  </tr>
+                  <tr bordercolor="#F0F0F0">
+                    <td height="160" align="center"><table width="100%" border=0 cellpadding=3 cellspacing=0 id="Table9">
+                          <tr>
+                            <td colspan="2" valign=middle><p class="fivepixPad">If you're an existing customer, please enter your registered email address and password to log-in. </p>
+                            <p align="center"><strong>All  shipping &amp; billing information  will be filled in!</strong></p>
+                            <p>Note: All input is case sensitive!</p></td>
+                      </tr>
+                          <tr>
+                            <td align=right valign=middle>Email Address:</td>
+                            <td><input type="text" name="user" value="" size=25 ID="Text21"></td>
+                          </tr>                  
+                          <?php if($_CF['login']['require_password']):?>
+                              <tr>
+                                <td align=right valign=middle> Password: </td>
+                                <td><input type="password" name="pass" size="25" tabindex="2" border="0" value="" ID="Password1"></td>
+                              </tr>
+                              <tr>
+                                <td align=center valign=middle>&nbsp;</td>
+                                <td align="left" valign=middle><input type="submit" name="login" value=" Login To Your Account " id="Submit3" onClick="return checkEntries(this.form);"></td>
+                              </tr>
+                              <tr>
+                                <td colspan="2" align=center valign=middle><p>Forgot Login Email Address or Password? <a href="javascript:showForgot(true);">Click Here</a></p>                                </td>
+                              </tr>
+                          <?php endif;?>
+                        </table>
+                      <table width="100%" border="0" cellspacing="1" cellpadding="3" ID="Table10" style="display:none;">
+<tr>
+                                <td colspan="2" align="left" class="fivepixPad">
+                                  <p>If you forgot your password, enter your Login Email Address (the e-mail you registered with us). </p>
+                                    <p>Your password will be emailed to the Send-to email address below. </p></td>
+                        </tr>
+                            <tr>
+                                <td width="40%" align="right" valign="middle">Login Email Address: </td>
+                          <td width="60%" align="left" valign="middle" nowrap>
+                            <input type="text" name="user_name" size="24" tabindex="1" border="0" value="" ID="Text2">                                </td>
+                        </tr>
+                            <tr>
+                                <td width="40%" align="right" valign="middle" nowrap>Send-to Email Address: </td>
+<td align="left" valign="middle" width="60%">
+                                    <input type="text" name="user_email" size="24" tabindex="1" border="0" value="" ID="Text3">                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="submit" name="forgot" value="Send My Password Now" ID="Submit2" onClick="return checkEntriesForgot(this.form);">
+                                    <p><a href="javascript:showForgot(false);">Go Back to Login</a></p>                                </td>
+                            </tr>
+                        </table>                        </td>
+                    <td align="center"><span class="tiny"><img src="../graphics/checkout_div.gif" alt="div" width="26" height="146" hspace="0" vspace="0"></span></td>
+                  </tr>
+                </table>      
+            </form>
+            <form name="order" method="get" action="shipping.php" ID="Form3">  
+          <table width="50%" border="0" cellpadding="0" cellspacing="0">
+            <tr bordercolor="#F0F0F0">
+              <th height="19" align="left" style="padding-left:5px;"><strong>Are you a new customer?</strong></th>
+            </tr>
+            <tr bordercolor="#F0F0F0">
+              <td align="left" class="tiny">&nbsp;&nbsp;</td>
+            </tr>
+            <tr bordercolor="#F0F0F0">
+              <td height="160" align="left" valign="top" class="fivepixPad" ><p>Please enter your email address to use as your DiscSox ID and create   a password for your account. With this ID, you can conveniently place orders, reorder,   check your recent orders and more.</p>
+          <table width="100%" border=0 cellpadding=3 cellspacing=0 id="Table6">
+                    <tr>
+                      <td align=right valign=middle>Login Email Address: </td>
+                      <td><input type="text" name="registration[username]" value="" size=25 ID="Text25"></td>
+                    </tr>
+                    <?php if($_CF['login']['require_password']):?>
+                    <tr>
+                      <td align=right valign=middle>Choose a Password: </td>
+                      <td><input type="password" name="registration[password]" value="" size=25 ID="Password2"></td>
+                    </tr>
+                    <?php endif;?>
+                </table>
+               <p>&nbsp;</p>
+              <p>Your account will be automatically created once you have completed the checkout.</p>              </td>
+            </tr>
+        </table>
+        <?php else:?>
+            <form name="order" method="get" action="shipping.php" ID="Form3">
+      <?php endif;?>
+		<table border="0" cellspacing="0" cellpadding="2" width="100%" align="left" ID="Table1">
+          	<tr>
+			  <td align="left" style="padding-left:5px;">
+               <table width="100%" border="0" cellpadding="3" cellspacing="0" bordercolor="#F0F0F0" id="Table2">
+
+                <tr>
+                  <td width="100%" colspan="2" align="center" valign="top"><p><a href="../privacy.htm">&nbsp;We are committed to your privacy&nbsp;</a></p>
+                  <p class="tiny">&nbsp;</p></td>
+                </tr>
+                <tr>
+                  <?php if($showPrices):?>
+                      <th width="50%" align="left" style="padding-left:5px;"><b>Billing Information:</b></th>
+                  <?php else:?>
+                      <th width="50%" align="left" style="padding-left:5px;"><b>Contact Information:</b></th>
+                  <?php endif;?>
+                  <th width="50%" align="left" class="mmdHeaderRight" style="padding-left:5px;"> 
+                  <?php if($_CF['shipping']['require_shipping']):?>
+                    Ship to Information:
+                  <?php else:?>
+                    &nbsp;
+                  <?php endif;?>                  </th>
+                </tr>
+                <tr>
+                  <td width="100%" colspan="2" class="tiny">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td width="50%" align="center">
+                    <table border="0" cellpadding="3" cellspacing="1" width="95%" id="Table3">
+                        <tr>
+                          <td align="right">Ship To<strong class="red">*</strong>: </td>
+                          <td align="left"><!--<select name="selectShipToDisplay" id="selectShipToDisplay" onChange="javascript:checkShipTo(this.form,this.name);">-->
+                        <select name="selectShipToDisplay" id="selectShipToDisplay" onChange="javascript:checkShipTo2(this.form,'selectShipToDisplay');">
+                      <option value="sameasbilling" selected>My Billing Address </option>
+                      <option value="US">A Different Address </option>
+                      </select></td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Company Name: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="billaddress_companyname" maxlength="45" value="<?=$_SESSION['billaddress_companyname'];?>" id="Text19">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">First Name<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="billaddress_firstname" maxlength="25" value="<?=$_SESSION['billaddress_firstname'];?>" id="Text1">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Last Name<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="billaddress_lastname" maxlength="25" value="<?=$_SESSION['billaddress_lastname'];?>" id="Text2">                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" align="center"><strong class="red">Orders cannot be shipped to P.O. Boxes!</strong></td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Address<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="billaddress_addr1" maxlength="35" value="<?=$_SESSION['billaddress_addr1'];?>" id="Text3">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Address2: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="billaddress_addr2" maxlength="35" value="<?=$_SESSION['billaddress_addr2'];?>" id="Text4">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" nowrap width="36%">City (APO, FPO or DPO)<strong class="red">*</strong>: </td>
+                          <td nowrap width="64%" align="left"><input type="text" size="25" name="billaddress_city" maxlength="20" value="<?=$_SESSION['billaddress_city'];?>" id="Text5"></td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Country<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><select name="billaddress_country" onChange="checkCountry(this.form,this.name);" id="Select1">
+                            <option value="US" selected>United States </option>
+                            <option value="AR">Argentina </option>
+                            <option value="AU">Australia </option>
+                            <option value="AT">Austria </option>
+                            <option value="BE">Belgium </option>
+                            <option value="BM">Bermuda </option>
+                            <option value="BR">Brazil </option>
+                            <option value="BG">Bulgaria </option>
+                            <option value="CA">Canada </option>
+                            <option value="CN">China, Peoples Republic of </option>
+                            <option value="CR">Costa Rica </option>
+                            <option value="CZ">Czech Republic </option>
+                            <option value="DK">Denmark </option>
+                            <option value="DO">Dominican Republic </option>
+                            <option value="EN">England </option>
+                            <option value="EE">Estonia </option>
+                            <option value="FI">Finland </option>
+                            <option value="FR">France </option>
+                            <option value="DE">Germany </option>
+                            <option value="GR">Greece </option>
+                            <option value="HO">Holland </option>
+                            <option value="HK">Hong Kong </option>
+                            <option value="HU">Hungary </option>
+                            <option value="IS">Iceland </option>
+                            <option value="IN">India </option>
+                            <option value="ID">Indonesia </option>
+                            <option value="IE">Ireland </option>
+                            <option value="IL">Israel </option>
+                            <option value="IT">Italy </option>
+                            <option value="JM">Jamaica </option>
+                            <option value="JP">Japan </option>
+                            <option value="LI">Liechtenstein </option>
+                            <option value="LU">Luxembourg </option>
+                            <option value="MX">Mexico </option>
+                            <option value="MC">Monaco </option>
+                            <option value="NL">Netherlands </option>
+                            <option value="NZ">New Zealand </option>
+                            <option value="NB">Northern Ireland </option>
+                            <option value="NO">Norway </option>
+                            <option value="PH">Philippines </option>
+                            <option value="PL">Poland </option>
+                            <option value="PT">Portugal </option>
+                            <!--<option value="PR">Puerto Rico </option>-->
+                            <option value="IE">Republic of Ireland </option>
+                            <option value="RO">Romania </option>
+                            <option value="RU">Russia </option>
+                            <option value="SF">Scotland </option>
+                            <option value="RS">Serbia </option>
+                            <option value="SG">Singapore </option>
+    			  			<option value="ZA">South Africa </option>
+                            <option value="ES">Spain </option>
+                            <option value="SE">Sweden </option>
+                            <option value="CH">Switzerland </option>
+                            <option value="TW">Taiwan </option>
+                            <option value="TH">Thailand </option>
+                            <option value="TR">Turkey </option>
+    			  			<option value="AE">United Arab Emirates </option>
+                            <option value="EN">United Kingdom </option>
+                            <option value="WL">Wales </option>
+                          </select>                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">State/Province<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><select name="billaddress_state" onChange="addCounties(this.form,this.name);" id="Select2">
+                            <option value="INVALID">Select State</option>
+                          </select>                          </td>
+                        </tr>
+                        <?php if($taxTable && $taxTableField == "shipaddress_county"):?>
+                        <!-- Taxtable - County sales tax -->
+                        <tr id="billcounties" style="display:none;">
+                          <td align="right" valign="middle">Select County<strong class="red">*</strong>:</td>
+                          <td align="left"><select name="billaddress_county" id="Select3">
+                            <option value="out_of_state">Out of state</option>
+                            </select>                          </td>
+                        </tr>
+                        <?php endif;?>
+                        <tr>
+                          <td align="right" width="36%">Postal Code<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="billaddress_postalcode" maxlength="10" value="<?=$_SESSION['billaddress_postalcode'];?>" id="Text6">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Day phone<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><input type="text" size="3" name="billaddress_areacode" maxlength="3" value="<?=$_SESSION['billaddress_areacode'];?>"
+												onFocus="javascript:if(this.value == '000')this.value='';this.select();" id="Text7">
+                              <input type="text" size="13" name="billaddress_phone" maxlength="13" value="<?=$_SESSION['billaddress_phone'];?>"
+				  								onFocus="javascript:if(this.value == '000-0000')this.value='';this.select();" id="Text8">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right">Evening phone<strong class="red">*</strong>: </td>
+                          <td align="left"><input type="text" size="3" name="billaddress_areacode2" maxlength="3" value="<?=$_SESSION['billaddress_areacode2'];?>"
+												onFocus="javascript:if(this.value == '000')this.value='';this.select();" id="Text23">
+                              <input type="text" size="13" name="billaddress_phone2" maxlength="13" value="<?=$_SESSION['billaddress_phone2'];?>"
+				  								onFocus="javascript:if(this.value == '000-0000')this.value='';this.select();" id="Text24">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Email Address<strong class="red">*</strong>: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="billaddress_email" maxlength="50" value="<?=$_SESSION['billaddress_email'];?>" id="Text9">                          </td>
+                        </tr>
+                        <?php if($_SESSION['isRegistered']):?>
+                        <tr>
+                          <td align="right" valign="bottom" width="36%">Update this Address: </td>
+                          <td align="left" width="64%"><input type="radio" name="billaddress_update" value="true" id="Radio1">
+                            Yes &nbsp;
+                            <input type="radio" name="billaddress_update" value="false" checked id="Radio2">
+                            No </td>
+                        </tr>
+                        <?php endif;?>
+                    </table>
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0"  style="display:none;">
+                        <tr id="checkboxes">
+                          <td align="right" width="36%">Make Same As Billing:</td>
+                          <td width="64%" align="left"><input name="sameasbilling" type="checkbox" id="Checkbox1" onClick="shipsame(this.form);" value="1" checked>
+                            - or -
+                            <input type="checkbox" name="reset" value="1" onClick="document.forms['order'].sameasbilling.checked = false;shipsame(document.forms['order']);this.checked=false;" id="Checkbox2">
+                            Clear Fields </td>
+                        </tr>
+                   </table></td>
+                  <td width="50%" align="center" class="divLineLeft topAlign"><?php if($_CF['shipping']['require_shipping']):?>
+                    <!--<p>
+                      
+                        
+                    </p>-->
+                <table border="0" cellpadding="3" cellspacing="1" width="95%" id="Table4"  style="display:none;">
+                        <tr>
+                          <td colspan="2" align="center">
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Company Name: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="shipaddress_companyname" maxlength="45" value="<?=$_SESSION['shipaddress_companyname'];?>" id="Text10">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">First Name: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="shipaddress_firstname" maxlength="25" value="<?=$_SESSION['shipaddress_firstname'];?>" id="Text11">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Last Name: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="shipaddress_lastname" maxlength="25" value="<?=$_SESSION['shipaddress_lastname'];?>" id="Text12">                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" align="center"><strong class="red">Orders cannot be shipped to P.O. Boxes!</strong></td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Address: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="shipaddress_addr1" maxlength="35" value="<?=$_SESSION['shipaddress_addr1'];?>" id="Text13">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Address2: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="shipaddress_addr2" maxlength="35" value="<?=$_SESSION['shipaddress_addr2'];?>" id="Text14">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" nowrap width="36%">City: </td>
+                          <td nowrap width="64%" align="left"><input type="text" size="25" name="shipaddress_city" maxlength="20" value="<?=$_SESSION['shipaddress_city'];?>" id="Text15">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Country: </td>
+                          <td width="64%" align="left"><select name="shipaddress_country" onChange="checkCountry(this.form,this.name);" id="Select5">
+                            <option value="US" selected>United States </option>
+                            <option value="AR">Argentina </option>
+                            <option value="AU">Australia </option>
+                            <option value="AT">Austria </option>
+                            <option value="BE">Belgium </option>
+                            <option value="BM">Bermuda </option>
+                            <option value="BR">Brazil </option>
+                            <option value="BG">Bulgaria </option>
+                            <option value="CA">Canada </option>
+                            <option value="CN">China, Peoples Republic of </option>
+                            <option value="CR">Costa Rica </option>
+                            <option value="CZ">Czech Republic </option>
+                            <option value="DK">Denmark </option>
+                            <option value="DO">Dominican Republic </option>
+                            <option value="EN">England </option>
+                            <option value="EE">Estonia </option>
+                            <option value="FI">Finland </option>
+                            <option value="FR">France </option>
+                            <option value="DE">Germany </option>
+                            <option value="GR">Greece </option>
+                            <option value="HO">Holland </option>
+                            <option value="HK">Hong Kong </option>
+                            <option value="HU">Hungary </option>
+                            <option value="IS">Iceland </option>
+                            <option value="IN">India </option>
+                            <option value="ID">Indonesia </option>
+                            <option value="IE">Ireland </option>
+                            <option value="IL">Israel </option>
+                            <option value="IT">Italy </option>
+                            <option value="JM">Jamaica </option>
+                            <option value="JP">Japan </option>
+                            <option value="LI">Liechtenstein </option>
+                            <option value="LU">Luxembourg </option>
+                            <option value="MX">Mexico </option>
+                            <option value="MC">Monaco </option>
+                            <option value="NL">Netherlands </option>
+                            <option value="NZ">New Zealand </option>
+                            <option value="NB">Northern Ireland </option>
+                            <option value="NO">Norway </option>
+                            <option value="PH">Philippines </option>
+                            <option value="PL">Poland </option>
+                            <option value="PT">Portugal </option>
+                            <!--<option value="PR">Puerto Rico </option>-->
+                            <option value="IE">Republic of Ireland </option>
+                            <option value="RO">Romania </option>
+                            <option value="RU">Russia </option>
+                            <option value="SF">Scotland </option>
+                            <option value="RS">Serbia </option>
+                            <option value="SG">Singapore </option>
+    			  			<option value="ZA">South Africa </option>
+                            <option value="ES">Spain </option>
+                            <option value="SE">Sweden </option>
+                            <option value="CH">Switzerland </option>
+                            <option value="TW">Taiwan </option>
+                            <option value="TH">Thailand </option>
+                            <option value="TR">Turkey </option>
+    			  			<option value="AE">United Arab Emirates </option>
+                            <option value="EN">United Kingdom </option>
+                            <option value="WL">Wales </option>                          </select>                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">State/Province: </td>
+                          <td width="64%" align="left"><select name="shipaddress_state" onChange="addCounties(this.form,this.name);" id="Select6">
+                            <option value="INVALID">Select State</option>
+                          </select>                          </td>
+                        </tr>
+                        <?php if($taxTable && $taxTableField == "shipaddress_county"):?>
+                        <!-- Taxtable - County sales tax -->
+                        <tr id="shipcounties" style="display:;">
+                          <td align="right" valign="middle">Select County:</td>
+                          <td align="left"><select name="shipaddress_county" id="Select7">
+                            <option value="out_of_state">Out of state</option>
+                            </select>                          </td>
+                        </tr>
+                        <?php endif;?>
+                        <tr>
+                          <td align="right" width="36%">Postal Code: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="shipaddress_postalcode" maxlength="10" value="<?=$_SESSION['shipaddress_postalcode'];?>" id="Text16">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Ship to Phone: </td>
+                          <td width="64%" align="left"><input type="text" size="3" name="shipaddress_areacode" maxlength="3" value="<?=$_SESSION['shipaddress_areacode'];?>"
+													onFocus="javascript:if(this.value == '000')this.value='';this.select();" id="Text17">
+                              <input type="text" size="13" name="shipaddress_phone" maxlength="13" value="<?=$_SESSION['shipaddress_phone'];?>"
+				  									onFocus="javascript:if(this.value == '000-0000')this.value='';this.select();" id="Text18">                          </td>
+                        </tr>
+                        <tr>
+                          <td align="right" width="36%">Email Address: </td>
+                          <td width="64%" align="left"><input type="text" size="25" name="shipaddress_email" maxlength="50" value="<?=$_SESSION['shipaddress_email'];?>" id="Text20">                          </td>
+                        </tr>
+                        <?php if($_SESSION['isRegistered']):?>
+                        <tr>
+                          <td class="topAlign" style="padding-top:5px;" align="right" width="36%">Your Address Book: </td>
+                          <td class="topAlign" align="left" width="64%"><input type="checkbox" name="shipaddress_savenew" value="true" id="Checkbox3">
+                            Save as new address<br>
+                            <input type="checkbox" name="shipaddress_update" value="true" id="Checkbox4">
+                            Update this address&nbsp; </td>
+                        </tr>
+                        <?php endif;?>
+                    </table>
+                  <table border="0" cellpadding="3" cellspacing="1" width="95%" id="Table11"  style="display:;">
+
+                    <?php if($taxTable && $taxTableField == "shipaddress_county"):?>
+                    <!-- Taxtable - County sales tax -->
+
+                    <?php endif;?>
+
+                    <tr>
+                      <td align="right" width="36%">Type of Address<strong class="red">*</strong>: </td>
+                      <td width="64%" align="left"><select name="shipaddress_delivery_type" id="shipaddress_delivery_type">
+                          <?php if(!empty($_SESSION['shipaddress_delivery_type']) && $_SESSION['shipaddress_delivery_type'] == "commercial"):?>
+                          <option value="residential">Residential</option>
+                          <option value="commercial" selected>Commercial</option>
+                          <?php else:?>
+                          <option value="residential" selected>Residential</option>
+                          <option value="commercial">Commercial</option>
+                          <?php endif;?>
+                        </select>                      </td>
+                    </tr>
+                    <?php if(count($shippingPlugins) > 1):?>
+                    <tr>
+                      <td align="right" width="36%">Preferred&nbsp;Ship&nbsp;Method<strong class="red">*</strong>: </td>
+                      <td width="64%" align="left"><select name="preferred_shipper">
+                          <?php foreach($shippingPlugins as $k=>$shipper):?>
+                          <?php if($_SESSION['preferred_shipper'] == $shipper):?>
+                          <option value="<?=$shipper;?>" selected>
+                          <?=strtoupper($shipper);?>
+                          </option>
+                          <?php else:?>
+                          <option value="<?=$shipper;?>">
+                          <?=strtoupper($shipper);?>
+                          </option>
+                          <?php endif;?>
+                          <?php endforeach;?>
+                        </select>                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" align="right"><div align="center"><strong class="standout"> &nbsp;Use USPS  for small domestic, international&nbsp; <br>
+&nbsp;                      &amp; APO orders!&nbsp;</strong></div></td>
+                    </tr>
+                    <?php elseif(count($shippingPlugins) == 1):?>
+                    
+                    <tr>
+                      <td align="right" width="36%">Add Shipping Insurance: </td>
+                      <td width="64%" align="left"><input type="checkbox" name="insurance2" value="true">                      </td>
+                    </tr>
+                    <?php endif;?>
+                    <?php if(isset($_CF['shipping']['offer_local_pickup']) && $_CF['shipping']['offer_local_pickup']):?>
+                    <tr>
+                      <td align="right" width="36%"><?=$_CF['shipping']['local_pickup_text'];?>
+                        : </td>
+                      <td width="64%" align="left"><input type="checkbox" name="Checkbox" value="true" id="Checkbox8">                      </td>
+                    </tr>
+                    <?php endif;?>
+                  </table>
+                    <?php endif;?>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="shipToReq" style="display:;">
+                    <tr>
+                      <td align="center">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="center"><strong>Please provide <span class="red">valid phone numbers</span> in case we   need to contact you about to your order.</strong></td>
+                    </tr>
+                    <tr>
+                      <td align="center" class="tiny">&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="center"><strong><br>
+                      A <span class="red">valid e-mail</span> is required to receive an order confirmation</strong></td>
+                    </tr>
+                    <tr>
+                      <td align="center" class="tiny">&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="center"><strong><span class="red"><br>
+                        Military: </span>Enter <span class="red">APO, FPO or DPO</span> for City,<br>
+Select &quot;<span class="red">Armed Forces (...)</span>&quot; in State/Province dropdown and select <span class="red">USPS</span> for Preferred Ship Method!</strong></td>
+                    </tr>
+                    <tr>
+                      <td align="center"><p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                      <p class="red"><strong>*Required Fields and Selections</strong></p></td>
+                    </tr>
+                  </table>                  </td>
+                </tr>
+                <tr>
+                  <td height="1" colspan="2" class="tiny">&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                  <th align="left" style="padding-left:5px;"><b>Payment Methods:</b></th>
+                  <th width="50%" align="left" class="mmdHeaderRight" style="padding-left:5px;"><b>Coupon or Promo Code:</b></th>
+                </tr>
+                <tr>
+                  <td colspan="2" class="tiny">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td><!--Payment Methods -->
+                      <?php if(count($paymentMethods) > 1):?>
+                      <table border="0" cellpadding="3" cellspacing="1" width="100%" id="Table5">
+                        <tr>
+                          <td width="50%" align="right">Select Payment Method<strong class="red">*</strong>:</td>
+                          <td width="49%" align="left"><select name="payment_method" id="Select9" >
+                              <?php foreach($paymentMethods as $pageName=>$method):?>
+                              <?php if($pageName == $_CF['payment_methods']['default_payment_method']):?>
+                              <option value="<?=$pageName;?>" selected>
+                              <?=$method;?>
+                            </option>
+                              <?php else:?>
+                              <option value="<?=$pageName;?>">
+                              <?=$method;?>
+                            </option>
+                              <?php endif;?>
+                              <?php endforeach;?>
+                            </select>                          </td>
+                        </tr>
+                    </table>
+                    <?php elseif(count($paymentMethods) == 1):?>
+                      <?php if($paymentPage != ""):?>
+                      <?=$paymentPage;?>
+                      <?php else:?>
+                      <input type="hidden" name="payment_method" value="<?=$_CF['payment_methods']['default_payment_method'];?>" id="Hidden3">
+                      <?php endif;?>
+                      <?php endif;?>                  </td>
+                  <!--Coupon -->
+                  <td width="50%" class="divLineLeft"><?php if($haveCoupons):?>
+                  <table border="0" cellpadding="3" cellspacing="1" width="100%" id="Table7">
+                        <tr>
+                          <td align="right" width="50%">Enter Coupon/Promo Code:</td>
+                          <td align="left"><input type="text" name="coupon" size="20" id="Text22"></td>
+                        </tr>
+                    </table>
+                    <?php endif;?>                  </td>
+                <tr>
+                  <td colspan="2" width="100%" align="center"><hr size="1" noshade>
+                    <!--<input name="process" class="buttons" type="submit" value="Continue"
+									onclick="return checkAccount(this.form);" id="Submit1">-->
+                      <input name="process" class="buttons" type="submit" value="Continue"
+									onclick="return continueConditionally(this.form);" id="Submit1"> 
+<!--                     <input name="process" class="buttons" type="submit" value="Continue"
+									onclick="return shipsame(this.form), checkRequiredFields(this.form);" id="Submit1">-->
+                    <!--<input name="process" class="buttons" type="submit" value="Continue check fields"
+                    onclick="return checkRequiredFields(this.form);" ID="Submit1">-->
+                          <!--<input name="process" class="buttons" type="submit" value="Continue"
+									onclick="return checkAccount(this.form), checkRequiredFields(this.form);" id="Submit1">-->
+                          <?=$_CF['basics']['ship_to_billing'];?>
+                          <br>
+                          <br>
+                    Or call 1-888-347-2769 and a Customer Service representative will gladly help you.</td>
+                </tr>
+              </table></td>			
+			</tr>
+	    </table>
+        </form>
+	  </div>
+
+
+			<script type="text/javascript">
+//				var selectedShipPreference = "<?=$_CF['basics']['web_site_url'];?>";
+//				var selectedShipPreference = "<?=$_CF['basics']['ship_to_billing'];?>";
+				selectBoxes(document.forms['order']);
+//				checkShipTo(document.forms['order'],'selectShipToDisplay');
+//    			if(selectedShipPreference){
+//					alert("same as billing is checked?");
+//					document.forms['order'].sameasbilling.checked = true;
+//				}
+//				else{
+//					alert("same as billing is NOT checked?");
+//					document.forms['order'].sameasbilling.checked = false;
+//				}
+//				alert("selectedShipPreference value is: "+ selectedShipPreference);
+			</script>			
+
+		<?php endif;?>
+	</div>
+</body>
+</html>

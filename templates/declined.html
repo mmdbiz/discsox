@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Transaction Failed</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta name=vs_targetSchema content="http://schemas.microsoft.com/intellisense/ie5">
+		<link rel="stylesheet" type="text/css" href="../styles/cart.styles.css">
+	</head>
+	<body>
+	
+		<table border="0" width="100%" cellspacing="1" align="center">
+			<tr>
+				<td width="100%" valign="top" align="center">
+					<h4><br>Transaction Failed</h4>
+					<p>Your Transaction Failed for the following reason:</p>
+					<p><font color=blue><?=$decline_message;?></font></p>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<br /><br />
+					<form>
+						<input type="button" value="Try Again?" onclick="javascript:history.go(-1);">
+					</form>
+				</td>
+			</tr>
+		</table>
+		<p>&nbsp;</p>
+		
+	</body>
+</html>

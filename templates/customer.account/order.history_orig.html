@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+        <title>Customer Account Information</title>
+    </head>
+<body>
+	<script LANGUAGE="JavaScript">
+	function OpenWindow(URL) {
+		var myWin = window.open(URL,"_blank",
+				"height=500,width=780,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes");
+	}
+	</script>
+	<style>
+		#summary h4{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #800000;
+			font-size: 15px;
+			padding-bottom:10px;
+		}
+		#summary p{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #5C4033;
+			font-size: 11px;
+		}
+		#summary table th{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #FFFFFF;
+			font-size: 11px;
+			background-color: #3366CC;
+			text-align:center;
+		}
+		#summary table td{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			color: #000000;
+			font-size: 11px;
+			vertical-align: top;
+			padding:3px;
+		}
+	</style>
+
+	<?php if(count($records) > 0):?>
+
+		<div id="summary">
+
+			<?php
+				global $count,$links,$start,$end,$customerName,$totals;
+				$color = array();
+				$color[0] = "#CCCCCC";
+				$color[~0] = "#FFFFFF";
+				$ck = 0;
+				$primaryKey = "orid";
+			?>
+
+			<H4>Order History for <?=$customerName;?></H4>
+			<p>Click on the order number to view details.<br /><br /></p>
+
+			<table border="0" cellpadding="3" cellspacing="0" width="60%" ID="Table1" >
+			<tr>
+				<td colspan="3" align="left">
+					<b><?="$start - $end of $count Orders";?></b>
+				</td>
+				<td colspan="4" align="right">
+					<?=$links;?>&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<th align="center" width="14%" nowrap>Order #</th>
+				<th align="center" width="14%" nowrap>Order Date</th>
+				<th align="center" width="14%" nowrap>Paid</th>
+				<th align="center" width="16%" nowrap>Ship Status</th>
+				<th align="center" width="14%" nowrap>Date Shipped</th>
+				<th align="center" width="14%" nowrap>Subtotal</th>
+				<th align="center" width="14%" nowrap>Reorder</th>
+			</tr>
+			
+			<?php foreach($records as $index=>$data):?>
+				
+				<?php
+					if($data['date_shipped'] == '0-00-0000'){
+						$data['date_shipped'] = "&nbsp;";
+					}
+					$sid = session_id();
+				?>
+				
+				<tr bgcolor="<?=$color[$ck = ~$ck];?>">
+					<td align="center" width="14%">
+						<div style="cursor:hand;" onClick="OpenWindow('myaccount.php?cart_id=<?=$sid;?>&amp;order_history=1&amp;detail=1&amp;orid=<?=$data['orid'];?>');">
+							<font color="blue"><u><?=$data['order_number'];?></u></font>
+						</div>
+					</td>
+					<td width="14%" align=center><?=$data['order_date'];?></td>
+					<td width="14%" align=center><?=$data['paid'];?></td>
+					<td width="16%" align=center><?=$data['status'];?></td>
+					<td width="14%" align=center><?=$data['date_shipped'];?></td>
+					<td width="14%" align="right" nowrap><?=$_Common->format_price($data['subtotal'],true);?></td>
+					<td width="14%" align="right" nowrap>
+					
+					<a href="myaccount.php?reorder=1&amp;orid=<?=$data['orid'];?>">reorder</a>
+					</td>
+				</tr>
+
+			<?php endforeach;?>
+			
+			<!-- page totals -->
+			<?php if(count($totals) > 0):?>
+				<tr>
+					<td colspan="5" align="right">&nbsp;</td>
+					<td align=right>======</td>
+					<td align=right>&nbsp;</td>
+				</tr>
+				<?php foreach($totals[0] as $key=>$sum):?>
+					<?php $label = ucwords(str_replace("_"," ",$key));?>
+					
+					<?php if($key == 'Report Total'):?>
+						<tr>
+							<td colspan="5" align="right">&nbsp;</td>
+							<td align=right>======</td>
+							<td align=right>&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="5" align="right"><?=$label;?>:</td>
+							<td align=right><?=$_Common->format_price($sum,true);?></td>
+							<td align=right>&nbsp;</td>
+						</tr>
+					<?php else:?>
+						<tr>
+							<td colspan="5" align="right"><?=$label;?>:</td>
+							<td align="right" nowrap><?=$_Common->format_price($sum,true);?></td>
+							<td align=right>&nbsp;</td>
+						</tr>
+					<?php endif;?>
+
+				<?php endforeach;?>
+				
+			<?php endif;?>
+
+			<tr><td colspan="7">&nbsp;</td></tr>
+
+			<tr>
+				<td colspan="7">
+					<hr size="1" noshade>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<b><?="$start - $end of $count Orders";?></b>
+				</td>
+				<td colspan="4" align="right">
+					<?=$links;?>
+				</td>
+			</tr>
+		</table>
+		<?php else:?>
+			<p>-- You have no orders to display. --</p>
+		<?php endif;?>
+		
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+		<title>PayPal Example Page</title>
+        <script type="text/javascript" src="mini.cart.php"></script>
+        <LINK rel="stylesheet" type="text/css" media="screen" href="store.templates/cart.styles.css">
+	</head>
+	<body>
+    <div style="margin-left:15px;margin-top:15px;">
+	<p>Widget: 9.95</p>
+		<form action="cart.php" method="post" id="Form1">
+			<input type="hidden" name="cmd" value="_xclick" id="Hidden1">
+			<input type="hidden" name="business" value="rick@quikstore.com" id="Hidden2">
+			<input type="hidden" name="item_name" value="Widget" id="Hidden3">
+			<input type="hidden" name="item_number" value="999" id="Hidden4">
+			<input type="hidden" name="amount" value="9.95" id="Hidden5">
+			<input type="hidden" name="no_note" value="1" id="Hidden6">
+			<input type="hidden" name="currency_code" value="USD" id="Hidden7">
+			<table id="Table1">
+				<tr>
+					<td><input type="hidden" name="on0" value="color" id="Hidden8">color</td>
+					<td><select name="os0" id="Select1">
+						<option value="red">red
+						<option value="green">green
+						<option value="blue">blue
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="hidden" name="on1" value="gift message" id="Hidden9">gift message</td>
+					<td><input type="text" name="os1" maxlength="200" id="Text1"></td>
+				</tr>
+			</table>
+			<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but23.gif" border="0"
+				name="submit" alt="Make payments with PayPal - it's fast, free and secure!" id="Image1">
+		</form>
+        <p><script type="text/javascript">document.write(miniCart);</script></p>
+        <p><a href="index.php">Home</a></p>
+        </div>
+
+	</body>
+</html>

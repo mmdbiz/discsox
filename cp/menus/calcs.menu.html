@@ -1,0 +1,123 @@
+<html>
+<head>
+<title>Password Menu</title>
+<script LANGUAGE="JavaScript">
+//<!--
+sWidth = screen.width;
+var styles = "admin.800.css";
+if(sWidth > 850){
+    styles = "admin.1024.css";
+}
+if(sWidth > 1024){
+    styles = "admin.1152.css";
+}
+if(sWidth > 1100){
+    styles = "admin.1280.css";
+}
+
+document.write('<link rel="stylesheet" href="../stylesheets/' + styles + '" type="text/css">');
+//-->
+</script>
+<style type="text/css">
+body {
+	margin-left: 0;
+	margin-top: 0;
+	margin-right: 0;
+	margin-bottom: 0;
+}
+td{
+	line-height: 17px;
+}
+.blankRow{
+	line-height: 5px;
+}
+</style>
+<base target="content">
+</head>
+<body class=menuBackground>
+<table align=left border="0" cellspacing="3" cellpadding="0" style="margin-left:0px;margin-top:15px;" ID="Table1">
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Order Discounts</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=discounts&display=true" target="content">List Discounts</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=discounts&add=true" target="content">Add Discount</a>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Sales Tax</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=sales_tax&edit=true" target="content">General</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=sales_tax_us&display=true" target="content">US Tax</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=sales_tax_ca&display=true" target="content">Canada Tax</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=sales_tax_vat&display=true" target="content">VAT Tax</a>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Shipping Rates</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=shipping&edit=true" target="content">General</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=shipping_rates&display=true" target="content">List Rates</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=shipping_rates&add=true" target="content">Add Rate</a>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Calculation Sequence</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../calculations.php?type=calculation_sequence&edit=true" target="content">Edit Sequence</a>
+		</td>
+	</tr>
+
+
+</table>
+
+
+
+</body>
+</html>

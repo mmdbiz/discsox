@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Advanced Search</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<link rel="stylesheet" type="text/css" href="../styles/cart.styles.css" />
+	</head>
+<body>
+	<div align="center" style="padding-top:10px;">
+
+		<form method="post" action="products.php">
+			<table width="100%" border="0" cellpadding="3" cellspacing="0" class="m_search" ID="Table2">
+				<tr>
+					<th colspan="2" align="left">Advanced Search</th>
+				</tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+
+				<?php if(count($parents) > 0):?>
+				<tr>
+					<td align="right">Category:</td>
+					<td>
+						<select name="catid" ID="catid">
+							<option value="" selected></option>
+							<?php foreach($parents as $catid=>$fields):?>
+                              <!--remove Wholesale from Search-->
+                              <?php if (!(($fields['category_name'] == "Wholesale") || ($fields['category_name'] == "Clearance") || ($fields['category_name'] == "Discount") || ($fields['category_name'] == "Test"))) :?>
+								<?php if(isset($subcats[$catid]) && count($subcats[$catid]) > 0):?>
+									<optgroup label="<?=$fields['category_name'];?>">
+										<?php foreach($subcats[$catid] as $i=>$subcatFlds):?>
+											<option value="<?=$subcatFlds['catid'];?>"><?=$subcatFlds['category_name'];?></option>
+										<?php endforeach;?>
+									</optgroup>
+								<?php else:?>
+									<option value="<?=$catid;?>"><?=$fields['category_name'];?></option>
+								<?php endif;?>
+                              <?php endif;?>
+							<?php endforeach;?>
+						</select>	
+					</td>
+				</tr>
+				<?php endif;?>
+
+				<!--<?php if($mfgSelectBox):?>
+				<tr>
+					<td align="right">Manufacturer:</td>
+					<td>
+						<?=$mfgSelectBox;?>	
+					</td>
+				</tr>
+				<?php endif;?>-->
+				
+				<tr>
+					<td align="right">SKU Number:</td>
+					<td><input type="text" name="sku" value="" ID="sku" size="10"></td>
+				</tr>
+				<tr>
+					<td align="right">Low Price:</td>
+					<td><input type="text" name="low_price" value="" ID="low_price" size="10"></td>
+				</tr>
+				<tr>
+					<td align="right">High Price:</td>
+					<td><input type="text" name="high_price" value="" ID="high_price" size="10"></td>
+				</tr>
+				<tr>
+					<td align="right">Keywords:</td>
+					<td><input type="text" name="keywords" value="" ID="keywords" size="25"></td>
+				</tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+				
+				<!-- example: adding a user_1 search field
+				<tr>
+					<td align="right">User 1 Search Field Title:</td>
+					<td><input type="text" name="user_1_like" value="" ID="user_1_like" size="25"></td>
+				</tr>
+				<tr><td colspan="2">&nbsp;</td></tr>
+				-->
+				
+				<tr>
+					<td colspan="2" align="center"><input type="submit" name="submit" value="Search"></td>
+				</tr>
+			</table>
+		</form>
+
+	<p>&nbsp;</p>
+	</div>
+</body>
+</html>

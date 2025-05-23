@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>Options List</title>
+<script LANGUAGE="JavaScript">
+//<!--
+if(eval(parent.menu)) {
+	var fileName = parent.menu.location.pathname.substring(parent.menu.location.pathname.lastIndexOf('/')+1);
+	if(fileName != "products.menu.html"){
+		parent.menu.location = 'menus/products.menu.html';
+	}
+}
+sWidth = screen.width;
+var styles = "admin.800.css";
+if(sWidth > 850){
+    styles = "admin.1024.css";
+}
+if(sWidth > 1024){
+    styles = "admin.1152.css";
+}
+if(sWidth > 1100){
+    styles = "admin.1280.css";
+}
+document.write('<link rel="stylesheet" href="stylesheets/' + styles + '" type="text/css">');
+//-->
+</script>
+</head>
+<body class="mainForm">
+<div align="center" valign="top" style="margin-top:10px;">
+
+<?php if($pid != ""):?>
+	<form method="post" action="options.php">
+	<input type="hidden" name="pid" value="<?=$pid;?>">
+    <input type="hidden" name="name" value="<?=$pname;?>">
+    
+	<h4>Select options for '<?=$pname;?>'</h4>    
+<?php else:?>
+	<h4>Option List</h4>
+<?php endif;?>
+
+
+<?php if(count($data) > 0):?>
+
+	<table border=0 cellpadding=3 cellspacing=1 align=center width="95%" ID="Table1">
+		<tr>
+			<th>&nbsp;</th>
+			<?php if($pid != ""):?>
+				<th>Select</th>
+				<th>Order</th>
+			<?php endif;?>
+			<th>Name</th>
+			<th>Description</th>
+			<?php if($pid == ""):?>		
+				<th colspan="2">Manage</th>
+			<?php endif;?>
+		</tr>
+
+		<?php
+			$counter = 0;
+			$blnColor = false;
+			$bgcolor1 = "#FFFFFF";
+			$bgcolor2 = "#e2eDe2";
+		?>
+
+
+		<?php foreach($data as $index=>$row):?>
+			<?php
+				$oid = $row['oid'];
+				$name = $row['name'];
+				$description = $row['description'];
+				$inventoried = $row['inventory_option'];
+
+				$order = "";
+				$checked = "";
+				if(isset($selectedOptions[$oid])){
+					$checked = " checked";
+					$order = $selectedOptions[$oid]['sequence'];
+				}
+				
+				$counter++;
+				
+				if($blnColor){
+					$trColor = $bgcolor1;
+					$blnColor = false;
+				}
+				else{
+					$trColor = $bgcolor2;
+					$blnColor = true;
+				}
+			?>
+			
+			<tr bgcolor="<?=$trColor;?>">
+				<td valign="top" align="right" width=20><?=trim($counter);?></td>
+				<?php if($pid != ""):?>
+					<td valign="top" align="center">
+						<input type="checkbox" name="oid[]" value="<?=$oid;?>"<?=$checked;?>>
+					</td>
+					<td valign="top" align="center">
+						<input type="text" name="sequence[<?=$oid;?>]" value="<?=$order;?>" size="3">
+						<input type="hidden" name="inventory_option[<?=$oid;?>]" value="<?=$inventoried;?>">
+					</td>
+				<?php endif;?>
+				<td valign="top" nowrap>&nbsp;<?=$name;?></td>
+				<td valign="top" width="70%"><?=$description;?></td>
+				<?php if($pid == ""):?>
+					<td align="center" valign="top"><a href="options.php?edit=true&oid=<?=$oid;?>">Edit</a></td>
+					<td align="center" valign="top"><a href="options.php?delete=true&oid=<?=$oid;?>">Delete</a></td>
+				<?php endif;?>
+			</tr>
+		<?php endforeach;?>
+		<tr><td colspan="7">&nbsp;</td></tr>
+		<tr><td colspan="7"><b>Total options returned = </b><?=$counter;?></td></tr>
+	</table>
+
+    <?php if($pid != ""):?>
+    <p>
+		<input class="buttons" type="submit" name="apply" value="Apply Options">&nbsp;
+		<input class="buttons" type="button" value="Close Window" onClick="javascript:window.close();">
+	</p>
+    </form>
+	<?php endif;?>
+
+<?php else:?>
+<p>No options have been defined in the database.</p>
+<?php endif;?>
+
+
+</div>
+<p>&nbsp;</p>
+</body>
+</html>
+
+
+
+
+
+

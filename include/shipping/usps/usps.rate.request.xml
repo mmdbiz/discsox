@@ -1,0 +1,73 @@
+
+<?php if($isDomestic):?>
+<RateV4Request USERID="<?=$userID;?>" PASSWORD="<?=$password;?>">
+		<?php foreach($shipments as $zipOrigin=>$pkgs):?>
+			<?php foreach($pkgs as $j=>$pkg):?>
+				<Package ID="<?=$id;?>">
+					<Service>All</Service>
+					<FirstClassMailType>LETTER</FirstClassMailType>
+					<ZipOrigination><?=$zipOrigin;?></ZipOrigination>
+					<ZipDestination><?=$zipDest;?></ZipDestination>
+					<Pounds><?=$pkg['lbs'];?></Pounds>
+					<Ounces><?=$pkg['oz'];?></Ounces>
+					<?php if($pkg['size'] == "Large"):?>
+					  <Container><?=$pkg['pkg'];?></Container>
+					<?php else:?>
+					  <Container/>
+					<?php endif;?>
+					<Size><?=$pkg['size'];?></Size>
+					<Width><?=$pkg['width'];?></Width>
+					<Length><?=$pkg['length'];?></Length>
+					<Height><?=$pkg['height'];?></Height>
+					<Girth><?=$pkg['girth'];?></Girth>
+					<Machinable><?=$machinable;?></Machinable>
+				</Package>
+				<?php $id++;?>
+		   <?php endforeach;?>
+		<?php endforeach;?>
+</RateV4Request>
+<?php else:?>
+<IntlRateV2Request USERID="<?=$userID;?>" PASSWORD="<?=$password;?>">
+	<?php if($country == "Canada"):?>
+		<Revision>2</Revision>
+	<?php endif;?>
+		<?php foreach($shipments as $zipOrigin=>$pkgs):?>
+			<?php foreach($pkgs as $j=>$pkg):?>
+				<Package ID="0">
+					<Pounds><?=$pkg['lbs'];?></Pounds>
+					<Ounces><?=$pkg['oz'];?></Ounces>
+					<MailType>Package</MailType>
+					<GXG>
+					  <POBoxFlag>N</POBoxFlag>
+					  <GiftFlag>N</GiftFlag>
+					</GXG>
+					<ValueOfContents/>
+					<Country><?=$country;?></Country>
+					<Container><?=$pkg['pkg'];?></Container>
+					<Size><?=$pkg['size'];?></Size>
+					<?php if($country == "Canada"):?>
+						<?php if($pkg['width'] == ""):?>
+							<Width>1</Width>	
+							<Length>1</Length>
+							<Height>1</Height>
+							<Girth>4</Girth>
+						<?php else:?>
+							<Width><?=$pkg['width'];?></Width>	
+							<Length><?=$pkg['length'];?></Length>
+							<Height><?=$pkg['height'];?></Height>
+							<Girth><?=$pkg['girth'];?></Girth>
+						<?php endif;?>
+						<OriginZip><?=$zipOrigin;?></OriginZip>
+					<?php else:?>
+						<Width><?=$pkg['width'];?></Width>	
+						<Length><?=$pkg['length'];?></Length>
+						<Height><?=$pkg['height'];?></Height>
+						<Girth><?=$pkg['girth'];?></Girth>
+					<?php endif;?>
+					<!--<DestinationPostalCode><?=$zipDest;?></DestinationPostalCode>-->
+				</Package>
+				<?php $id++;?>
+		   <?php endforeach;?>
+		<?php endforeach;?>
+</IntlRateV2Request>
+<?php endif;?>

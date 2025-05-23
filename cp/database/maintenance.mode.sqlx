@@ -1,0 +1,10 @@
+<?php
+// This is an update to add the maintenance_mode variables into the database
+global $_DB;
+$data = $_DB->getRecord("SELECT MAX(`sequence`) as seq FROM `config` WHERE section = 'basics'");
+$seq = $data['seq'] + 1;
+$sql = "INSERT INTO `config` (`section`, `sequence`, `key`, `value`) VALUES ('basics', $seq, 'maintenance_mode', 'false')";
+$_DB->execute($sql);
+$sql = "INSERT INTO `help` (`section`, `key`, `key_help`) VALUES ('basics', 'maintenance_mode', 'Allows you to turn the store off for maintenance.')";
+$_DB->execute($sql);
+?>

@@ -1,0 +1,355 @@
+processXml=
+<SalesTaxCodeQueryRq><FullName><?=$salesTaxCode;?></FullName></SalesTaxCodeQueryRq>
+<ItemSalesTaxQueryRq><FullName><?=$salesTaxItem;?></FullName></ItemSalesTaxQueryRq>
+<?php if($shipping_method):?>
+<ShipMethodQueryRq><FullName><?=$shipping_method;?></FullName></ShipMethodQueryRq>
+<?php endif;?>
+<CustomerQueryRq><FullName><?=$_SESSION['billaddress_name'];?></FullName></CustomerQueryRq>
+<?php if($sales_rep):?>
+<SalesRepQueryRq><FullName><?=$sales_rep;?></FullName></SalesRepQueryRq>
+<?php endif;?>
+<?php if($coupon):?>
+<ItemDiscountQueryRq><FullName><?=$coupon;?></FullName></ItemDiscountQueryRq>
+<?php endif;?>
+
+customerAddXML=
+<CustomerAddRq requestID="0">
+    <CustomerAdd>
+        <Name><?=$_SESSION['billaddress_name'];?></Name>
+        <CompanyName><?=$_SESSION['billaddress_companyname'];?></CompanyName>
+        <FirstName><?=$_SESSION['billaddress_firstname'];?></FirstName>
+        <LastName><?=$_SESSION['billaddress_lastname'];?></LastName>
+        <BillAddress>
+						<?php if($_SESSION['billaddress_companyname'] != ""):?>
+            		<Addr1><?=$_SESSION['billaddress_companyname'];?></Addr1>
+            		<Addr2><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Addr2>
+            		<Addr3><?=$_SESSION['billaddress_addr1'];?></Addr3>
+            		<Addr4><?=$_SESSION['billaddress_addr2'];?>.</Addr4>
+    				<?php else:?>
+            		<Addr1><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Addr1>
+            		<Addr2><?=$_SESSION['billaddress_addr1'];?></Addr2>
+            		<Addr3><?=$_SESSION['billaddress_addr2'];?></Addr3>
+						<?php endif;?>
+            <City><?=$_SESSION['billaddress_city'];?></City>
+            <State><?=$_SESSION['billaddress_state'];?></State>
+            <PostalCode><?=$_SESSION['billaddress_postalcode'];?></PostalCode>
+            <?php if($_SESSION['billaddress_country'] != "US"):?>
+            		<Country><?=$_SESSION['billaddress_country'];?></Country>
+						<?php endif;?>
+        </BillAddress>
+        <ShipAddress>
+						<?php if($_SESSION['shipaddress_companyname'] != ""):?>
+            		<Addr1><?=$_SESSION['shipaddress_companyname'];?></Addr1>
+            		<Addr2><?=$_SESSION['shipaddress_firstname'];?> <?=$_SESSION['shipaddress_lastname'];?></Addr2>
+            		<Addr3><?=$_SESSION['shipaddress_addr1'];?></Addr3>
+            		<Addr4><?=$_SESSION['shipaddress_addr2'];?>.</Addr4>
+    				<?php else:?>
+            		<Addr1><?=$_SESSION['shipaddress_firstname'];?> <?=$_SESSION['shipaddress_lastname'];?></Addr1>
+            		<Addr2><?=$_SESSION['shipaddress_addr1'];?></Addr2>
+            		<Addr3><?=$_SESSION['shipaddress_addr2'];?></Addr3>
+						<?php endif;?>
+            <City><?=$_SESSION['shipaddress_city'];?></City>
+            <State><?=$_SESSION['shipaddress_state'];?></State>
+            <PostalCode><?=$_SESSION['shipaddress_postalcode'];?></PostalCode>
+            <?php if($_SESSION['shipaddress_country'] != "US"):?>
+            		<Country><?=$_SESSION['shipaddress_country'];?></Country>
+						<?php endif;?>
+        </ShipAddress>
+        <Phone><?=$_SESSION['billaddress_areacode'];?>-<?=$_SESSION['billaddress_phone'];?></Phone>
+        <Email><?=$_SESSION['billaddress_email'];?></Email>
+        <Contact><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Contact>
+		<CustomerTypeRef>
+            <FullName><?=$customer_Type;?></FullName>
+        </CustomerTypeRef>
+        <SalesTaxCodeRef>
+            <FullName><?=$salesTaxCode;?></FullName>
+        </SalesTaxCodeRef>
+        <AccountNumber >V4933E</AccountNumber>
+    </CustomerAdd>
+</CustomerAddRq>
+
+discountXML=
+
+ShipMethodAddXML=
+<?php if($shipping_method):?>
+<ShipMethodAddRq>
+    <ShipMethodAdd>
+        <Name><?=$shipping_method;?></Name>
+        <IsActive>true</IsActive>
+    </ShipMethodAdd>
+</ShipMethodAddRq>
+<?php endif;?>
+
+orderXml=
+<CustomerAddRq requestID="0">
+    <CustomerAdd>
+        <Name><?=$job_order_date;?></Name>
+        <ParentRef>
+        <FullName><?=$_SESSION['billaddress_name'];?></FullName>
+        </ParentRef>
+        <CompanyName><?=$_SESSION['billaddress_companyname'];?></CompanyName>
+        <FirstName><?=$_SESSION['billaddress_firstname'];?></FirstName>
+        <LastName><?=$_SESSION['billaddress_lastname'];?></LastName>
+        <BillAddress>
+						<?php if($_SESSION['billaddress_companyname'] != ""):?>
+            		<Addr1><?=$_SESSION['billaddress_companyname'];?></Addr1>
+            		<Addr2><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Addr2>
+            		<Addr3><?=$_SESSION['billaddress_addr1'];?></Addr3>
+            		<Addr4><?=$_SESSION['billaddress_addr2'];?>.</Addr4>
+    				<?php else:?>
+            		<Addr1><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Addr1>
+            		<Addr2><?=$_SESSION['billaddress_addr1'];?></Addr2>
+            		<Addr3><?=$_SESSION['billaddress_addr2'];?></Addr3>
+						<?php endif;?>
+            <City><?=$_SESSION['billaddress_city'];?></City>
+            <State><?=$_SESSION['billaddress_state'];?></State>
+            <PostalCode><?=$_SESSION['billaddress_postalcode'];?></PostalCode>
+            <?php if($_SESSION['billaddress_country'] != "US"):?>
+            		<Country><?=$_SESSION['billaddress_country'];?></Country>
+						<?php endif;?>
+        </BillAddress>
+        <ShipAddress>
+						<?php if($_SESSION['shipaddress_companyname'] != ""):?>
+            		<Addr1><?=$_SESSION['shipaddress_companyname'];?></Addr1>
+            		<Addr2><?=$_SESSION['shipaddress_firstname'];?> <?=$_SESSION['shipaddress_lastname'];?></Addr2>
+            		<Addr3><?=$_SESSION['shipaddress_addr1'];?></Addr3>
+            		<Addr4><?=$_SESSION['shipaddress_addr2'];?>.</Addr4>
+    				<?php else:?>
+            		<Addr1><?=$_SESSION['shipaddress_firstname'];?> <?=$_SESSION['shipaddress_lastname'];?></Addr1>
+            		<Addr2><?=$_SESSION['shipaddress_addr1'];?></Addr2>
+            		<Addr3><?=$_SESSION['shipaddress_addr2'];?></Addr3>
+						<?php endif;?>
+            <City><?=$_SESSION['shipaddress_city'];?></City>
+            <State><?=$_SESSION['shipaddress_state'];?></State>
+            <PostalCode><?=$_SESSION['shipaddress_postalcode'];?></PostalCode>
+            <?php if($_SESSION['shipaddress_country'] != "US"):?>
+            		<Country><?=$_SESSION['shipaddress_country'];?></Country>
+						<?php endif;?>
+        </ShipAddress>
+        <Phone><?=$_SESSION['billaddress_areacode'];?>-<?=$_SESSION['billaddress_phone'];?></Phone>
+        <Email><?=$_SESSION['billaddress_email'];?></Email>
+        <Contact><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Contact>
+		<CustomerTypeRef>
+            <FullName><?=$customer_Type;?></FullName>
+        </CustomerTypeRef>
+        <AccountNumber >V4933E</AccountNumber>
+    </CustomerAdd>
+</CustomerAddRq>
+
+<<?=$transtype;?>AddRq requestID="0">
+    <<?=$transtype;?>Add>
+        <CustomerRef>
+            <FullName><?=$_SESSION['billaddress_name'];?>:<?=$job_order_date;?></FullName>
+        </CustomerRef>
+		    <ClassRef>
+            <FullName><?=$default_class;?></FullName>
+        </ClassRef>
+        <TxnDate><?=$order_date;?></TxnDate>
+        <RefNumber><?=$order_number;?></RefNumber>
+        <BillAddress>
+						<?php if($_SESSION['billaddress_companyname'] != ""):?>
+            		<Addr1><?=$_SESSION['billaddress_companyname'];?></Addr1>
+            		<Addr2><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Addr2>
+            		<Addr3><?=$_SESSION['billaddress_addr1'];?></Addr3>
+            		<Addr4><?=$_SESSION['billaddress_addr2'];?>.</Addr4>
+    				<?php else:?>
+            		<Addr1><?=$_SESSION['billaddress_firstname'];?> <?=$_SESSION['billaddress_lastname'];?></Addr1>
+            		<Addr2><?=$_SESSION['billaddress_addr1'];?></Addr2>
+            		<Addr3><?=$_SESSION['billaddress_addr2'];?></Addr3>
+						<?php endif;?>
+            <City><?=$_SESSION['billaddress_city'];?></City>
+            <State><?=$_SESSION['billaddress_state'];?></State>
+            <PostalCode><?=$_SESSION['billaddress_postalcode'];?></PostalCode>
+            <?php if($_SESSION['billaddress_country'] != "US"):?>
+            		<Country><?=$_SESSION['billaddress_country'];?></Country>
+						<?php endif;?>
+        </BillAddress>
+        <ShipAddress>
+						<?php if($_SESSION['shipaddress_companyname'] != ""):?>
+            		<Addr1><?=$_SESSION['shipaddress_companyname'];?></Addr1>
+            		<Addr2><?=$_SESSION['shipaddress_firstname'];?> <?=$_SESSION['shipaddress_lastname'];?></Addr2>
+            		<Addr3><?=$_SESSION['shipaddress_addr1'];?></Addr3>
+            		<Addr4><?=$_SESSION['shipaddress_addr2'];?>.</Addr4>
+    				<?php else:?>
+            		<Addr1><?=$_SESSION['shipaddress_firstname'];?> <?=$_SESSION['shipaddress_lastname'];?></Addr1>
+            		<Addr2><?=$_SESSION['shipaddress_addr1'];?></Addr2>
+            		<Addr3><?=$_SESSION['shipaddress_addr2'];?></Addr3>
+						<?php endif;?>
+            <City><?=$_SESSION['shipaddress_city'];?></City>
+            <State><?=$_SESSION['shipaddress_state'];?></State>
+            <PostalCode><?=$_SESSION['shipaddress_postalcode'];?></PostalCode>
+            <?php if($_SESSION['shipaddress_country'] != "US"):?>
+            		<Country><?=$_SESSION['shipaddress_country'];?></Country>
+						<?php endif;?>
+        </ShipAddress>
+        <?php if($transtype == "SalesReceipt"):?>
+			<PaymentMethodRef>
+			<FullName><?=$paymentMethod;?></FullName>
+			</PaymentMethodRef>
+        <?php endif;?>
+        <SalesRepRef>
+			<FullName><?=$sales_rep;?></FullName>
+		</SalesRepRef>
+        <ShipMethodRef>
+            <FullName><?=$shipping_method;?></FullName>
+        </ShipMethodRef>
+        <FOB ><?=$_SESSION['shipaddress_country'];?></FOB>
+        <ItemSalesTaxRef>
+  					<FullName><?=$salesTaxItem;?></FullName> 
+  			</ItemSalesTaxRef>
+        <Memo><?=$comments;?></Memo>
+				<CustomerMsgRef>
+						<FullName><?=$customer_Msg;?></FullName>
+				</CustomerMsgRef>
+        <IsToBePrinted>0</IsToBePrinted>
+        <DepositToAccountRef>
+				<FullName><?=$deposit_To_Account;?></FullName>
+		</DepositToAccountRef>
+    <?php foreach($_CART as $i=>$fields):?> 
+        <?php $useSkuQty = true;?>
+				<!--ignore SKUs but not their options -->  
+        <?php $sIgnore = false;?>
+			<?php foreach($ignore_Skus as $sItem):?>
+				<?php if(($fields['sku'] == $sItem) || !(strstr($fields['sku'], '_c') === FALSE)):?>    	             
+					<?php $sIgnore = true;?>
+    		<?php endif;?>	
+      <?php endforeach;?>
+      <?php if(!$sIgnore):?>        	  
+    			<?php if($item_Type == "Group"):?>
+    				<<?=$transtype;?>LineGroupAdd>
+    					<ItemGroupRef>
+    						<FullName><?=$fields['sku'];?></FullName>
+    					</ItemGroupRef>
+    					<Quantity><?=$fields['quantity'];?></Quantity>
+    				</<?=$transtype;?>LineGroupAdd>
+    			<?php else:?>
+    				<<?=$transtype;?>LineAdd>
+    					<ItemRef>
+    						<FullName><?=$fields['sku'];?></FullName>
+    					</ItemRef>
+    					<Desc><?=$fields['fullname'];?></Desc>
+    					<Quantity><?=$fields['quantity'];?></Quantity>
+    					<Rate><?=$fields['line_total'];?></Rate>
+    					<ServiceDate><?=$order_date;?></ServiceDate>
+						<SalesTaxCodeRef>
+							<FullName><?=$salesTaxCode;?></FullName>
+						</SalesTaxCodeRef>
+    				</<?=$transtype;?>LineAdd>
+    			<?php endif;?>
+			<?php endif;?>
+			<?php if(!empty($fields['options'])):?>
+				<?php $iIgnore = false;?>
+				<?php foreach($ignore_Items as $iItem):?>
+					<?php if($fields['sku'] == $iItem):?>    	             
+						<?php $iIgnore = true;?>
+					<?php endif;?>	
+				<?php endforeach;?>
+				<?php if(!$iIgnore):?>   
+					<?php foreach($fields['options'] as $option):?>
+					  <?php $optionNames = explode(",",$option['value']);?>
+					  <?php foreach($optionNames as $oName):?>
+						<?php $optionWords = explode(" ",$oName);?>
+						<?php foreach($optionWords as $oWord):?>
+						  <?php if($oWord != ""):?>
+					    	<?php $ignore = false;?>
+								<?php foreach($ignore_Words as $iWord):?>
+								  <?php if(($oWord == $iWord) || ($oWord == "No") || ($oWord == "on") || ($oWord == "none")):?>    	             
+									 <?php $ignore = true;?>
+									<?php endif;?>	
+								<?php endforeach;?>
+								<?php if(!$ignore):?> 
+									<!--Check options for Qty numbers and multiply by SKU Qty -->
+									<?php $optionComponents = explode("x",$oWord,2);?>
+									<?php if(count($optionComponents) > 1):?>
+										<?php if($useSkuQty):?>
+											<? $option_qty = $fields['quantity']*$optionComponents[0];?>
+										<?php else:?>
+											<? $option_qty = $optionComponents[0];?>
+										<?php endif;?>	
+										<? $option_name = $optionComponents[1];?>
+									<?php else:?>
+										<?php if($useSkuQty):?>
+											<? $option_qty = $fields['quantity'];?>
+										<?php else:?>
+											<? $option_qty = "1";?>
+										<?php endif;?>	
+										<? $option_name = $optionComponents[0];?>
+									<?php endif;?> 
+									<!-- SnH is an option in SoxChests and needs to be here -->
+									<?php if(($option_name == "SnH") || ($option_name == "KIT_DISCOUNT") || ($option_name == "CLEARANCE_DISCOUNT")):?>
+										<<?=$transtype;?>LineAdd>
+											<ItemRef>
+												<FullName><?=$option_name;?></FullName>
+											</ItemRef>
+											<Desc><?=$option['value'];?></Desc>
+											<Rate><?=$option_qty*$option['price'];?></Rate>
+										</<?=$transtype;?>LineAdd>
+										<<?=$transtype;?>LineAdd>
+										</<?=$transtype;?>LineAdd>
+									<?php else:?>
+										<<?=$transtype;?>LineGroupAdd>
+											<ItemGroupRef>
+												<FullName><?=$option_name;?></FullName>
+											</ItemGroupRef>
+											<Quantity><?=$option_qty;?></Quantity>
+										</<?=$transtype;?>LineGroupAdd>
+									    <!-- Check for free options -->
+										<?php $priced = true;?>           				
+										<?php foreach($free_options as $fItem):?>
+        							<?php if($option_name == $fItem) :?>
+        								<?php $priced = false;?>
+        							<?php endif;?>	
+										<?php endforeach;?>
+										<?php if(!$priced):?>
+											<<?=$transtype;?>LineAdd>
+											<ItemRef>
+												<FullName>Promodiscount</FullName>
+											</ItemRef>
+											</<?=$transtype;?>LineAdd>
+										<?php endif;?>	
+									<?php endif;?>								
+								<?php endif;?>	
+						  <?php endif;?>
+						<?php endforeach;?>
+					  <?php endforeach;?>
+					<?php endforeach;?>
+				<?php endif;?>
+			<?php endif;?>
+        <?php endforeach;?>
+		<?php if($coupon):?>
+			<<?=$transtype;?>LineAdd>
+				<ItemRef>
+					<FullName><?=$coupon;?></FullName>
+				</ItemRef>
+				<Desc><?=$coupon_description;?></Desc>
+				<Rate><?=$_SESSION['totals']['discount'];?></Rate>
+				<ServiceDate><?=$order_date;?></ServiceDate>
+				<SalesTaxCodeRef>
+					<FullName><?=$salesTaxCode;?></FullName>
+				</SalesTaxCodeRef>
+			</<?=$transtype;?>LineAdd>
+		<?php endif;?>
+        <?php if($shipping_method):?>
+			<<?=$transtype;?>LineAdd>
+				<ItemRef>
+					<FullName><?=$shippingItem;?></FullName>
+				</ItemRef>
+				<Desc><?=$shipping_method;?> Shipping</Desc>
+				<Rate><?=$_SESSION['totals']['shipping'];?></Rate>
+				<ServiceDate><?=$order_date;?></ServiceDate>
+				<SalesTaxCodeRef>
+					<FullName><?=$shipTaxCode;?></FullName>
+				</SalesTaxCodeRef>
+			</<?=$transtype;?>LineAdd>
+			<<?=$transtype;?>LineAdd>
+					<Desc>.</Desc>
+			</<?=$transtype;?>LineAdd>
+        <?php endif;?>
+    </<?=$transtype;?>Add>
+</<?=$transtype;?>AddRq>
+
+
+
+
+
+

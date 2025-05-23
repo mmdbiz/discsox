@@ -1,0 +1,174 @@
+processXml=
+<SalesTaxCodeQueryRq><FullName>Tax</FullName></SalesTaxCodeQueryRq>
+<ItemSalesTaxQueryRq><FullName>CA Sales Tax</FullName></ItemSalesTaxQueryRq>
+<ShipMethodQueryRq><FullName>UPS Next Day Ai</FullName></ShipMethodQueryRq>
+<CustomerQueryRq><FullName>Manzardo, Marcel</FullName></CustomerQueryRq>
+<SalesRepQueryRq><FullName>ups</FullName></SalesRepQueryRq>
+
+customerAddXML=
+<CustomerAddRq requestID="0">
+ <CustomerAdd>
+ <Name>Manzardo, Marcel</Name>
+ <CompanyName>MMDesign Studio International, Inc.</CompanyName>
+ <FirstName>Marcel</FirstName>
+ <LastName>Manzardo</LastName>
+ <BillAddress>
+ <Addr1>MMDesign Studio International, Inc.</Addr1>
+ <Addr2>Marcel Manzardo</Addr2>
+ <Addr3>2742 Fresno Street</Addr3>
+ <Addr4>.</Addr4>
+ <City>default</City>
+ <State>CA</State>
+ <PostalCode>95062</PostalCode>
+ </BillAddress>
+ <ShipAddress>
+ <Addr1>MMDesign Studio International, Inc.</Addr1>
+ <Addr2>Marcel Manzardo</Addr2>
+ <Addr3>2742 Fresno Street</Addr3>
+ <Addr4>.</Addr4>
+ <City>default</City>
+ <State>CA</State>
+ <PostalCode>95062</PostalCode>
+ </ShipAddress>
+ <Phone>408-6560764</Phone>
+ <Email>marcello3333@mmdesign.com</Email>
+ <Contact>Marcel Manzardo</Contact>
+<CustomerTypeRef>
+ <FullName>Retail</FullName>
+ </CustomerTypeRef>
+ <SalesTaxCodeRef>
+ <FullName>Tax</FullName>
+ </SalesTaxCodeRef>
+ <AccountNumber >V4933E</AccountNumber>
+ </CustomerAdd>
+</CustomerAddRq>
+
+discountXML=
+
+ShipMethodAddXML=
+<ShipMethodAddRq>
+ <ShipMethodAdd>
+ <Name>UPS Next Day Ai</Name>
+ <IsActive>true</IsActive>
+ </ShipMethodAdd>
+</ShipMethodAddRq>
+
+orderXml=
+<CustomerAddRq requestID="0">
+ <CustomerAdd>
+ <Name>Wednesday Feb 19th 2025, 08_40_08 AM</Name>
+ <ParentRef>
+ <FullName>Manzardo, Marcel</FullName>
+ </ParentRef>
+ <CompanyName>MMDesign Studio International, Inc.</CompanyName>
+ <FirstName>Marcel</FirstName>
+ <LastName>Manzardo</LastName>
+ <BillAddress>
+ <Addr1>MMDesign Studio International, Inc.</Addr1>
+ <Addr2>Marcel Manzardo</Addr2>
+ <Addr3>2742 Fresno Street</Addr3>
+ <Addr4>.</Addr4>
+ <City>default</City>
+ <State>CA</State>
+ <PostalCode>95062</PostalCode>
+ </BillAddress>
+ <ShipAddress>
+ <Addr1>MMDesign Studio International, Inc.</Addr1>
+ <Addr2>Marcel Manzardo</Addr2>
+ <Addr3>2742 Fresno Street</Addr3>
+ <Addr4>.</Addr4>
+ <City>default</City>
+ <State>CA</State>
+ <PostalCode>95062</PostalCode>
+ </ShipAddress>
+ <Phone>408-6560764</Phone>
+ <Email>marcello3333@mmdesign.com</Email>
+ <Contact>Marcel Manzardo</Contact>
+<CustomerTypeRef>
+ <FullName>Retail</FullName>
+ </CustomerTypeRef>
+ <AccountNumber >V4933E</AccountNumber>
+ </CustomerAdd>
+</CustomerAddRq>
+
+<SalesReceiptAddRq requestID="0">
+ <SalesReceiptAdd>
+ <CustomerRef>
+ <FullName>Manzardo, Marcel:Wednesday Feb 19th 2025, 08_40_08 AM</FullName>
+ </CustomerRef>
+ <ClassRef>
+ <FullName>DiscSox</FullName>
+ </ClassRef>
+ <TxnDate>2025-02-19</TxnDate>
+ <RefNumber>82695537930</RefNumber>
+ <BillAddress>
+ <Addr1>MMDesign Studio International, Inc.</Addr1>
+ <Addr2>Marcel Manzardo</Addr2>
+ <Addr3>2742 Fresno Street</Addr3>
+ <Addr4>.</Addr4>
+ <City>default</City>
+ <State>CA</State>
+ <PostalCode>95062</PostalCode>
+ </BillAddress>
+ <ShipAddress>
+ <Addr1>MMDesign Studio International, Inc.</Addr1>
+ <Addr2>Marcel Manzardo</Addr2>
+ <Addr3>2742 Fresno Street</Addr3>
+ <Addr4>.</Addr4>
+ <City>default</City>
+ <State>CA</State>
+ <PostalCode>95062</PostalCode>
+ </ShipAddress>
+ <PaymentMethodRef>
+<FullName>Check</FullName>
+</PaymentMethodRef>
+ <SalesRepRef>
+<FullName>ups</FullName>
+</SalesRepRef>
+ <ShipMethodRef>
+ <FullName>UPS Next Day Ai</FullName>
+ </ShipMethodRef>
+ <FOB >US</FOB>
+ <ItemSalesTaxRef>
+ <FullName>CA Sales Tax</FullName> 
+ </ItemSalesTaxRef>
+ <Memo></Memo>
+<CustomerMsgRef>
+<FullName>Please visit https://mmdesign.com/returns.php for DiscSox Return Policy and Instructions</FullName>
+</CustomerMsgRef>
+ <IsToBePrinted>0</IsToBePrinted>
+ <DepositToAccountRef>
+<FullName>Undeposited Funds</FullName>
+</DepositToAccountRef>
+ 
+ <!--ignore SKUs but not their options --> 
+ 
+ 
+ <SalesReceiptLineGroupAdd>
+ <ItemGroupRef>
+ <FullName>24DIVCL</FullName>
+ </ItemGroupRef>
+ <Quantity>3.00</Quantity>
+ </SalesReceiptLineGroupAdd>
+ <SalesReceiptLineAdd>
+<ItemRef>
+<FullName>SnH</FullName>
+</ItemRef>
+<Desc>UPS Next Day Ai Shipping</Desc>
+<Rate>0.00</Rate>
+<ServiceDate>2025-02-19</ServiceDate>
+<SalesTaxCodeRef>
+<FullName>Tax</FullName>
+</SalesTaxCodeRef>
+</SalesReceiptLineAdd>
+<SalesReceiptLineAdd>
+<Desc>.</Desc>
+</SalesReceiptLineAdd>
+ </SalesReceiptAdd>
+</SalesReceiptAddRq>
+
+
+
+
+
+

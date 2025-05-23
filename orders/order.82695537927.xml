@@ -1,0 +1,28 @@
+processXml=<SalesTaxCodeQueryRq><FullName>Non</FullName></SalesTaxCodeQueryRq><ItemSalesTaxQueryRq><FullName>Out of State</FullName></ItemSalesTaxQueryRq><ShipMethodQueryRq><FullName>Priority Mail</FullName></ShipMethodQueryRq><CustomerQueryRq><FullName>Morgan, Will</FullName></CustomerQueryRq><SalesRepQueryRq><FullName>usps</FullName></SalesRepQueryRq>
+customerAddXML=<CustomerAddRq requestID="0"><CustomerAdd><Name>Morgan, Will</Name><CompanyName></CompanyName><FirstName>Will</FirstName><LastName>Morgan</LastName><BillAddress><Addr1>Will Morgan</Addr1><Addr2>113 Cheyenne Drive</Addr2><Addr3></Addr3><City>Hendersonville</City><State>TN</State><PostalCode>37075</PostalCode></BillAddress><ShipAddress><Addr1>Will Morgan</Addr1><Addr2>113 Cheyenne Drive</Addr2><Addr3></Addr3><City>Hendersonville</City><State>TN</State><PostalCode>37075</PostalCode></ShipAddress><Phone>625-4485489</Phone><Email>industrialstr@yahoo.com</Email><Contact>Will Morgan</Contact><CustomerTypeRef><FullName>Retail</FullName></CustomerTypeRef><SalesTaxCodeRef><FullName>Non</FullName></SalesTaxCodeRef><AccountNumber >V4933E</AccountNumber></CustomerAdd></CustomerAddRq>
+discountXML=
+ShipMethodAddXML=<ShipMethodAddRq><ShipMethodAdd><Name>Priority Mail</Name><IsActive>true</IsActive></ShipMethodAdd></ShipMethodAddRq>
+orderXml=<CustomerAddRq requestID="0"><CustomerAdd><Name>Sunday Feb 09th 2025, 01_26_35 AM</Name><ParentRef><FullName>Morgan, Will</FullName></ParentRef><CompanyName></CompanyName><FirstName>Will</FirstName><LastName>Morgan</LastName><BillAddress><Addr1>Will Morgan</Addr1><Addr2>113 Cheyenne Drive</Addr2><Addr3></Addr3><City>Hendersonville</City><State>TN</State><PostalCode>37075</PostalCode></BillAddress><ShipAddress><Addr1>Will Morgan</Addr1><Addr2>113 Cheyenne Drive</Addr2><Addr3></Addr3><City>Hendersonville</City><State>TN</State><PostalCode>37075</PostalCode></ShipAddress><Phone>625-4485489</Phone><Email>industrialstr@yahoo.com</Email><Contact>Will Morgan</Contact><CustomerTypeRef><FullName>Retail</FullName></CustomerTypeRef><AccountNumber >V4933E</AccountNumber></CustomerAdd></CustomerAddRq>
+<SalesReceiptAddRq requestID="0"><SalesReceiptAdd><CustomerRef><FullName>Morgan, Will:Sunday Feb 09th 2025, 01_26_35 AM</FullName></CustomerRef><ClassRef><FullName>DiscSox</FullName></ClassRef><TxnDate>2025-02-09</TxnDate><RefNumber>82695537927</RefNumber><BillAddress><Addr1>Will Morgan</Addr1><Addr2>113 Cheyenne Drive</Addr2><Addr3></Addr3><City>Hendersonville</City><State>TN</State><PostalCode>37075</PostalCode></BillAddress><ShipAddress><Addr1>Will Morgan</Addr1><Addr2>113 Cheyenne Drive</Addr2><Addr3></Addr3><City>Hendersonville</City><State>TN</State><PostalCode>37075</PostalCode></ShipAddress><PaymentMethodRef><FullName>PayPal</FullName></PaymentMethodRef><SalesRepRef><FullName>usps</FullName></SalesRepRef><ShipMethodRef><FullName>Priority Mail</FullName></ShipMethodRef><FOB >US</FOB><ItemSalesTaxRef><FullName>Out of State</FullName> 
+ </ItemSalesTaxRef><Memo></Memo><CustomerMsgRef><FullName>Please visit https://mmdesign.com/returns.php for DiscSox Return Policy and Instructions</FullName></CustomerMsgRef><IsToBePrinted>0</IsToBePrinted><DepositToAccountRef><FullName>PayPal-DiscSox</FullName></DepositToAccountRef> 
+ <!--ignore SKUs but not their options --> 
+ 
+ 
+ <SalesReceiptLineGroupAdd><ItemGroupRef><FullName>25PDPP</FullName></ItemGroupRef><Quantity>1.00</Quantity></SalesReceiptLineGroupAdd> 
+ <!--ignore SKUs but not their options --> 
+ 
+ 
+ <SalesReceiptLineGroupAdd><ItemGroupRef><FullName>25PHDPP</FullName></ItemGroupRef><Quantity>2.00</Quantity></SalesReceiptLineGroupAdd> 
+ <!--ignore SKUs but not their options --> 
+ 
+ 
+ <SalesReceiptLineGroupAdd><ItemGroupRef><FullName>WDG_UNI</FullName></ItemGroupRef><Quantity>1.00</Quantity></SalesReceiptLineGroupAdd> 
+ <!--ignore SKUs but not their options --> 
+ 
+ 
+ <SalesReceiptLineGroupAdd><ItemGroupRef><FullName>25PSTDP</FullName></ItemGroupRef><Quantity>4.00</Quantity></SalesReceiptLineGroupAdd><SalesReceiptLineAdd><ItemRef><FullName>SnH</FullName></ItemRef><Desc>Priority Mail Shipping</Desc><Rate>32.80</Rate><ServiceDate>2025-02-09</ServiceDate><SalesTaxCodeRef><FullName>Non</FullName></SalesTaxCodeRef></SalesReceiptLineAdd><SalesReceiptLineAdd><Desc>.</Desc></SalesReceiptLineAdd></SalesReceiptAdd></SalesReceiptAddRq>
+
+
+
+
+

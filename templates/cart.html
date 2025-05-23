@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Your Shopping Cart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+<link rel="stylesheet" type="text/css" href="../../_css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="../../_css/cart.css" />
+</head>
+<body>
+<!--webbot bot="PurpleText" PREVIEW="
+This page contains PHP script variables in the HTML that may be hidden in your editor.
+So, please be careful editing this page and be sure to keep a backup copy before overwriting it.
+View the HTML source code for more details.
+"-->
+<?php
+
+				error_reporting(0);
+$showPrices = $_CF['cart']['show_prices'];
+//marcello testing ship to billing
+$_SESSION['ship_to_billing_addr'] = 1;
+//echo 'device set to: ' . $_SESSION['DisplayDevice'];
+?>
+<div align="center" class="p-xy-1">
+  <?php if(count($_CART) == 0): ?>
+  <div align="center">
+    <h4>Your cart is currently empty...</h4>
+    <!--<p><a href="<?=$_CF['basics']['home_page_name'];?>">Click here</a> to return to the home page.</p>-->
+
+    <?php // check for mobile and set the home page accordingly - marcello
+      $currentDir = $_CF['basics']['home_page_name'];
+      if (isset($_SESSION['DisplayDevice']) && $_SESSION['DisplayDevice'] == 'mobile'){	
+        $currentDir .= "/mobile";
+      }
+    ?>
+   <p><a href="<?=$currentDir;?>">Click here</a> to return to the home page.</p>
+  </div>
+  <?php else:?>
+  <div align="left" class="thumbnail">
+    <h3> Shopping Cart</h3>
+    <p>&nbsp;</p>
+    <p class="tiny" style="padding-left:25px;">&nbsp;</p>
+  </div>
+  <div align="center">
+    <form method="post" action="cart.php" ID="Form1">
+      <input type="hidden" name="page" value="<?=$_SESSION['last_page'];?>" ID="Hidden1">
+      <input type="hidden" name="modify" value="1" ID="Hidden2">
+      <table class="table table-striped table-condensed table-responsive max-width-1000" ID="Table2">
+        <tr>
+          <th class="cartHeader" nowrap>&nbsp;</th>
+          <th class="cartHeader center" nowrap >&nbsp;</th>
+          <?php if($showPrices):?>
+            <th class="cartHeader" nowrap>&nbsp;</th>
+            <th class="cartHeader text-right" nowrap>Qty&nbsp;</th>
+          <th class="cartHeader text-right"  nowrap><span class=" m-r-2">Total</span></th>
+          <?php else:?>
+          <th class="text-right" nowrap >Name</th>
+          <?php endif;?>
+        </tr>
+        <!-- Start of each cart row -->
+        <?php foreach($_CART as $i=>$fields): ?>
+        <?php
+							$cartid = $fields['cartid'];
+							$lastItem = $fields['name'];
+						?>
+        <tr>
+          <td  nowrap class="cartRow"><input name="delete[<?=$cartid?>]" data-role="none" type="image" value="submit" src="images/buttons/trash.gif"></td>
+          <td class="cartRow" align="center">
+          <?php 
+              $thumb = $fields['thumbnail_image'];
+			  $thumbDir = $_CF['images']['thumbnail_images_directory'];
+			  $tWidth = $_CF['images']['product_thumbnail_max_width'];
+              $tHeight = $_CF['images']['product_thumbnail_max_height'];
+			  $alt = "Image of " . $fields['name'];
+              if(file_exists("$thumbDir/$thumb")){
+                  $image = "<img src=\"$thumbDir/$thumb\" height=\"$tHeight\" width=\"$tWidth\" alt=\"$alt\">";
+                  echo "<a href=\"" . $fields['page'] . "\">".$image ."</a>";
+			  }
+          ?>
+          </td>
+              <?php if($showPrices):?>
+                  <td class="cartRow" align="left">
+              <?php else:?>
+                  <td class="cartRowEnd" align="left" ><?php endif;?>
+                  <a href="<?=$fields['page'];?>"><strong>
+                  <?=$fields['name'];?>
+                  </strong></a>
+                  <!-- Options -->
+                  <?php if(!empty($fields['options']) && is_array($fields['options'])):?>
+                      <br />
+                    <div class="small m-l-1">
+                      <?php foreach($fields['options'] as $j=>$option):?>
+                        <div>
+                          <?php if($option['name'] != "" && $option['name'] == "Option"):?>
+                          <?=$option['name'];?>
+                          <?=$j+1;?>
+                          :
+                          <?php elseif($option['name'] != "" && $option['name'] != "Option"):?>
+                          <?=$option['name'];?>
+                          :
+                          <?php endif;?>
+                          <?=$option['value'];?>
+                          <?php if($showPrices):?>
+                          <?php if($option['price'] != "0"):?>
+                          <?php if($option['type'] == "option"):?>
+                          ($<?=$option['price'];?>
+                          )
+                          <?php elseif($option['type'] == "setup"):?>
+                          (Setup Charge:
+                          <?=$option['price'];?>
+                          )
+                          <?php else:?>
+                          (
+                          <?=$option['price'];?>
+                          )
+                          <?php endif;?>
+                          <?php endif;?>
+                          <?php endif;?>
+                        </div>
+                      <?php endforeach;?>
+                    </div>
+                  <!-- End Options -->
+              <?php endif;?>
+          </td>
+          <?php if($showPrices):?>
+          <td class="cartRow" align="right" nowrap>
+              <!--<input data-role="none" style="text-align:center;" type="text" size="1" name="quantity[<?=$cartid?>]" value="<?=intval($fields['quantity']);?>" id="Text1">-->
+              
+              <select class="native-dropdown" id="Text1" name="quantity[<?=$cartid?>]">
+                  <?php for ($i = 1; $i <= 30; $i++): ?>                  
+                      <option <?php if (intval($fields['quantity']) == $i) { echo ('selected="" '); } ?> value="<?=$i;?>"><?=$i;?></option>
+                   <?php endfor; ?>
+              </select>
+              
+          </td>
+          <td class="cartRow" align="right" nowrap><span class="red m-r-2"><?=$_Common->format_price($fields['line_total'],true);?></span>
+              <?php if (intval($fields['quantity']) > 1):?>
+            <div class="unit_price m-r-2"><?=$_Common->format_price($fields['line_total'] / intval($fields['quantity']));?> each</div>
+              <?php endif;?>
+          </td>
+          <?php endif;?>
+        </tr>
+        <?php endforeach;?>
+        <!-- End of each cart row -->
+        <?php if($showPrices):?>
+        <tr>
+          <td colspan="3" align="left" valign="top" style="padding-top:5px; padding-left:5px;">
+              <div style="float:right"> <strong>Total Weight:</strong>
+                  <?=$_Totals['totalWeight'];?>
+                lbs.&nbsp;&nbsp;</div></td>
+          <td colspan="2" align="right" valign="top" class="cartFooter" style="padding-top:5px;"><strong>Subtotal:</strong> (<?=$miniCart['item_count'];?> items)<strong>
+            <span class="red m-r-2"><?=$_Common->format_price($_Totals['subtotal'],true);?></span>
+          </strong> </td>
+        </tr>
+        <?php endif;?>
+      </table>
+      <script type="text/javascript">
+					function deleteThisCart() { 
+						alert("This is a test");
+					}
+				</script>
+      <a href="#" onClick="deleteThisCart()"><IMG src="../graphics/spacer.gif" alt="Delete Box" width="13" height="16" border="0" class="absmiddle"></a><br>
+      <table border="0" cellpadding="1" cellspacing="1" ID="Table3">
+        <tr>
+          <td colspan="5" valign="top"><!--<input class="buttons" type="button" onClick="location.href='<?=$_SESSION['last_page'];?>';" value="Continue Shopping" ID="Button1" NAME="Button1" data-inline="true" >-->
+            <a href="<?=$_SESSION['last_page'];?>"><img src="images/buttons/back_to_shopping.png" width="79" height="18" alt=""/></a>
+          <input class="buttons" type="image" name="modify" value="modify" src="images/buttons/update.png"ID="Submit1" data-inline="true" data-role="none" ><!--<input class="buttons" type="button" onClick="location.href='<?=$secure_url;?>/checkout.php?cart_id=<?=session_id();?>';" value=" Proceed to Checkout  " id="Button2" name="Button2" data-inline="true" >-->
+          <a href="<?=$secure_url;?>/checkout.php?cart_id=<?=session_id();?>"><img src="images/buttons/checkout.png" width="79" height="18" alt=""/></a></td>
+        </tr>
+        <tr>
+          <td colspan="3" >&nbsp;&nbsp;</td>
+          <td colspan="2" valign="top">&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+          <td  class="shippinQuote"><img src="../graphics/apkcar_l.gif" alt="UPS Car" width="83" height="48" border="0" align="left"></td>
+          <td  class="shippinQuote"><script type="text/javascript"> 
+							function OpenWindow(thisURL) { 
+							   var myWin = window.open(thisURL,"shipquote", 
+								 "toolbar=no,scrollbars=yes,resizable=yes,width=520,height=500"); 
+								 return false; 
+							} 
+                          </script>
+            <a href="#" onClick="return OpenWindow('shipping.quote.php');"><img src="images/buttons/est_shipping.png" width="79" height="18" alt=""/></a><!--&nbsp;
+            <button class="buttons" onClick="return OpenWindow('shipping.quote.php');">Shipping Quote</button>--></td>
+          <td  class="shippinQuoteEnd"><span class="shippinQuote"><img src="../graphics/usps_logo_smallx.png" alt="UPSPS" width="66" height="60" border="0" align="left"></span></td>
+          <td colspan="2" class="shippinQuoteEnd"><p>Ths will provide you with the accurate <br>
+              shipping cost 
+              of your order without<br>
+              having to check out first.<br>
+            </p></td>
+        </tr>
+      </table>
+    </form>
+    <?php if($googleButton):?>
+    <p> <br />
+      <b>- or you can use -</b><br />
+      <?=$googleButton;?>
+    </p>
+    <?php endif;?>
+    <?php $relatedItemsCount = count($relatedItems);?>
+    <?php $relatedItemsCount = 0;?><!--Marcello turned this off for now -->
+    <?php if($relatedItemsCount > 0):?>
+    <br clear="all">
+    <br clear="all">
+    <h4 align="left" style="line-height:10px;">Customers who bought the &quot;
+      <?=$lastItem;?>
+      &quot; also bought</h4>
+    <div style="padding-left:25px;">
+      <table border="0" cellpadding="3" cellspacing="0" width="100%" ID="Table1">
+        <?php foreach($relatedItems as $i=>$fields):?>
+        <?php if($i == 5){break;}?>
+        <?php $thumbnail = trim($fields['thumbnail']);?>
+        <tr>
+          <td valign="top"><?php if($thumbnail != "" && file_exists("images/thumbs/$thumbnail")):?>
+            <img src="images/thumbs/<?=$thumbnail;?>" border="0">
+            <?php else:?>
+            <li>
+              <?php endif;?>
+          </td>
+          <td valign="top" width="98%" nowrap><?php if(substr($fields['page'],-4) == "html" || substr($fields['page'],-3) == "htm"):?>
+            <a href="../<?=$fields['page'];?>">
+            <?=$fields['name'];?>
+            </a>
+            <?php else:?>
+            <a href="products.php?sku=<?=$fields['sku'];?>&detail=yes">
+            <?=$fields['name'];?>
+            </a>
+            <?php endif;?>
+          </td>
+        </tr>
+        <?php endforeach;?>
+      </table>
+    </div>
+    <?php endif;?>
+  </div>
+  <?php endif;?>
+  <p>&nbsp;</p>
+</div>
+</body>
+</html>

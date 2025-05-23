@@ -1,0 +1,104 @@
+
+<html>
+<head>
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+
+<title>Add New Entries</title>
+
+<script language="JavaScript">
+//<!--
+sWidth = screen.width;
+var styles = "admin.800.css";
+if(sWidth > 850){
+    styles = "admin.1024.css";
+}
+if(sWidth > 1024){
+    styles = "admin.1152.css";
+}
+if(sWidth > 1100){
+    styles = "admin.1280.css";
+}
+document.write('<link rel="stylesheet" href="stylesheets/' + styles + '" type="text/css">');
+//-->
+</script>
+
+<style>
+ul{
+  font-size: 8pt;
+  font-family: Verdana;
+  color: #000064;
+}
+.itemHead{
+	font-size: 14px;
+}
+</style>
+
+<script language="javascript">
+//<!--
+function populateTextBoxes(form, IdField){
+    form.submit();
+}
+function setSection(form){
+    var sectionIndex = form.sections.selectedIndex;
+    var sectionValue = form.sections.options[sectionIndex].value;
+    form.section.value = sectionValue;
+}
+//-->
+</script>
+</head>
+<body>
+<form method="POST" action="configuration.php" ID="Form1">
+
+<div align="center">
+<table border="0" width="90%" cellspacing="0" cellpadding="2" ID="Table1">
+<tr>
+     <td align="left" colspan="2" nowrap>&nbsp;</td>
+</tr>
+<tr>
+     <td align="left" colspan="2" nowrap><span class="itemHead">Add New Configuration Entry</span></td>
+</tr>
+<tr>
+	<td colspan="2"><hr size="1"></td>
+</tr>
+<tr>
+	<td class="itemRow" align="right">Select Existing Section: </td>
+	<td class="itemRow"><?=$section_select;?></td>
+</tr>
+<tr>
+	<td class="itemRow" align="right">Or Enter New Section Name: </td>
+	<td class="itemRow"><input type="text" name="new_section" size="50" ID="Text1"></td>
+</tr>
+<tr>
+	<td class="itemRow" align="right">Key Name: </td>
+	<td class="itemRow"><input type="text" name="key" size="50" ID="Text2"></td>
+</tr>
+<tr>
+	<td class="itemRow" align="right">Value: </td>
+	<td class="itemRow"><input type="text" name="value" size="50" ID="Text3"></td>
+</tr>
+<tr>
+	<td class="itemRow" align="right" style="vertical-align:top;">Comments: </td>
+	<td class="itemRow">
+		<textarea name="key_help" rows="5" cols="49" wrap="virtual" ID="Textarea2"></textarea>
+	</td>
+</tr>
+<tr>
+	<td colspan="2"><hr size="1"></td>
+</tr>
+<tr>
+	<td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+     <td align="center" colspan="2">
+          <input class="buttons" type="Submit" name="addentry" value="Add Entry" ID="Submit1">
+     </td>
+</tr>
+</table>
+</div>
+<br>
+</form>
+</body>
+</html>
+

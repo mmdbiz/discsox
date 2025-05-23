@@ -1,0 +1,81 @@
+/******** Special Style Classes used in the invoice template *********/
+
+h1 {
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+     color: #000000;
+}
+h2 {
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+     color: #800000;
+}
+h3 {
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+     color: #006699;
+}
+h4 {
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+     color: #0005CE;
+     font-size: 14px;
+}
+
+th {
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+     color: #FFFFFF;
+     font-size: 12px;
+     background-color: #3366CC;
+}
+td {
+     font-family: Arial, Verdana, Helvetica, sans-serif;
+     color: #0;
+     font-size: 12px;
+}
+
+.invoiceHeader{
+	border-style: solid;
+	border-color: #ffffff;
+	border-width: 0px 0px 1px 0px;
+	background-color: #A5A5A5;
+	color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.cartHeader{
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 0px 1px 1px;
+	background-color: #A5A5A5;
+	color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.cartHeaderEnd{
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 1px 1px 1px 1px;
+	background-color: #A5A5A5;
+	color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.cartRow{
+	background-color: #F5F5F5;
+	vertical-align: top;
+	font-size: 12px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 0px 0px 1px 1px;
+}
+.cartRowEnd{
+	background-color: #F5F5F5;
+	vertical-align: top;
+	font-size: 12px;
+	border-style: solid;
+	border-color: #CDCDCD;
+	border-width: 0px 1px 1px 1px;
+}
+.cartFooter{
+	background-color: #e3e3e3;
+	color: #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}

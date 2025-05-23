@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title><?=$parentCategory;?></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<link rel="stylesheet" type="text/css" href="../styles/cart.styles.css" />
+	</head>
+<body>
+
+<!--webbot bot="PurpleText" PREVIEW="
+This page contains PHP script variables in the HTML that may be hidden in your editor.
+So, please be careful editing this page and be sure to keep a backup copy before overwriting it.
+View the HTML source code for more details.
+"-->
+
+<?php
+$favoriteList = array();
+$favorites = $_Registry->LoadClass("favorites");
+$favoriteList = $favorites->getList();
+?>
+
+<script type="text/javascript">
+var inventory = new inventoryList();
+<?php foreach($inventory as $sku=>$rows):?>
+	var list = new Array(<?=join(",",$rows);?>);
+	inventory.setItem('<?=$sku;?>',list);
+<?php endforeach;?>
+</script>
+
+<div align="center">
+
+	<form action="cart.php" method="post" ID="Form1">
+
+	<table align="center" border="0" cellpadding="3" cellspacing="0" width="95%" ID="Table1">
+		<tr>
+			<td width="66%" align="left" bgcolor="#FEFEFE"><?=$breadCrumbs;?></td>
+			<td width="33%" align="right" bgcolor="#FEFEFE"><b><?=$start;?> - <?=$end;?> of <?=$recordCount;?> Records</b></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right" valign="middle"><?=$navLinks;?></td>
+		</tr>
+	</table>
+	<hr size="1" noshade width="95%">
+
+	<p>Click on the item to see detailed information -or- enter the quantity for each item<br>
+ then click on the &quot;Add Selected Items To Cart&quot; button to order.</p>
+   <div class="m_addSelected"><input class="buttons" type="image"  src="images/buttons/add_selected_to_cart_y.png" name="add" value="Buy" onclick="return checkInputs(this.form,'<?=$fields['sku'];?>');" ID="Submit1" data-role="none"></div>
+<table border="0" cellpadding="0" cellspacing="0" width="95%" ID="Table2">
+
+		<?php foreach($records as $i=>$fields):?>
+
+			<?php
+				// images
+				$thumbnail = null;
+				$fullsize = null;
+				if(!empty($fields['images']['thumbnail'])){
+					$flds = $fields['images'];
+					$thumbDir = $_CF['images']['thumbnail_images_directory'];
+					$tAlt = "Image of " . $fields['name'];
+					$tBorder = 0;
+					$thumbnail = $flds['thumbnail']['image'];
+					$tHeight = $flds['thumbnail']['height'];
+					$tWidth = $flds['thumbnail']['width'];
+				}
+                if(!empty($fields['images']['fullsize'])){
+                    $flds = $fields['images'];
+					$fullDir = $_CF['images']['fullsize_images_directory'];
+					$fAlt = "Image of " . $fields['name'];
+					$fBorder = 0;
+					$fullsize = $flds['fullsize']['image'];
+					$fHeight = $flds['fullsize']['height'];
+					$fWidth = $flds['fullsize']['width'];
+                }
+				//if(trim($fields['short_description']) == "" && trim($fields['description']) != ""){
+				if (trim($fields['description']) != ""){
+					$fields['description'] = stripslashes($fields['description']);
+					if(strlen(trim($fields['description'])) > 150){
+						$fields['short_description'] = substr($fields['description'],0,150);
+					}
+					else{
+						$fields['short_description'] = trim($fields['description']);
+					}
+				}
+			?>
+			<tr id="datarow<?=$i;?>">
+				<td>
+
+				<fieldset>
+				<legend><b>Item: <?=$fields['sku'];?></b>&nbsp;</legend>
+
+					<table border="0" cellpadding="3" cellspacing="0" width="100%" ID="Table3">
+						<tr>
+							<td align="center"  class="cartRow" valign="top" width="<?=$tWidth;?>" style="padding-top:10px;align:center">
+								<?php if($thumbnail):?>
+    								<a href="products.php?pid=<?=$fields['pid'];?>&amp;detail=true">
+    								<img src="<?="$thumbDir/$thumbnail";?>" height="<?=$tHeight;?>" width="<?=$tWidth;?>" border="<?=$tBorder;?>" alt="<?=$tAlt;?>"><br />
+                                    <small>Click For Detail</small></a>
+								<?php elseif($fullsize):?>
+									<a href="products.php?pid=<?=$fields['pid'];?>&amp;detail=true">
+									<img src="<?="$fullDir/$fullsize";?>" height="<?=$fHeight;?>" width="<?=$fWidth;?>" border="<?=$fBorder;?>" alt="<?=$fAlt;?>"><br />
+                                    <small>Click For Detail</small></a>
+    							<?php else:?>
+    								&nbsp;
+    							<?php endif;?>
+    						</td>
+						  <td width="50%" align="left" style="padding-left:10px;padding-top:10px;" class="cartRow">
+
+								<a href="products.php?pid=<?=$fields['pid'];?>&amp;detail=true"><?=$fields['name'];?></a>
+								<?php if($_CF['product_display']['show_prices']):?>
+									- <?=$_Common->format_price($fields['price'],true);?>
+								<?php endif;?>
+
+								<br clear="all"/>
+
+							  <div class="m_listContent" style="text-align:left;">
+
+								<!--<?=$fields['short_description'];?>-->
+                                <?php
+                                   $descTxt = $fields['description'];
+                                   $descTxt = trim(preg_replace('/(<)([img])(\w+)([^>]*>)/', '', $descTxt));
+                                   $descTxt = trim(preg_replace('/<a href=\"(.*?)\">(.*?)<\/a>/', "\\2", $descTxt));
+                                   //echo $descTxt;
+                                   if(strlen($descTxt) > 150) {
+                                     echo substr($descTxt, 0, strpos($descTxt,' ',150)).'';
+                                     ?>
+                                   ... <a href="products.php?pid=<?=$fields['pid'];?>&amp;detail=true">More</a>
+                                <?php
+                                   } 
+                                   else { 
+                                    echo $descTxt; 
+                                   }
+                                   ?>
+								<!--<?php if(strlen(trim($fields['description'])) > 150):?>
+								... <a href="products.php?pid=<?=$fields['pid'];?>&amp;detail=true">More</a>
+								<?php endif;?>-->
+
+								<!-- product options -->
+								<?php if(!empty($fields['options']) && count($fields['options']) > 0):?>
+
+								  <br />
+								  <?php foreach($fields['options'] as $oid=>$values):?>
+									  <?php
+											$format = $values[0]['format'];
+											$name = $values[0]['name'];
+											$sku = $values[0]['sku'];
+											$required = $values[0]['required'];
+											$type = $values[0]['type'];
+										?>
+									  <input type="hidden" name="option.<?=$sku;?>.type" value="<?=$name;?>|<?=$type;?>" ID="Hidden1">
+
+									  <?php if(trim($format) == "select box"):?>
+
+										  <p><select name="option.<?=$sku;?>.<?=$name;?>" onChange="displayInventoryCount(this.form,'<?=$sku;?>');" ID="Select1">
+											  <?php if($required == "true"):?>
+												  <option value="invalid|<?=$name;?>">Select <?=$name;?></option>
+											  <?php else:?>
+												  <option value="">Select <?=$name;?></option>
+											  <?php endif;?>
+											  <!-- option values -->
+											  <?php foreach($values as $j=>$oValues):?>
+												  <option value="<?=$oValues['value'];?>|<?=$oValues['price'];?>|<?=$oValues['weight'];?>"><?=$oValues['text'];?></option>
+											  <?php endforeach;?>
+										  </select></p>
+
+									  <?php elseif(trim($format) == "radio buttons"):?>
+										  <p><b><!--Select --><?=$name;?>:</b><br />
+											<?php foreach($values as $j=>$oValues):?>
+											  <?php if($required == "true"):?>
+												  <?php $required = false;?>
+												  <input type="radio" name="option.<?=$sku;?>.<?=$name;?>" value="<?=$oValues['value'];?>|<?=$oValues['price'];?>|<?=$oValues['weight'];?>" checked onChange="displayInventoryCount(this.form,'<?=$sku;?>');" ID="Radio1" data-role="none"> <?=$oValues['text'];?><br />
+											  <?php else:?>
+												  <input type="radio" name="option.<?=$sku;?>.<?=$name;?>" value="<?=$oValues['value'];?>|<?=$oValues['price'];?>|<?=$oValues['weight'];?>" onChange="displayInventoryCount(this.form,'<?=$sku;?>');" ID="Radio2" data-role="none"> <?=$oValues['text'];?><br />
+											  <?php endif;?>
+											<?php endforeach;?>
+										  </p>
+									  <?php else:?>
+										  <p>
+											<?php foreach($values as $j=>$oValues):?>
+											  <?=$oValues['text'];?> <input type="text" name="option.<?=$sku;?>.<?=$name;?>" ID="Text1"><br />
+											<?php endforeach;?>
+										  </p>
+									  <?php endif;?>
+
+								  <?php endforeach;?>
+
+								<?php endif;?>
+								<!-- End Options -->
+
+								<!-- Inventory Items: inventory_item, inventory_options, available_inventory, display_when_sold_out -->
+								<?php if(!empty($fields['inventory_item']) && $fields['inventory_item'] == 'true' && $fields['inventory_options'] == 'false'):?>
+								  <?php if(!empty($fields['available_inventory']) && $fields['available_inventory'] > 0):?>
+									  <p><b>Available Quantity:</b> <?=$fields['available_inventory'];?>
+										<input type="hidden" name="item.<?=$fields['sku'];?>.inventory" value="<?=$fields['available_inventory'];?>" ID="Hidden2">
+									<?php endif;?>
+
+									<?php if(!empty($fields['minimum_quantity']) && $fields['minimum_quantity'] > 0):?>
+									  <p><b>Minimum Purchase Quantity:</b> <?=$fields['minimum_quantity'];?>
+										<input type="hidden" name="item.<?=$fields['sku'];?>.minimum" value="<?=$fields['minimum_quantity'];?>" ID="Hidden3">
+									<?php endif;?>
+
+								<?php elseif(!empty($fields['inventory_item']) && $fields['inventory_item'] == 'true' && $fields['inventory_options'] == 'true'):?>
+
+									<!-- the javascript will display the inventory quantities after the options are selected -->
+								  <div id="<?=$fields['sku'];?>.minimum" style="display:"></div>
+								  <div id="<?=$fields['sku'];?>.available" style="display:"></div>
+
+								<?php endif;?>
+
+								<!-- Related Items -->
+								<?php if(!empty($fields['related_items'])):?>
+								  <p><b>Related Items:</b>
+								  <ul>
+									<?php foreach($fields['related_items'] as $k=>$flds):?>
+									<li>
+										<a href="products.php?detail=1&pid=<?=$flds['related_pid'];?>"><?=$flds['name'];?> (<?=$_Common->format_price($flds['price'],true);?>)</a>
+									</li>
+									<?php endforeach;?>
+								  </ul>
+								<?php endif;?>
+							  </div>
+						  </td>
+							<td width="30%" align="center" valign="bottom" style="padding-left:10px;padding-top:10px;"  class="cartRow">
+								<?php if($_CF['product_display']['show_prices']):?>
+						      <div class="m_price">
+						      <?=$_Common->format_price($fields['price'],true);?>
+						      </div>
+								<?php endif;?>
+                            <div>Qty:
+<input style="text-align:right" type="text" name="item.<?=$fields['sku'];?>.quantity" size="1" ID="Text2" value="0" data-role="none">
+							  <!--<input class="buttons" type="submit" name="add" value="Buy" onclick="return checkInputs(this.form,'<?=$fields['sku'];?>');" ID="Submit1" data-role="none">--></div></td>
+						</tr>
+						<!--<tr>
+							<td align="left" style="padding-left:10px;vertical-align:bottom;">
+							<?php if(isset($_SESSION['isRegistered'])):?>
+								<?php if(in_array($fields['pid'],$favoriteList)):?>
+									<a href="favorites.php?delete=1&pid=<?=$fields['pid'];?>"><small>Remove&nbsp;from&nbsp;Favorites</small></a>
+								<?php else:?>
+								    <a href="favorites.php?add=1&pid=<?=$fields['pid'];?>"><small>Add&nbsp;to&nbsp;Favorites</small></a>
+								<?php endif;?>
+                                <?php if(count($favoriteList) > 0):?>
+									<a href="favorites.php"><small>View&nbsp;All&nbsp;Favorites</small></a>
+								<?php endif;?>
+						    <?php endif;?>							</td>
+							<td align="right">
+								Quantity: <input style="text-align:right" type="text" name="item.<?=$fields['sku'];?>.quantity" size="3" ID="Text2" value="1" data-role="none">
+								<input class="buttons" type="submit" name="add" value="Buy" onclick="return checkInputs(this.form,'<?=$fields['sku'];?>');" ID="Submit1" data-role="none">
+							</td>
+							<td align="right">&nbsp;</td>
+						</tr>-->
+					</table>
+				</fieldset>
+				<br />
+				</td>
+	  </tr>
+
+		<?php endforeach;?>
+	</table>
+
+   <div class="m_addSelected"><input class="buttons" type="image"  src="images/buttons/add_selected_to_cart_y.png" name="add" value="Buy" onclick="return checkInputs(this.form,'<?=$fields['sku'];?>');" ID="Submit1" data-role="none"></div>
+	<br clear="all" />
+	<table align="center" border="0" cellpadding="3" cellspacing="0" width="95%" ID="Table4">
+		<tr><td align="center"><b><?=$start;?> - <?=$end;?> of <?=$recordCount;?> Records</b></td></tr>
+		<tr><td align="center" valign="middle"><?=$navLinks;?></td></tr>
+	</table>
+
+	</form>
+</div>
+
+</body>
+</html>

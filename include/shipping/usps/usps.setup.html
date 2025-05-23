@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>USPS Plug-in Setup Instructions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css"> <!-- p { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; }
+	ul { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; }
+	ol { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; }
+	h4 { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; font-style: normal; color: #FFFFFF; background-color: #990000; }
+	h3 { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; font-style: normal; color: #000000; }
+	th { font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; font-size: 10pt; background-color: #000064; }
+	td { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; }
+	--> 
+	</style>
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<h3>QuikStore 3.0 USPS XML Rate Calculator Plug-in Setup</h3>
+<h4>Registering at United States Postal Service</h4>
+<p>The first thing you need to do is register with USPS Online Tools so you can 
+	get a username. The password is no longer required.</p>
+<p>Go here to register <a href="https://secure.shippingapis.com/registration/">https://secure.shippingapis.com/registration/</a></p>
+<p>Once you have registered, you will get an email with your "TEST" 
+	username and password. We will be using this during the test phase of the 
+	plug-in. </p>
+<h4> Plug-in Installation Instructions</h4>
+<p>To use USPS:</p>
+<ol>
+	<li> Login in to your control panel and select 
+  Calculations from the top, then Shipping Rates/General on the left. 
+  
+	<li>Select true for "Use Shipping Plugin". 
+  
+	<li>Enter: usps.xml.inc in the "Shipping Plugin Name" 
+  field and click Update Record. 
+  
+	<li>Download and then open the usps.config.php file in a 
+  text editor and change the following variables: 
+  
+	<blockquote> 
+		<p>usps_user_id=YOUR USPS Username<br >
+		usps_origin_postal_code=YOUR zip code</p>
+	</blockquote>
+	<li>You can also set any other variables as you wish in the usps.config.php file. <br>
+		Each variable in the usps.config.php file has been commented as to its' purpose/settings.</li>
+</ol>
+<h4>Testing The USPS Plug-in</h4>
+<p>To make sure the plug-in is working correctly, we need to run the test script:</p>
+<p>In a browser, enter the URL to the uspstest.cgi script:</p>
+<blockquote> 
+	<p><font color="#0000ff"><A 
+  href="http://www.YOURSITE.com/usps.test.php">http://www.YOURSITE.com/usps.test.php</A></font></p>
+</blockquote>
+<p></p>
+<p>This should return a list of tests calls to the USPS server. If all of these
+  values got returned correctly, you are ready to go live...</p>
+<p><b>NOTE: </b><font color="#ff0000">USPS will <u>NOT</u> let you go live until
+  these tests have been completed.</font> </p>
+<h4>Going Live with USPS</h4>
+<p>Once you have successful tested against the test server and feel you are ready
+  to send requests to the "live" production server you will need to contact the
+  Internet Customer Care Center (ICCC) by telephone or email and they will activate
+  your user ID and password so that you have access to the production server at
+  production.shippingapis.com.</p>
+<blockquote>
+    <p>The ICCC is manned from 7:00AM to 11:00PM Eastern Time.<br>
+		E-mail: <a href="mailto:icustomercare@usps.com">icustomercare@usps.com</a><br>
+		Telephone: 1-800-344-7779 (7:00AM to 11:00PM ET)</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>Once a shipping plug-in is turned on, and has been successful tested, go to 
+	the edit product screen for one of your products. You will now see a link 
+	below the weight field that will help you to define a package for this product. 
+	Use this to define a package for at least one product for testing. Now add 
+	that product to the cart and go to checkout. This will test to make sure USPS 
+	is giving you live rates when you go to checkout.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

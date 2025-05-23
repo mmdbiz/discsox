@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>Product Menu</title>
+<script LANGUAGE="JavaScript">
+//<!--
+sWidth = screen.width;
+var styles = "admin.800.css";
+if(sWidth > 850){
+    styles = "admin.1024.css";
+}
+if(sWidth > 1024){
+    styles = "admin.1152.css";
+}
+if(sWidth > 1100){
+    styles = "admin.1280.css";
+}
+document.write('<link rel="stylesheet" href="../stylesheets/' + styles + '" type="text/css">');
+//-->
+</script>
+<style type="text/css">
+body {
+	margin-left: 0;
+	margin-top: 0;
+	margin-right: 0;
+	margin-bottom: 0;
+}
+td{
+	line-height: 17px;
+}
+.blankRow{
+	line-height: 5px;
+}
+</style>
+<base target="content">
+</head>
+<body class=menuBackground>
+<table align=left border="0" cellspacing="3" cellpadding="0" style="margin-left:0px;margin-top:15px;" ID="Table1">
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Categories</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../categories.php?list=1" target="content">List Categories</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../categories.php?add=1" target="content">Add Category</a>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Products</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../products.php?list=true" target="content">List Products</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../products.php?add=true" target="content">Add Product</a>
+		</td>
+	</tr>
+	<tr id="inv" style="display:none">
+		<td nowrap>
+			<li><a class="amenu" href="../inventory.php?list=true" target="content">Inventory</a>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Product Options</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../options.php?list=true" target="content">List Options</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../options.php?add=true" target="content">Add Options</a>
+		</td>
+	</tr>
+	
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			&nbsp;<b>Manufacturers</b>
+		</td>
+	</tr>
+	<tr><td class="blankRow">&nbsp;</td></tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../manufacturers.php?list=true" target="content">List Manufacturers</a>
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<li><a class="amenu" href="../manufacturers.php?add=true" target="content">Add Manufacturers</a>
+		</td>
+	</tr>
+</table>
+
+<script language="javascript">
+if(location.search == '?true'){
+    var El = document.getElementById('inv');
+	El.style.display = "";
+}
+</script>
+
+</body>
+</html>
