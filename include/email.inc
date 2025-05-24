@@ -2,8 +2,8 @@
 
 class Email{
 
-	var $debug = false;
-	var $sent = false;
+	public bool $debug = false;
+	public bool $sent = false;
 
 	// --------------------------------------------------------------
 	function __construct(){
@@ -34,7 +34,7 @@ class Email{
 		global $_Common;
 		
 		//Disable stric error deprecated and notices
-		error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE & ~E_DEPRECATED);
+		error_reporting(E_ALL);
 
         if(!$_CF['email']['send_email']){
             return;

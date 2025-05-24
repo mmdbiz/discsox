@@ -2,8 +2,8 @@
 
 class favorites{
 
-    var $debug = false;
-    var $cid = null;
+    public bool $debug = false;
+    public $cid = null;
 
     // ----------------------------------------------------------------
     function __construct(){

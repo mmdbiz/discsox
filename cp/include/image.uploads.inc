@@ -3,8 +3,8 @@
 
 class Image_uploads {
 
-    var $debug = false;
-    var $ftp = null;
+    public bool $debug = false;
+    public $ftp = null;
     
     // --------------------------------------------------------------
     function __construct() {
@@ -200,7 +200,6 @@ class Image_uploads {
 
             // true color image, with anti-aliasing
             $destImage = imageCreateTrueColor($destSize[0],$destSize[1]);
-            //@imageAntiAlias($destImage,true);
 
             // src image
             switch ($srcSize[2]) {

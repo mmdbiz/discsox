@@ -2,9 +2,9 @@
 
 class Initialize{
 
-    var $debug = true;
-	var $cnx = null;
-	var $includePath = null;
+    public bool $debug = true;
+	public $cnx = null;
+	public $includePath = null;
     
 	function __construct($isReport = false,$isUtility = false){
 
@@ -45,14 +45,6 @@ class Initialize{
 		$this->setIncludePath();
 		
 		include_once("include/startup.inc.php");
-
-		//need 4.3.0 to use session.use_only_cookies so set to 4.3.0 from 4.1.0. 
-		if(!version_compare(phpversion(), "4.3.0", ">=")) {
-			print "<pre>" . phpversion() . "</pre>\n";
-			// you're NOT on 4.3.0 or later
-			die("ERROR: PHP Version 4.3.0 or higher is required to use this program.");
-			exit;
-		}
 
 		$_CR = "\n";
 		if(getenv("windir") != ""){
@@ -142,23 +134,6 @@ class Initialize{
 			unset($_REQUEST['page']);
 		}
 
-		// backwards compatibility
-		if(!isset($_REQUEST)){
-			global $_REQUEST;
-			$_REQUEST = array();
-			if(isset($_GET)){
-				$_REQUEST = array_merge($_REQUEST,$_GET);
-			}
-			elseif(isset($HTTP_GET_VARS)){
-				$_REQUEST = array_merge($_REQUEST,$HTTP_GET_VARS);
-			}	
-			if(isset($_POST)){
-				$_REQUEST = array_merge($_REQUEST,$_POST);
-			}
-			elseif(isset($HTTP_POST_VARS)){
-				$_REQUEST = array_merge($_REQUEST,$HTTP_POST_VARS);
-			}
-		}
 		if(isset($_COOKIE)){
 			// remove cookies
 			if(!$_isAdmin){
@@ -168,44 +143,30 @@ class Initialize{
 			}
 		}
 		
-		while(list($k, $v) = each($_REQUEST)){
-			
-			if($_isAdmin && $k == "editFile"){
-				continue;	
-			}
-			
-			if (is_array($_REQUEST[$k])){
-				
-				while(list($k2, $v2) = each($_REQUEST[$k])){
-					
-					if (is_array($_REQUEST[$k][$k2])){
-						
-						while(list($k3, $v3) = each($_REQUEST[$k][$k2])){
-							
-							if (is_array($_REQUEST[$k][$k2][$k3])){
-								while(list($k4, $v4) = each($_REQUEST[$k][$k2][$k3])){
-									$_REQUEST[$k][$k2][$k3][$k4] = $this->escape_string($v4);
-								}
-								@reset($_REQUEST[$k][$k2][$k3]);
-							}
-							else{					
-								$_REQUEST[$k][$k2][$k3] = $this->escape_string($v3);
-							}
-
-						}
-						@reset($_REQUEST[$k][$k2]);
-					}
-					else{					
-						$_REQUEST[$k][$k2] = $this->escape_string($v2);
-					}
-				}
-				@reset($_REQUEST[$k]);
-			}
-			else{
-				$_REQUEST[$k] = $this->escape_string($v);
-			}
-		}
-		@reset($_REQUEST);	
+        foreach ($_REQUEST as $k => $v) {
+            if ($_isAdmin && $k == "editFile") {
+                continue;
+            }
+            if (is_array($_REQUEST[$k])) {
+                foreach ($_REQUEST[$k] as $k2 => $v2) {
+                    if (is_array($_REQUEST[$k][$k2])) {
+                        foreach ($_REQUEST[$k][$k2] as $k3 => $v3) {
+                            if (is_array($_REQUEST[$k][$k2][$k3])) {
+                                foreach ($_REQUEST[$k][$k2][$k3] as $k4 => $v4) {
+                                    $_REQUEST[$k][$k2][$k3][$k4] = $this->escape_string($v4);
+                                }
+                            } else {					
+                                $_REQUEST[$k][$k2][$k3] = $this->escape_string($v3);
+                            }
+                        }
+                    } else {					
+                        $_REQUEST[$k][$k2] = $this->escape_string($v2);
+                    }
+                }
+            } else {
+                $_REQUEST[$k] = $this->escape_string($v);
+            }
+        }
 	}
 
 	//---------------------------------------------------------------
@@ -220,21 +181,13 @@ class Initialize{
 			$string = trim(preg_replace("/[\"\\\&\`\;\*\^\!\(\)\{\}\<\>\n\r]/","",$string));
 		}
 
-		if(get_magic_quotes_gpc()){
-			return $string;
-		}
-
-		if(version_compare(phpversion(),"4.3.0") == "-1" && function_exists('mysql_escape_string')){
-			$string = mysql_escape_string($string);
-		}
-		else{
-			if($this->cnx && function_exists('mysql_real_escape_string')){
-				$string = mysql_real_escape_string($string,$this->cnx);
-			}
-			else{
-				$string = addslashes($string);	
-			}
-		}
+        if ($this->cnx && function_exists('mysqli_real_escape_string')) {
+            $string = mysqli_real_escape_string($this->cnx, $string);
+        } else {
+            // Fallback if no connection or function somehow not available
+             trigger_error('escape_string in Initialize (simple) class called without a valid mysqli connection or function missing.', E_USER_WARNING);
+            $string = addslashes($string);	
+        }
 		
 		return $string;
 	}

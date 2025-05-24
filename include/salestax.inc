@@ -8,12 +8,12 @@
 // -----------------------------------------------------------------------
 class Salestax{
 
-    var $debug = false;
+    public bool $debug = false;
     // these vars get passed from calcs.inc
-	var $Country = "US";
-	var $State = "";
-	var $Zip = "";
-	var $County = "";
+	public string $Country = "US";
+	public string $State = "";
+	public string $Zip = "";
+	public string $County = "";
     
     //-----------------------------------------------------
 	function __construct($calcs = null){

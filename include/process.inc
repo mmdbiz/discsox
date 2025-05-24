@@ -1,30 +1,30 @@
 <?php
 class Process{
 
-    var $debug = false;
-    var $showTables = false;
+    public bool $debug = false;
+    public bool $showTables = false;
     
-    var $browser = "UNDEFINED";
-    var $browsers = array ("OPERA","MSIE","NETSCAPE","FIREFOX","SAFARI","KONQUEROR","MOZILLA");
-	var $cid = NULL;
-	var $csid = NULL;
-	var $customer_number = 1000;
-	var $next_customer_number = NULL;
-	var $downloadLinks = array();
-	var $defaultTransactionStatus = "Pending";
-	var $error = NULL;
-    var $missingFields = array();
-    var $order_date = "00/00/0000";
-    var $order_number = 1000;
-    var $paymentResultOk = false;
-    var $processorPage = NULL;
-    var $selectedCarrier = NULL;
-	var $showDeclinePage = false;
-    var $showSubmitPage = false;
-    var $transaction_date = "0000-00-00";
-    var $transaction_time = "";
-    var $txResults = array();
-    var $user_host = NULL;
+    public string $browser = "UNDEFINED";
+    public array $browsers = ["OPERA","MSIE","NETSCAPE","FIREFOX","SAFARI","KONQUEROR","MOZILLA"];
+	public $cid = null;
+	public $csid = null;
+	public int $customer_number = 1000;
+	public $next_customer_number = null;
+	public array $downloadLinks = [];
+	public string $defaultTransactionStatus = "Pending";
+	public $error = null;
+    public array $missingFields = [];
+    public string $order_date = "00/00/0000";
+    public int $order_number = 1000;
+    public bool $paymentResultOk = false;
+    public $processorPage = null;
+    public $selectedCarrier = null;
+	public bool $showDeclinePage = false;
+    public bool $showSubmitPage = false;
+    public string $transaction_date = "0000-00-00";
+    public string $transaction_time = "";
+    public array $txResults = [];
+    public $user_host = null;
 	
 	// ----------------------------------------------------
 	function __construct(){
@@ -265,9 +265,7 @@ class Process{
 			}
 		}
 		else{
-			//$payMethod = $_DB->escape_string(trim(strToLower($_REQUEST['payment_method'])));
-			//marcello break apart to eliminate strict error
-			$payMethodString = trim(strToLower($_REQUEST['payment_method']));
+			$payMethodString = trim(strtolower($_REQUEST['payment_method']));
 			$payMethod = $_DB->escape_string($payMethodString);
 			if($payMethod != ""){
 				$_SESSION['payment_method'] = $payMethod;

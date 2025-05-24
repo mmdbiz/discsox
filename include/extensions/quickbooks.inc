@@ -2,8 +2,8 @@
 
 class QuickBooks {
 	
-	var $debug = false;
-	var $cfg = array();
+	public bool $debug = false;
+	public array $cfg = [];
 	
 	
 	// ----------------------------------------------------
@@ -207,6 +207,7 @@ class QuickBooks {
 			$shipTaxCode = "Non";
 		}
 
+		// TODO: Investigate quickbooks.xml. If it's an XML data file, load with file_get_contents() instead of include_once.
 		error_reporting(E_PARSE|E_WARNING);
 		ob_start();
 		include_once('include/extensions/quickbooks.xml');

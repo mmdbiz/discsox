@@ -2,11 +2,11 @@
 
 class Paypal{
 	
-	var $debug = false;
-	var $cfg = array();
-	var $params = array();
-	var $results = array();
-	var $declineMessage = null;
+	public bool $debug = false;
+	public array $cfg = [];
+	public array $params = [];
+	public array $results = [];
+	public $declineMessage = null;
 	
 	// --------------------------------------------------------------
 	function __construct(){

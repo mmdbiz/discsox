@@ -8,18 +8,18 @@
 // -----------------------------------------------------------------------
 class Calcs{
 
-    var $debug = false;
+    public bool $debug = false;
     
-	var $Country = "US";
-	var $State = "";
-	var $Zip = "";
-	var $County = "";
+	public string $Country = "US";
+	public string $State = "";
+	public string $Zip = "";
+	public string $County = "";
 
-	var $carrier;
-	var $freeShipping = false;
-	var $freeShippingText = "";
-	var $shippingRateList = array();
-    var $results = "";
+	public $carrier;
+	public bool $freeShipping = false;
+	public string $freeShippingText = "";
+	public array $shippingRateList = [];
+    public string $results = "";
     
     
     //-----------------------------------------------------

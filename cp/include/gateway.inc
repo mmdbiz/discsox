@@ -7,8 +7,8 @@
 // -----------------------------------------------------------------------
 class Gateway{
 
-    var $debug = false;
-	var $help = array();
+    public bool $debug = false;
+	public array $help = [];
     //-----------------------------------------------------
 	function __construct(){
 

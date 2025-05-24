@@ -10,7 +10,8 @@ $debug = false;
 	$req = 'cmd=_notify-validate';
 
 	foreach($_POST as $key => $value) {
-		$value = urlencode(stripslashes($value));
+		// stripslashes removed as magic_quotes_gpc is obsolete in PHP 7.4+
+		$value = urlencode($value);
 		$req .=	"&$key=$value";
 	}
 
@@ -122,7 +123,7 @@ $debug = false;
 		$pairs = explode("&",$res);
 		$parsed = array();
 		foreach($pairs as $i=>$pair){
-			@list($name,$val) = explode("=",$pair);
+			list($name,$val) = explode("=",$pair) + [null, null];
 			$parsed[$name] = $val;
 		}
 		//ksort($parsed);

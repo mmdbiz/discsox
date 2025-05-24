@@ -2,12 +2,12 @@
 
 class Customer_Account{
 
-    var $debug = false;
-    var $cid = null;
-    var $error = null;
-    var $addressBook = array();
-    var $maxHistoryRecords = "50";
-    var $statusMessages = array('password updated' => "Your password has been updated.",
+    public bool $debug = false;
+    public $cid = null;
+    public $error = null;
+    public array $addressBook = [];
+    public string $maxHistoryRecords = "50";
+    public array $statusMessages = ['password updated' => "Your password has been updated.",
 								'password not found' => "We could not find a record that matches the original password you entered.",
 								'billing updated' => "Your billing information has been updated",
 								'shipping added' => "Your shipping information has been added",
@@ -18,9 +18,9 @@ class Customer_Account{
 								'no primary address' => "You do not have a primary shipping address selected.",
 								'too many primary addresses' => "You have too many primary shipping addresses selected",
 								'cannot delete last address' => "You cannot delete the last shipping address",
-							    );
+							    ];
     
-    var $deliveryTypes = array("residential","commercial");
+    public array $deliveryTypes = ["residential","commercial"];
     
     //-----------------------------------------------------
 	function __construct(){

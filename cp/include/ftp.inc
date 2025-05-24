@@ -2,10 +2,10 @@
 
 class Ftp{
 
-	var $connection = null;
-	var $debug = false;
-	var $error = null;
-    var $version = "3.0.0";
+	public $connection = null;
+	public bool $debug = false;
+	public $error = null;
+    public string $version = "3.0.0";
     
     // ----------------------------------------------------------------
     function __construct(){

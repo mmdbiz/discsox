@@ -7,9 +7,9 @@
 
 class Crypt{
 
-	var $debug = false;
-	var $key;
-	var $rand;
+	public bool $debug = false;
+	public $key;
+	public $rand;
 
 	function __construct($key = "", $rand = null){
 		global $_CF;
@@ -23,7 +23,7 @@ class Crypt{
 			}
 			$this->key = $key;
 			if(!isset($rand)){
-				srand((double)microtime() * 32767);
+				// srand() is deprecated and not needed since PHP 4.2.0
 				$rand = rand(1, 32767);
 				$rand = pack('i*', $rand);
 			}

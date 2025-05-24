@@ -2,7 +2,7 @@
 
 class Logs{
 
-    var $debug = false;
+    public bool $debug = false;
     
     function __construct(){
 		

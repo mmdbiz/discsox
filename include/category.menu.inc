@@ -2,10 +2,10 @@
 
 class Category_menu{
 
-    var $debug = false;
-    var $cats = array();
-	var $cacheMenu = true;
-	var $cacheTimeInSeconds = 900;	
+    public bool $debug = false;
+    public array $cats = [];
+	public bool $cacheMenu = true;
+	public int $cacheTimeInSeconds = 900;	
 	
 	// --------------------------------------------------------------
 	function __construct(){
