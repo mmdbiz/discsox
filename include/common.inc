@@ -19,7 +19,7 @@ class Common{
 		
 		foreach($arr as $key=>$value){
 			if(is_array($value)){
-				$result[$key] = array_trim($value);
+				$result[$key] = $this->array_trim($value);
 			}
 			else{
 				$result[$key] = trim($value);
@@ -479,11 +479,11 @@ class Common{
 	
 	// --------------------------------------------------------------
 	function unsetSessionVariable($var,$type = "session"){
-		if($type = "session" && isset($_SESSION[$var])){
+		if($type == "session" && isset($_SESSION[$var])){
 			$_SESSION[$var] = NULL;
 			unset($_SESSION[$var]);
 		}
-		if($type = "request" && isset($_REQUEST[$var])){
+		if($type == "request" && isset($_REQUEST[$var])){
 			$_REQUEST[$var] = NULL;
 			unset($_REQUEST[$var]);
 		}

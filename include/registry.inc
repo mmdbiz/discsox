@@ -4,9 +4,9 @@
 
 class Registry{
 
-    var $debug = false;
-    var $registeredClasses = array();
-    var $includePaths = array();
+    public bool $debug = false;
+    public array $registeredClasses = [];
+    public array $includePaths = [];
 
     function __construct($includePaths = null){
 		

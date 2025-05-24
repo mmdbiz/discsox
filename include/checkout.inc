@@ -7,16 +7,16 @@
 // -----------------------------------------------------------------------
 class Checkout{
 
-    var $debug = false;
-    var $addressBook = array();
-    var $haveCoupons = false;
-    var $paymentMethods = array();
-    var $taxTable = false;
-    var $taxTableField = NULL;
-    var $countyJava = NULL;
-    var $paymentPage = null;
-    var $requiredFields = array();
-    var $shippingPlugins = array();
+    public bool $debug = false;
+    public array $addressBook = [];
+    public bool $haveCoupons = false;
+    public array $paymentMethods = [];
+    public bool $taxTable = false;
+    public $taxTableField = null;
+    public $countyJava = null;
+    public $paymentPage = null;
+    public array $requiredFields = [];
+    public array $shippingPlugins = [];
     
     //-----------------------------------------------------
 	function __construct(){

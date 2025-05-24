@@ -1,30 +1,30 @@
 <?php
 class Display{
 
-	var $debug = false;
+	public bool $debug = false;
 
-	var $breadCrumbs = NULL;
-	var $catVars = array();
-	var	$catQueryResult = 0;
-	var $detail = false;
-	var $end = 0;
-	var $favoritesListTitle = "Your Favorites";
-	var $inventory = array();
-	var $inventoryPids = array();
-	var $navLinks = NULL;
-	var $metaDescription = NULL;
-	var $metaKeywords = NULL;
-	var $parentCategory = NULL;
-	var $pidList = array();
-	var $queryVars = array();
-	var $records = array();
-	var $recordCount = 0;
-	var $resultPidList = array();
-	var	$runCatQuery = false;
-	var $searchCriteria = array();
-	var $subCategories = array();
-	var $showCatImages = false;
-	var $start = 0;
+	public $breadCrumbs = null;
+	public array $catVars = [];
+	public int $catQueryResult = 0;
+	public bool $detail = false;
+	public int $end = 0;
+	public string $favoritesListTitle = "Your Favorites";
+	public array $inventory = [];
+	public array $inventoryPids = [];
+	public $navLinks = null;
+	public $metaDescription = null;
+	public $metaKeywords = null;
+	public $parentCategory = null;
+	public array $pidList = [];
+	public array $queryVars = [];
+	public array $records = [];
+	public int $recordCount = 0;
+	public array $resultPidList = [];
+	public bool $runCatQuery = false;
+	public array $searchCriteria = [];
+	public array $subCategories = [];
+	public bool $showCatImages = false;
+	public int $start = 0;
 
 	function __construct(){
 
@@ -232,7 +232,29 @@ class Display{
 			// Test the server to see if we can do boolean searches
 			// Only available in 4.x.x versions of mysql.
 
-            $mySQLVersion = mysql_get_server_info();
+            global $_DB;
+            $mySQLVersion = ''; // Default to empty string
+            if (isset($_DB) && $_DB->cnx) {
+                $mySQLVersion = mysqli_get_server_info($_DB->cnx);
+            } elseif (isset($_DB) && !empty($_DB->serverVersion)) { // Fallback to the pre-fetched version
+                // $_DB->serverVersion is an integer like 50703 not "5.7.3" string
+                // We need to format it or ensure the version_compare below can handle it.
+                // For simplicity, if it's the integer format, we might need a helper to convert it,
+                // or rely on mysqli_get_server_info. For now, let's prioritize direct query.
+                // This part might need adjustment based on how $_DB->serverVersion is actually stored and used.
+                // A simple approach for now if it's an int:
+                $sV = (string)$_DB->serverVersion;
+                if (strlen($sV) >= 5) { // e.g. 50703 -> 5.7.03, needs to be 5.7.3
+                     $major = substr($sV, 0, 1);
+                     $minor = substr($sV, 1, 2);
+                     $patch = substr($sV, 3);
+                     $mySQLVersion = $major . '.' . (int)$minor . '.' . (int)$patch;
+                } else {
+                     $mySQLVersion = $sV; // Or handle error/default
+                }
+            }
+            // Ensure $mySQLVersion is a string for version_compare, e.g. "5.7.0"
+            // If mysqli_get_server_info was successful, it's already a string.
 
             $booleanOK = false;
 			if(version_compare($mySQLVersion, "4.0.1", ">=")){

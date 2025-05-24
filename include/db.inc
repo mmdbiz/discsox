@@ -8,15 +8,15 @@
 // -----------------------------------------------------------------------
 class Db{
 
-    var $cnx;
-    var $debug = false;
-    var $error = null;
-    var $previousNextLinks;
-    var $queryVars = array();
-    var $serverVersion = NULL;
+    public $cnx;
+    public bool $debug = false;
+    public $error = null;
+    public $previousNextLinks;
+    public array $queryVars = [];
+    public $serverVersion = null;
 
 
-    function __construct(){
+    public function __construct(){
         // Connect to the database
         $this->cnx = $this->connect();
     }
@@ -59,7 +59,7 @@ class Db{
             die(mysqli_errno($link_identifier) . ": " . mysqli_error($link_identifier));
         }
 
-        $result = mysqli_select_db($link_identifier, DB_NAME );
+        $result = mysqli_select_db($link_identifier, DB_NAME);
         if(!$result){
             die(mysqli_errno($link_identifier) . ": " . mysqli_error($link_identifier));
         }
@@ -96,7 +96,7 @@ class Db{
     function execute($sql, $link = "", $display_errors = false){
 	
 		//marcello disable deprecated messages
-		//error_reporting(E_ALL & ~E_DEPRECATED);
+		// error_reporting(E_ALL & ~E_DEPRECATED);
 		error_reporting(E_ALL);
 		//error_reporting(E_ALL & ~E_NOTICE);
 
@@ -563,15 +563,14 @@ class Db{
 	//---------------------------------------------------------------
 	function escape_string(&$string){
 		
-		if(version_compare(phpversion(),"4.3.0") == "-1"){
-			return mysql_escape_string($string);
-		}
-		elseif($this->cnx){
-			return mysqli_real_escape_string($this->cnx, $string);
-		}
-		else{
-			return false;
-		}
+        if ($this->cnx) {
+            return mysqli_real_escape_string($this->cnx, $string);
+        }
+        // Fallback or error handling if no connection is available,
+        // though this method should ideally not be called without an active connection.
+        // For now, retain a basic addslashes if no connection, but this indicates a potential issue.
+        trigger_error('mysqli_real_escape_string called without a valid connection in Db class', E_USER_WARNING);
+        return addslashes($string);
 	}
 
 
@@ -768,14 +767,14 @@ class Db{
 				exit;
 			}
 
-			while($flds = mysqli_fetch_array($rs, MYSQL_ASSOC)){
+			while($flds = mysqli_fetch_array($rs, MYSQLI_ASSOC)){
 				
 				// do cleanup just in case
 				$vals = array_values($flds);
 				foreach($vals as $i=>$val){
 					$val = str_replace("\n"," ",$val);
 					$val = str_replace("\r","",$val);
-					$vals[$i] = mysql_real_escape_string($val);
+					$vals[$i] = mysqli_real_escape_string($this->cnx, $val);
 				}
 				
 				$keys   = "`" . join('`,`',array_keys($flds)) . "`";
@@ -798,14 +797,14 @@ class Db{
 		$result = @mysqli_query($this->cnx, $sql);
 		if(!$result) {
 			print "DB Error, could not list tables<br />";
-			print 'MySQL Error: ' . mysql_error();
+			print 'MySQL Error: ' . mysqli_error($this->cnx);
 			exit;
 		}
 		while ($row = @mysqli_fetch_row($result)) {
 			$table = $row[0];
 			$repaired = @mysqli_query($this->cnx, "REPAIR TABLE $table");
 			if(!$repaired) {
-				print "DB Error: " . mysql_error() . "<br />";
+				print "DB Error: " . mysqli_error($this->cnx) . "<br />";
 				print "Could not repair table: $table.<br />";
 			}
 			@mysqli_free_result($repaired);

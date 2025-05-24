@@ -1,9 +1,9 @@
 <?php
 class Template{
 
-    var $debug = false;
-	var $categoryList = array();
-	var $siteURL = NULL;
+    public bool $debug = false;
+	public array $categoryList = [];
+	public $siteURL = null;
 	
 	function __construct(){
 		
@@ -49,13 +49,19 @@ class Template{
 		ob_end_clean();
 		//marcello disable deprecated messages		
 		//error_reporting(E_ALL);
-		error_reporting(E_ALL & ~E_DEPRECATED);
+		error_reporting(E_ALL);
 
 		if($_isAdmin){
 			$getStoreTemplate = false;
 			if(strstr($templateFile,'error')){
 				// replace all the tags in the html that match the {vars}
-				$template = preg_replace("|\{(.*?)\}|es","\$this->setValue('$1',\$vars)",$template);
+                $template = preg_replace_callback(
+                    "|\{(.*?)\}|s", // Using 's' modifier as well if . needs to match newlines, original didn't specify
+                    function ($matches) use ($vars) {
+                        return $this->setValue($matches[1], $vars);
+                    },
+                    $template
+                );
 //				echo "got here";
 //				$template = preg_replace_callback("|\{(.*?)\}|es",$this->setValue('$1',$vars),$template);
 			}
@@ -98,7 +104,7 @@ class Template{
 			ob_end_clean();
 			//error_reporting(E_ALL);
 			//marcello disable deprecated messages
-			error_reporting(E_ALL & ~E_DEPRECATED);
+			error_reporting(E_ALL);
 
 			return $template;
 		}

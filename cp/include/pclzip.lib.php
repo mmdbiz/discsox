@@ -172,19 +172,19 @@
   class PclZip
   {
     // ----- Filename of the zip file
-    var $zipname = '';
+    public $zipname = '';
 
     // ----- File descriptor of the zip file
-    var $zip_fd = 0;
+    public $zip_fd = 0;
 
     // ----- Internal error handling
-    var $error_code = 1;
-    var $error_string = '';
+    public $error_code = 1;
+    public $error_string = '';
     
     // ----- Current status of the magic_quotes_runtime
     // This value store the php configuration for magic_quotes
     // The class can then disable the magic_quotes and reset it after
-    var $magic_quotes_status;
+    public $magic_quotes_status;
 
   // --------------------------------------------------------------------------------
   // Function : PclZip()
@@ -194,7 +194,7 @@
   //   Note that no real action is taken, if the archive does not exist it is not
   //   created. Use create() for that.
   // --------------------------------------------------------------------------------
-  function PclZip($p_zipname)
+  public function __construct($p_zipname)
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::PclZip', "zipname=$p_zipname");
 
@@ -2672,7 +2672,7 @@
       // ----- Call the callback
       // Here I do not use call_user_func() because I need to send a reference to the
       // header.
-      eval('$v_result = '.$p_options[PCLZIP_CB_PRE_ADD].'(PCLZIP_CB_PRE_ADD, $v_local_header);');
+      $v_result = call_user_func($p_options[PCLZIP_CB_PRE_ADD], PCLZIP_CB_PRE_ADD, $v_local_header);
       if ($v_result == 0) {
         // ----- Change the file status
         $p_header['status'] = "skipped";
@@ -2816,7 +2816,7 @@
       // ----- Call the callback
       // Here I do not use call_user_func() because I need to send a reference to the
       // header.
-      eval('$v_result = '.$p_options[PCLZIP_CB_POST_ADD].'(PCLZIP_CB_POST_ADD, $v_local_header);');
+      $v_result = call_user_func($p_options[PCLZIP_CB_POST_ADD], PCLZIP_CB_POST_ADD, $v_local_header);
       if ($v_result == 0) {
         // ----- Ignored
         $v_result = 1;
@@ -3369,7 +3369,7 @@
                && ($p_options[PCLZIP_OPT_BY_EREG] != "")) {
           //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Extract by ereg '".$p_options[PCLZIP_OPT_BY_EREG]."'");
 
-          if (ereg($p_options[PCLZIP_OPT_BY_EREG], $v_header['stored_filename'])) {
+          if (preg_match('/'.str_replace('/', '\/', $p_options[PCLZIP_OPT_BY_EREG]).'/', $v_header['stored_filename'])) {
               //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Filename match the regular expression");
               $v_extract = true;
           }
@@ -3713,7 +3713,7 @@
       // ----- Call the callback
       // Here I do not use call_user_func() because I need to send a reference to the
       // header.
-      eval('$v_result = '.$p_options[PCLZIP_CB_PRE_EXTRACT].'(PCLZIP_CB_PRE_EXTRACT, $v_local_header);');
+      $v_result = call_user_func($p_options[PCLZIP_CB_PRE_EXTRACT], PCLZIP_CB_PRE_EXTRACT, $v_local_header);
       if ($v_result == 0) {
         // ----- Change the file status
         $p_entry['status'] = "skipped";
@@ -3987,7 +3987,7 @@
       // ----- Call the callback
       // Here I do not use call_user_func() because I need to send a reference to the
       // header.
-      eval('$v_result = '.$p_options[PCLZIP_CB_POST_EXTRACT].'(PCLZIP_CB_POST_EXTRACT, $v_local_header);');
+      $v_result = call_user_func($p_options[PCLZIP_CB_POST_EXTRACT], PCLZIP_CB_POST_EXTRACT, $v_local_header);
 
       // ----- Look for abort result
       if ($v_result == 2) {
@@ -4037,7 +4037,7 @@
       // ----- Call the callback
       // Here I do not use call_user_func() because I need to send a reference to the
       // header.
-      eval('$v_result = '.$p_options[PCLZIP_CB_PRE_EXTRACT].'(PCLZIP_CB_PRE_EXTRACT, $v_local_header);');
+      $v_result = call_user_func($p_options[PCLZIP_CB_PRE_EXTRACT], PCLZIP_CB_PRE_EXTRACT, $v_local_header);
       if ($v_result == 0) {
         // ----- Change the file status
         $p_entry['status'] = "skipped";
@@ -4113,7 +4113,7 @@
       // ----- Call the callback
       // Here I do not use call_user_func() because I need to send a reference to the
       // header.
-      eval('$v_result = '.$p_options[PCLZIP_CB_POST_EXTRACT].'(PCLZIP_CB_POST_EXTRACT, $v_local_header);');
+      $v_result = call_user_func($p_options[PCLZIP_CB_POST_EXTRACT], PCLZIP_CB_POST_EXTRACT, $v_local_header);
 
       // ----- Look for abort result
       if ($v_result == 2) {
@@ -5462,33 +5462,8 @@
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::privDisableMagicQuotes', "");
     $v_result=1;
-
-    // ----- Look if function exists
-    if (   (!function_exists("get_magic_quotes_runtime"))
-	    || (!function_exists("set_magic_quotes_runtime"))) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Functions *et_magic_quotes_runtime are not supported");
-      //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
-      return $v_result;
-	}
-
-    // ----- Look if already done
-    if ($this->magic_quotes_status != -1) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "magic_quote already disabled");
-      //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
-      return $v_result;
-	}
-
-	// ----- Get and memorize the magic_quote value
-	$this->magic_quotes_status = @get_magic_quotes_runtime();
-    //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Current magic_quotes_runtime status is '".($this->magic_quotes_status==0?'disable':'enable')."'");
-
-	// ----- Disable magic_quotes
-	if ($this->magic_quotes_status == 1) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Disable magic_quotes");
-	  @set_magic_quotes_runtime(0);
-	}
-
-    // ----- Return
+    // magic_quotes_runtime was removed in PHP 7.4/8.0
+    $this->magic_quotes_status = 0; // Or some other indicator that it's no longer relevant
     //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
     return $v_result;
   }
@@ -5504,29 +5479,7 @@
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::privSwapBackMagicQuotes', "");
     $v_result=1;
-
-    // ----- Look if function exists
-    if (   (!function_exists("get_magic_quotes_runtime"))
-	    || (!function_exists("set_magic_quotes_runtime"))) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Functions *et_magic_quotes_runtime are not supported");
-      //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
-      return $v_result;
-	}
-
-    // ----- Look if something to do
-    if ($this->magic_quotes_status != -1) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "magic_quote not modified");
-      //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
-      return $v_result;
-	}
-
-	// ----- Swap back magic_quotes
-	if ($this->magic_quotes_status == 1) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Enable back magic_quotes");
-  	  @set_magic_quotes_runtime($this->magic_quotes_status);
-	}
-
-    // ----- Return
+    // magic_quotes_runtime was removed in PHP 7.4/8.0
     //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
     return $v_result;
   }

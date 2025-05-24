@@ -2,10 +2,10 @@
 
 class Initialize{
 
-    var $debug = false;
-    var $debug2 = false;
-	var $cnx = null;
-	var $includePath = null;
+    public bool $debug = false;
+    public bool $debug2 = false;
+	public $cnx = null;
+	public $includePath = null;
     
 	function __construct($isReport = false,$isUtility = false){
 
@@ -26,7 +26,7 @@ class Initialize{
 		ini_set('display_errors','on');
 		//marcello disable deprecated and warning messages		
 		//error_reporting(E_ALL);
-		error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
+		error_reporting(E_ALL);
 
 		ini_set("short_open_tags", 'On');
 
@@ -56,14 +56,6 @@ class Initialize{
 		$this->setIncludePath();
 		
 		include_once("include/startup.inc.php");
-
-		//need 4.3.0 to use session.use_only_cookies so set to 4.3.0 from 4.1.0. 
-		if(!version_compare(phpversion(), "4.3.0", ">=")) {
-			print "<pre>" . phpversion() . "</pre>\n";
-			// you're NOT on 4.3.0 or later
-			die("ERROR: PHP Version 4.3.0 or higher is required to use this program.");
-			exit;
-		}
 
 		$_CR = "\n";
 		if(getenv("windir") != ""){
@@ -180,23 +172,6 @@ class Initialize{
 			unset($_REQUEST['page']);
 		}
 
-		// backwards compatibility
-		if(!isset($_REQUEST)){
-			global $_REQUEST;
-			$_REQUEST = array();
-			if(isset($_GET)){
-				$_REQUEST = array_merge($_REQUEST,$_GET);
-			}
-			elseif(isset($HTTP_GET_VARS)){
-				$_REQUEST = array_merge($_REQUEST,$HTTP_GET_VARS);
-			}	
-			if(isset($_POST)){
-				$_REQUEST = array_merge($_REQUEST,$_POST);
-			}
-			elseif(isset($HTTP_POST_VARS)){
-				$_REQUEST = array_merge($_REQUEST,$HTTP_POST_VARS);
-			}
-		}
 		if(isset($_COOKIE)){
 			// remove cookies
 			if(!$_isAdmin){
@@ -261,20 +236,15 @@ class Initialize{
 			$string = nl2br($string);
 		}
 
-//		if(get_magic_quotes_gpc()){ //fixed 3/16/21 marcello
-//			return $string;
-//		}
-		
-		if(function_exists('mysqli_real_escape_string')){
-			$link_identifier = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD);
-			$string = mysqli_real_escape_string($link_identifier, $string);
-		}
-		elseif(function_exists('mysql_escape_string')){
-			$string = mysql_escape_string($string);
-		}
-		else{
-			$string = addslashes($string);	
-		}
+        global $_DB; // Assumes $_DB is initialized and has a valid cnx property
+        if (isset($_DB) && $_DB->cnx) {
+            $string = mysqli_real_escape_string($_DB->cnx, $string);
+        } else {
+            // Fallback if $_DB or its connection isn't available
+            // This might indicate an issue with initialization order or scope
+            trigger_error('escape_string in Initialize class called without a valid global DB connection.', E_USER_WARNING);
+            $string = addslashes($string);	
+        }
 		
 		return $string;
 	}
@@ -329,7 +299,7 @@ class Initialize{
 		
         ini_set('include_path',$new_ini_value);
 		ini_set("include_path", '/home/cddvdstorage/php:' . ini_get("include_path") );
-		ini_set("include_path", '/var/cpanel/php/sessions/ea-php74:' . ini_get("include_path") );
+		// ini_set("include_path", '/var/cpanel/php/sessions/ea-php74:' . ini_get("include_path") );
         if($this->debug){
             print 'Include Path: ' . ini_get('include_path') . "\n";
         }

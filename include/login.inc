@@ -6,17 +6,17 @@
 
 class Login{
 
-    var $debug = false;
-    var $message = NULL;
-    var $username = "";
-    var $password = "";
-    var $require_login;
-    var $require_password;
-    var $userFrmFld = "user";
-    var $passFrmFld = "pass";
-    var $userEmailFld = "user_email";
-    var $results;
-    var $vars = array();
+    public bool $debug = false;
+    public $message = null;
+    public string $username = "";
+    public string $password = "";
+    public $require_login;
+    public $require_password;
+    public string $userFrmFld = "user";
+    public string $passFrmFld = "pass";
+    public string $userEmailFld = "user_email";
+    public $results;
+    public array $vars = [];
 
 	// ----------------------------------------------------------------
     function __construct(){
@@ -326,7 +326,6 @@ class Login{
 	// --------------------------------------------------------------
 	function createRandomPassword() {
 		$chars = "aBcDeFgHiJkMnOpQrStUvWxYz023456789";
-		srand((double)microtime()*1000000);
 		$i = 0;
 		$pass = '' ;
 		while ($i <= 7) {
@@ -373,18 +372,21 @@ class Login{
     
     function doEscape($string){
 	
-    $link_identifier = @mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD);
-     
-		if(function_exists('mysqli_real_escape_string')){
-			$string = mysqli_real_escape_string($link_identifier, $string);
-		}
-		elseif(function_exists('mysqli_escape_string')){
-			$string = mysqli_escape_string($link_identifier, $string);
-		}
-		else{
-			$string = addslashes($string);
-		}	
-		return $string;
+        global $_DB;
+        if (isset($_DB) && $_DB->cnx) {
+            // Ensure mysqli_real_escape_string is available (it should be as mysqli is used)
+            if (function_exists('mysqli_real_escape_string')) {
+                $string = mysqli_real_escape_string($_DB->cnx, $string);
+            } else {
+                // Fallback if mysqli_real_escape_string somehow not available, though unlikely
+                $string = addslashes($string);
+            }
+        } else {
+            // Fallback if $_DB or its connection isn't available
+            trigger_error('doEscape in Login class called without a valid global DB connection.', E_USER_WARNING);
+            $string = addslashes($string);	
+        }
+        return $string;
 	}
     
     

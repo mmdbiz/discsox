@@ -26,8 +26,8 @@ if(!isset($_SESSION)){
     //note: use_trans_sid defaults to 0
     //ini_set('session.use_trans_sid',0);
     
-    ini_set('session.bug_compat_42', 1);
-    ini_set('session.bug_compat_warn',1);
+    // ini_set('session.bug_compat_42', 1); // Obsolete
+    // ini_set('session.bug_compat_warn',1); // Obsolete
 }
 
 /*
@@ -41,8 +41,8 @@ if(!isset($_SESSION)){
 
 class Session
 {
-	var $ses_class = null;
-	var $m_IsStarted = false;
+	public $ses_class = null;
+	public bool $m_IsStarted = false;
 
 	// ----------------------------Marcello-------------------------------
 //	function __construct(){ //fixed 3/24/21 marcello
@@ -76,12 +76,14 @@ class Session
 
 		if(!isset($_SESSION)){  
 			//Change the save_handler to use the class functions 
-			$isOk = session_set_save_handler(array(&$ses_class, '_open'),
-									array(&$ses_class, '_close'),
-									array(&$ses_class, '_read'),
-									array(&$ses_class, '_write'),
-									array(&$ses_class, '_destroy'),
-									array(&$ses_class, '_gc'));
+			$isOk = session_set_save_handler(
+                [$ses_class, '_open'],
+                [$ses_class, '_close'],
+                [$ses_class, '_read'],
+                [$ses_class, '_write'],
+                [$ses_class, '_destroy'],
+                [$ses_class, '_gc']
+            );
 		}
 
 		//		echo(" isOk: " . $isOk);
@@ -104,12 +106,12 @@ class Session
 				session_id($cartid);
 			}
 			
-			if(session_status() == PHP_SESSION_NONE){ 
-				$cartid = [];
-				//echo(" session not started ");
-				//session has not started 
-				session_start($cartid);	 
-			}
+            if (!empty($cartid)) { // Ensure cartid was actually set from _REQUEST
+                session_id($cartid);
+            }
+            if (session_status() == PHP_SESSION_NONE) { 
+                session_start(); // Call without arguments or with an options array if needed
+            }
 			
 			//save a ref to the object may not strictly be needed
 			$this->ses_class = $ses_class;
@@ -140,22 +142,22 @@ CREATE TABLE sessions (
 class MySessionHandler // Marcello
 {
     // Define the mysql table you wish to use with this class, this table MUST exist.
-    var $ses_table = 'sessions';
+    public string $ses_table = 'sessions';
 
     // Change to 'Y' if you want to connect to a db in  the _open function
-    var $db_con = 'Y';
+    public string $db_con = 'Y';
 
 	//how long to save a session without any activity in it.
 	//thus this becomes the lifetime of a cart without any save
 	//type options. 
-	var $sessionTimeout = '-30 minutes';
+	public string $sessionTimeout = '-30 minutes';
 	
 	//The database connection values these must be set before  this is called
-	var $hostName;
-	var $userName;
-	var $password;
-	var $database;
-	var $cnx;
+	public $hostName;
+	public $userName;
+	public $password;
+	public $database;
+	public $cnx;
 	
 	function __construct(){
 		if(!empty($_SERVER['REMOTE_ADDR'])){
@@ -300,7 +302,7 @@ class MySessionHandler // Marcello
 		$rows = @mysqli_num_rows($rs);
 		
 		if($rows > 0){
-			while($row = @mysqli_fetch_array($rs, MYSQL_ASSOC)){
+			while($row = @mysqli_fetch_array($rs, MYSQLI_ASSOC)){
 				$ses_id = $row['ses_id'];
 				$ses_data = trim($row['ses_value']);
 				$this->checkAbandonedCarts($ses_id,$ses_data);
@@ -350,7 +352,7 @@ class MySessionHandler // Marcello
 			$abandonData = array();
 			$cartids = array();
 			
-			while($row = @mysqli_fetch_array($rs, MYSQL_ASSOC)){
+			while($row = @mysqli_fetch_array($rs, MYSQLI_ASSOC)){
 
 				$cID = $row['cartid'];
 				$cartids[$cID] = $row;
@@ -361,7 +363,7 @@ class MySessionHandler // Marcello
 				// check option prices in details
 				$detailSQL = "SELECT price,type FROM cart_details WHERE cartid = '$cID'";
 				$rs1 = @mysqli_query ($this->cnx, $detailSQL);
-				while($dRow = @mysqli_fetch_array($rs1, MYSQL_ASSOC)){
+				while($dRow = @mysqli_fetch_array($rs1, MYSQLI_ASSOC)){
 					if(isset($dRow['type']) && strtolower($dRow['type']) == "option"){
 						if($dRow['price'] > 0){
 							$row['linetotal'] += ($dRow['price'] * $qty);
@@ -393,7 +395,7 @@ class MySessionHandler // Marcello
 				$date = date("Y-m-d");
 				foreach($abandonData as $sid=>$data){
 					
-					$sql = "SELECT * FROM 'abandoned_carts' WHERE sid = '$sid'";
+					$sql = "SELECT * FROM abandoned_carts WHERE sid = '$sid'";
 					$rs2 = @mysqli_query ($this->cnx, $sql);
 					$count = @mysqli_num_rows($rs2);
 					@mysqli_free_result($rs2);

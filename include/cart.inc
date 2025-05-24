@@ -12,17 +12,17 @@
 // -----------------------------------------------------------------------
 class Cart{
 
-    var $debug = false;
-    var $debug2 = false;
-    var $cartFields = array();
-    var $cartDetailFields = array();
-    var $haveInventory = false;
-    var $payPal = false;
-    var $qs212 = false;
-    var $pidList = array();
-    var $results = "";
-    var $relatedItems = array();
-    var $googleCheckoutButton = null;
+    public bool $debug = false;
+    public bool $debug2 = false;
+    public array $cartFields = [];
+    public array $cartDetailFields = [];
+    public bool $haveInventory = false;
+    public bool $payPal = false;
+    public bool $qs212 = false;
+    public array $pidList = [];
+    public string $results = "";
+    public array $relatedItems = [];
+    public $googleCheckoutButton = null;
     
 	function __construct(){
 //	function Cart(){
